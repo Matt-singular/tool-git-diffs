@@ -28,6 +28,28 @@ public class ConfigModel
   /// Includes optional properties that will override global values if present
   /// </summary>
   public List<Repository> Repositories { get; set; } = null!;
+
+  /// <summary>
+  /// Check if the instance is equal to the default model values
+  /// </summary>
+  /// <returns>True if the instance has ALL its default values, otherwise false</returns>
+  public bool IsDefault()
+  {
+    var diffRangeDefault = this.DiffRange == null;
+    var commitOptionsDefault = this.CommitOptions == null;
+    var referencesDefault = this.References == null;
+    var repositoriesDefault = this.Repositories == null;
+
+    return diffRangeDefault && commitOptionsDefault && referencesDefault && repositoriesDefault;
+  }
+
+  public static class Constants
+  {
+    public static class Errors
+    {
+      public const string BranchTagMutualExclusivityViolated = "Cannot set both Branch and Tag simultaneously.";
+    }
+  }
 }
 
 /// <summary>
@@ -85,7 +107,7 @@ public class DiffRangeValue
     if (mutualExclusiveRuleViolated)
     {
       // Short-circuit with a user friendly error message
-      throw new InvalidOperationException("Cannot set both Branch and Tag simultaneously.");
+      throw new InvalidOperationException(ConfigModel.Constants.Errors.BranchTagMutualExclusivityViolated);
     }
 
     return updatedValue;
