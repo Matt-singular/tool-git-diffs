@@ -6,10 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
-
+  <!-- While config.json is an untracked file, the user will add their specific variation -->
+  <!-- This just makes local development easier as the path to our config.json will now be the same as the published exe -->
   <ItemGroup>
     <None Update="Files\config.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
