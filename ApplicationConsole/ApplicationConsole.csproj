@@ -9,10 +9,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ConfigExtraction\ConfigExtraction.csproj" />
+    <ProjectReference Include="..\SharedDependencies\SharedDependencies.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="config.json">
+    <None Update="Files\config.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
