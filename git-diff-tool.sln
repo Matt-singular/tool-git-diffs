@@ -21,6 +21,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigExtraction", "ConfigExtraction\ConfigExtraction.csproj", "{B878155A-1C2D-4A60-BB03-8CF036B641E7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{24C81E82-BE61-49B7-B67E-DBC5F016B60C}"
+	ProjectSection(SolutionItems) = preProject
+		generateTestCoverage.ps1 = generateTestCoverage.ps1
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigExtraction.Tests", "ConfigExtraction.Tests\ConfigExtraction.Tests.csproj", "{3E05300E-7468-447A-A233-618D3C7EBF22}"
 EndProject
