@@ -41,7 +41,7 @@ public class ReadConfig : IReadConfig
 
       return deserialisedObject;
     }
-    catch (Exception ex)
+    catch (Exception)
     {
       // To ensure other JSON exceptions are caught
       throw;
