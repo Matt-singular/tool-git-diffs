@@ -3,35 +3,49 @@
 using System.Text.Json;
 using Models;
 
-public class ReadConfig
+public class ReadConfig : IReadConfig
 {
-  public static ConfigModel Process()
+  private readonly IFileServices fileServices;
+
+  public ReadConfig(IFileServices fileServices)
   {
-    // Get the path of the user's config.json file
-    string basePath = Path.Combine(AppContext.BaseDirectory);
-    var configFilePath = Path.Combine(basePath, "config.json");
+    this.fileServices = fileServices;
+  }
 
-    // Check if the file exists, short-circuit if it doesn't
-    var configJsonPresentRuleViolated = !File.Exists(configFilePath);
-    if (configJsonPresentRuleViolated)
+  public ConfigModel Process()
+  {
+    try
     {
-      // Short-circuit with a user friendly error message
-      throw new FileNotFoundException("The config.json file is not present, please refer to the README for assistance");
+      // Get the path of the user's config.json file
+      var configFilePath = this.fileServices.GetFullPath();
+
+      // Check if the file exists, short-circuit if it doesn't
+      var configJsonPresentRuleViolated = !this.fileServices.Exists(configFilePath);
+      if (configJsonPresentRuleViolated)
+      {
+        // Short-circuit with a user friendly error message
+        throw new FileNotFoundException(Constants.Errors.FileNotFound);
+      }
+
+      // Read the JSON content and deserialise it to an object
+      var configJson = this.fileServices.ReadText(configFilePath) ?? string.Empty;
+      var deserialisationOptions = GetJsonSerialiserOptions();
+      var deserialisedObject = JsonSerializer.Deserialize<ConfigModel>(configJson, deserialisationOptions);
+
+      // Check if the deserialisation was unsuccessful
+      if (deserialisedObject is null || deserialisedObject.IsDefault())
+      {
+        // Short-circuit with a user friendly error message
+        throw new JsonException(Constants.Errors.FailedDeserialisation);
+      }
+
+      return deserialisedObject;
     }
-
-    // Read the JSON content and deserialise it to an object
-    var configJson = File.ReadAllText(configFilePath) ?? string.Empty;
-    var deserialisationOptions = GetJsonSerialiserOptions();
-    var deserialisedObject = JsonSerializer.Deserialize<ConfigModel>(configJson, deserialisationOptions);
-
-    // Check if the deserialisation was unsuccessful
-    if (deserialisedObject is null)
+    catch (Exception ex)
     {
-      // Short-circuit with a user friendly error message
-      throw new JsonException("The config.json deserialisation was unsuccessful, please verify it's correctness and check the README for assistance");
+      // To ensure other JSON exceptions are caught
+      throw;
     }
-
-    return deserialisedObject;
   }
 
   private static JsonSerializerOptions GetJsonSerialiserOptions()
@@ -42,4 +56,18 @@ public class ReadConfig
       PropertyNameCaseInsensitive = true
     };
   }
+
+  public static class Constants
+  {
+    public static class Errors
+    {
+      public const string FileNotFound = "The config.json file is not present, please refer to the README for assistance";
+      public const string FailedDeserialisation = "The config.json deserialisation was unsuccessful, please verify it's correctness and check the README for assistance";
+    }
+  }
+}
+
+public interface IReadConfig
+{
+  public ConfigModel Process();
 }
