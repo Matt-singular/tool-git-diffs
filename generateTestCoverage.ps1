@@ -1,1 +1,39 @@
-# TODO add the test coverage command(s) here
+# Run the Unit tests and generate the coverlet code coverage
+$coverageResults = dotnet test --collect:"XPlat Code Coverage" "--results-directory:CoverageReport\CoverletRaw"
+$combinedResults = $coverageResults -join ' '
+Write-Host "$coverageResults`n"
+
+# Extract the Relative Path and Navigate to the Coverlet CoverageReport directory
+if ($combinedResults -match 'Attachments:\s*(.+)') 
+{
+  # Full Path
+  $fullPathString = $Matches.0
+  $fullPathString = $fullPathString.Trim()
+  #Write-Output "Extracted path string = $fullPathString`n"
+
+  # Relative Path
+  $relativePath = $fullPathString -replace '.*\\git-diff-tool\\', ''
+  $relativePath = $relativePath -replace 'coverage.cobertura.xml', ''
+  #$relativePath = ".\$relativePath"
+  Write-Output "Relative path = $relativePath"
+
+  # Coverlet CoverageReport Directory
+  Set-Location $relativePath
+}
+
+# Generate the CoverageReport
+$reportPath = "..\..\GeneratedReport"
+dotnet "$env:USERPROFILE\.nuget\packages\reportgenerator\5.2.0\tools\net8.0\ReportGenerator.dll" -reports:coverage.cobertura.xml "-targetdir:$reportPath"
+
+# Create a shortcut for the generated CoverageReport
+$targetPath = Join-Path $PSScriptRoot "CoverageReport\GeneratedReport\index.html"
+$shell = New-Object -ComObject WScript.Shell
+$shortcut = $shell.CreateShortcut("CoverageReport\GeneratedReport.lnk")
+$shortcut.TargetPath = $targetPath
+$shortcut.Save()
+Write-Host
+Write-Host "A Shortcut has been saved to $targetPath'"
+
+# Keep the console opening to help with debugging
+Write-Host 
+Read-Host "Press Enter to Exit..."
