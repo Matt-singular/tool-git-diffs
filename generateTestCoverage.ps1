@@ -24,7 +24,7 @@ if ($combinedResults -match 'Attachments:\s*(.+)')
 
 # Generate the CoverageReport
 $reportPath = "..\..\GeneratedReport"
-dotnet "$env:USERPROFILE\.nuget\packages\reportgenerator\5.2.0\tools\nezt8.0\ReportGenerator.dll" -reports:coverage.cobertura.xml "-targetdir:$reportPath"
+dotnet "$env:USERPROFILE\.nuget\packages\reportgenerator\5.2.0\tools\net8.0\ReportGenerator.dll" -reports:coverage.cobertura.xml "-targetdir:$reportPath"
 
 # Create a shortcut for the generated CoverageReport
 $targetPath = Join-Path $PSScriptRoot "CoverageReport\GeneratedReport\index.html"
