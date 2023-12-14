@@ -12,22 +12,24 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionIt
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiffGeneration", "DiffGeneration\DiffGeneration.csproj", "{26D0C485-A0F2-492B-977C-7B2723FFBEBE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiffGeneration", "DiffGeneration\DiffGeneration.csproj", "{26D0C485-A0F2-492B-977C-7B2723FFBEBE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApplicationConsole", "ApplicationConsole\ApplicationConsole.csproj", "{0CF28A09-61AC-4C6F-A869-2B33B91FF2A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApplicationConsole", "ApplicationConsole\ApplicationConsole.csproj", "{0CF28A09-61AC-4C6F-A869-2B33B91FF2A2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReferenceExtraction", "ReferenceExtraction\ReferenceExtraction.csproj", "{7CCDCAB3-7999-4E3D-BC49-15DC7E4DC507}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReferenceExtraction", "ReferenceExtraction\ReferenceExtraction.csproj", "{7CCDCAB3-7999-4E3D-BC49-15DC7E4DC507}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigExtraction", "ConfigExtraction\ConfigExtraction.csproj", "{B878155A-1C2D-4A60-BB03-8CF036B641E7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConfigExtraction", "ConfigExtraction\ConfigExtraction.csproj", "{B878155A-1C2D-4A60-BB03-8CF036B641E7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{24C81E82-BE61-49B7-B67E-DBC5F016B60C}"
 	ProjectSection(SolutionItems) = preProject
 		generateTestCoverage.ps1 = generateTestCoverage.ps1
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigExtraction.Tests", "ConfigExtraction.Tests\ConfigExtraction.Tests.csproj", "{3E05300E-7468-447A-A233-618D3C7EBF22}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConfigExtraction.Tests", "ConfigExtraction.Tests\ConfigExtraction.Tests.csproj", "{3E05300E-7468-447A-A233-618D3C7EBF22}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedDependencies", "SharedDependencies\SharedDependencies.csproj", "{024B4E00-ED37-4F4C-93FC-A84EBE68DC1C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedDependencies", "SharedDependencies\SharedDependencies.csproj", "{024B4E00-ED37-4F4C-93FC-A84EBE68DC1C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedTestDependencies", "SharedTestDependencies\SharedTestDependencies.csproj", "{D57BF974-1BF0-4341-A8CB-5635379B5D2F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,6 +61,10 @@ Global
 		{024B4E00-ED37-4F4C-93FC-A84EBE68DC1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{024B4E00-ED37-4F4C-93FC-A84EBE68DC1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{024B4E00-ED37-4F4C-93FC-A84EBE68DC1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D57BF974-1BF0-4341-A8CB-5635379B5D2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D57BF974-1BF0-4341-A8CB-5635379B5D2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D57BF974-1BF0-4341-A8CB-5635379B5D2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D57BF974-1BF0-4341-A8CB-5635379B5D2F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -66,6 +72,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{3E05300E-7468-447A-A233-618D3C7EBF22} = {24C81E82-BE61-49B7-B67E-DBC5F016B60C}
 		{024B4E00-ED37-4F4C-93FC-A84EBE68DC1C} = {F6DAAE4A-CE78-4369-8982-B54496C31981}
+		{D57BF974-1BF0-4341-A8CB-5635379B5D2F} = {24C81E82-BE61-49B7-B67E-DBC5F016B60C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E4C66092-5401-4DFF-99A3-D252047A9690}
