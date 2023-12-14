@@ -28,12 +28,12 @@ public class ReadConfig : IReadConfig
       }
 
       // Read the JSON content and deserialise it to an object
-      var configJson = this.fileServices.ReadText(configFilePath) ?? string.Empty;
+      var configJson = this.fileServices.ReadText(configFilePath);
       var deserialisationOptions = GetJsonSerialiserOptions();
       var deserialisedObject = JsonSerializer.Deserialize<ConfigModel>(configJson, deserialisationOptions);
 
       // Check if the deserialisation was unsuccessful
-      if (deserialisedObject is null || deserialisedObject.IsDefault())
+      if (deserialisedObject?.IsDefault() ?? true)
       {
         // Short-circuit with a user friendly error message
         throw new JsonException(Constants.Errors.FailedDeserialisation);

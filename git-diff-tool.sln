@@ -29,7 +29,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConfigExtraction.Tests", "C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedDependencies", "SharedDependencies\SharedDependencies.csproj", "{024B4E00-ED37-4F4C-93FC-A84EBE68DC1C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedTestDependencies", "SharedTestDependencies\SharedTestDependencies.csproj", "{D57BF974-1BF0-4341-A8CB-5635379B5D2F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedTestDependencies", "SharedTestDependencies\SharedTestDependencies.csproj", "{D57BF974-1BF0-4341-A8CB-5635379B5D2F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
