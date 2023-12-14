@@ -1,5 +1,5 @@
 ##### Other files to ignore #####
- # Don't track the user's config file
+ # Don't track the user's config file, Published files or Coverage reports
 config.json
 PublishedFiles/
 CoverageReport/
