@@ -1,7 +1,8 @@
 # Run the Unit tests and generate the coverlet code coverage
+Write-Host "Generating Coverlet Code Coverage for Project" -ForegroundColor Green
+dotnet test --collect:"XPlat Code Coverage" "--results-directory:CoverageReport\CoverletRaw" # TODO: currenlty running twice to maintain output
 $coverageResults = dotnet test --collect:"XPlat Code Coverage" "--results-directory:CoverageReport\CoverletRaw"
 $combinedResults = $coverageResults -join ' '
-Write-Host "$coverageResults`n"
 
 # Extract the Relative Path and Navigate to the Coverlet CoverageReport directory
 if ($combinedResults -match 'Attachments:\s*(.+)') 
@@ -15,7 +16,7 @@ if ($combinedResults -match 'Attachments:\s*(.+)')
   $relativePath = $fullPathString -replace '.*\\git-diff-tool\\', ''
   $relativePath = $relativePath -replace 'coverage.cobertura.xml', ''
   #$relativePath = ".\$relativePath"
-  Write-Output "Relative path = $relativePath"
+  Write-Host "`nRelative path = $relativePath" -ForegroundColor Green
 
   # Coverlet CoverageReport Directory
   Set-Location $relativePath
@@ -23,7 +24,7 @@ if ($combinedResults -match 'Attachments:\s*(.+)')
 
 # Generate the CoverageReport
 $reportPath = "..\..\GeneratedReport"
-dotnet "$env:USERPROFILE\.nuget\packages\reportgenerator\5.2.0\tools\net8.0\ReportGenerator.dll" -reports:coverage.cobertura.xml "-targetdir:$reportPath"
+dotnet "$env:USERPROFILE\.nuget\packages\reportgenerator\5.2.0\tools\nezt8.0\ReportGenerator.dll" -reports:coverage.cobertura.xml "-targetdir:$reportPath"
 
 # Create a shortcut for the generated CoverageReport
 $targetPath = Join-Path $PSScriptRoot "CoverageReport\GeneratedReport\index.html"
@@ -31,9 +32,7 @@ $shell = New-Object -ComObject WScript.Shell
 $shortcut = $shell.CreateShortcut("CoverageReport\GeneratedReport.lnk")
 $shortcut.TargetPath = $targetPath
 $shortcut.Save()
-Write-Host
-Write-Host "A Shortcut has been saved to $targetPath'"
+Write-Host "A Shortcut has been saved to $targetPath`n" -ForegroundColor Green
 
 # Keep the console opening to help with debugging
-Write-Host 
 Read-Host "Press Enter to Exit..."
