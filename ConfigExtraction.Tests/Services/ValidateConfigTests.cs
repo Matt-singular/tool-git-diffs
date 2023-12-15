@@ -1,0 +1,273 @@
+﻿namespace ConfigExtraction.Tests.Services;
+
+using System.Dynamic;
+using ConfigExtraction.Models;
+using ConfigExtraction.Services;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+
+public class ValidateConfigTests
+{
+  [Fact]
+  public void CheckIfDefault_ForDefaultModel_ShouldReturnTrue()
+  {
+    // Arrange
+    var config = new ConfigModel();
+    var validateConfig = Substitute.ForPartsOf<ValidateConfig>(config);
+
+    // Act
+    var checkIfDefault = validateConfig.CheckIfDefault();
+
+    // Assert
+    checkIfDefault.Should().BeTrue();
+  }
+
+  [Fact]
+  public void CheckIfDefault_ForNonDefaultModel_ShouldReturnFalse()
+  {
+    // Arrange
+    var config = new ConfigModel { DiffRange = new DiffRange() };
+    var validateConfig = Substitute.ForPartsOf<ValidateConfig>(config);
+
+    // Act
+    var checkIfDefault = validateConfig.CheckIfDefault();
+
+    // Assert
+    checkIfDefault.Should().BeFalse();
+  }
+
+  public static IEnumerable<object[]> ValidDiffRanges()
+  {
+    yield return new object[] { Constants.ValidDiffRange.GlobalAndRepo };
+    yield return new object[] { Constants.ValidDiffRange.GlobalOnly };
+    yield return new object[] { Constants.ValidDiffRange.RepoOnly };
+    yield return new object[] { Constants.ValidDiffRange.PartialGlobalAndRepo };
+  }
+  [Theory]
+  [MemberData(nameof(ValidDiffRanges))]
+  public void CheckDiffRangeSelection_ForValidSelections_ShouldReturnTrue(ConfigModel config)
+  {
+    // Arrange
+    var validateConfig = Substitute.ForPartsOf<ValidateConfig>(config);
+
+    // Act
+    var checkIfDefault = validateConfig.CheckDiffRangeSelection();
+
+    // Assert
+    checkIfDefault.Should().BeTrue();
+  }
+
+  public static IEnumerable<object[]> InvalidDiffRanges()
+  {
+    yield return new object[] { Constants.InvalidDiffRange.MissingDiffRangeValues };
+    yield return new object[] { Constants.InvalidDiffRange.PartialGlobalDiffRange };
+    yield return new object[] { Constants.InvalidDiffRange.PartialRepoDiffRange };
+  }
+  [Theory]
+  [MemberData(nameof(InvalidDiffRanges))]
+  public void CheckDiffRangeSelection_ForInvalidSelections_ShouldReturnFalse(ConfigModel config)
+  {
+    // Arrange
+    var validateConfig = Substitute.ForPartsOf<ValidateConfig>(config);
+
+    // Act
+    var checkIfDefault = validateConfig.CheckDiffRangeSelection();
+
+    // Assert
+    checkIfDefault.Should().BeFalse();
+  }
+
+  public static IEnumerable<object[]> ValidCommitReferences()
+  {
+    yield return new object[] {Constants.ValidCommitReferences.HasPattern };
+    yield return new object[] {Constants.ValidCommitReferences.HasSubItems };
+  }
+  [Theory]
+  [MemberData(nameof(ValidCommitReferences))]
+  public void CheckCommitReferences_ForValidSelections_ShouldReturnTrue(ConfigModel config)
+  {
+    // Arrange
+    var validateConfig = Substitute.ForPartsOf<ValidateConfig>(config);
+
+    // Act
+    var checkIfDefault = validateConfig.CheckCommitReferences();
+
+    // Assert
+    checkIfDefault.Should().BeTrue();
+  }
+
+  public static IEnumerable<object[]> InvalidCommitReferences()
+  {
+    yield return new object[] { Constants.InvalidCommitReferences.EmptyPattern };
+    yield return new object[] { Constants.InvalidCommitReferences.NullPattern };
+  }
+  [Theory]
+  [MemberData(nameof(InvalidCommitReferences))]
+  public void CheckCommitReferences_ForInvalidSelections_ShouldReturnFalse(ConfigModel config)
+  {
+    // Arrange
+    var validateConfig = Substitute.ForPartsOf<ValidateConfig>(config);
+
+    // Act
+    var checkIfDefault = validateConfig.CheckCommitReferences();
+
+    // Assert
+    checkIfDefault.Should().BeFalse();
+  }
+
+  public static class Constants
+  {
+    public static class ValidDiffRange
+    {
+      public static readonly ConfigModel GlobalAndRepo = new()
+      {
+        DiffRange = new DiffRange
+        {
+          From = new DiffRangeValue { Branch = "Dev" },
+          To = new DiffRangeValue { Tag = "12.0.4" }
+        },
+        Repositories = [
+          new Repository
+          {
+            DiffRange = new DiffRange
+            {
+              From = new DiffRangeValue { Branch = "Dev" }
+            }
+          }
+        ]
+      };
+      public static readonly ConfigModel GlobalOnly = new()
+      {
+        DiffRange = new DiffRange
+        {
+          From = new DiffRangeValue { Branch = "Dev" },
+          To = new DiffRangeValue { Tag = "12.0.4" }
+        }
+      };
+      public static readonly ConfigModel RepoOnly = new()
+      {
+        Repositories = [
+          new Repository
+          {
+            DiffRange = new DiffRange
+            {
+              From = new DiffRangeValue { Branch = "Dev" },
+              To = new DiffRangeValue {Tag = "12.0.4" }
+            }
+          },
+          new Repository
+          {
+            DiffRange = new DiffRange
+            {
+              From = new DiffRangeValue { Branch = "Main" },
+              To = new DiffRangeValue { Tag = "12.0.4_special" }
+            }
+          }
+        ]
+      };
+      public static readonly ConfigModel PartialGlobalAndRepo = new()
+      {
+        DiffRange = new DiffRange
+        {
+          From = new DiffRangeValue { Branch = "Dev" },
+        },
+        Repositories = [
+          new Repository
+          {
+            DiffRange = new DiffRange
+            {
+              To = new DiffRangeValue { Branch = "12.0.4" }
+            }
+          }
+        ]
+      };
+    }
+    
+    public static class InvalidDiffRange
+    {
+      public static readonly ConfigModel MissingDiffRangeValues = new()
+      {
+        DiffRange = new DiffRange()
+      };
+      public static readonly ConfigModel PartialGlobalDiffRange = new()
+      {
+        DiffRange = new DiffRange
+        {
+          From = new DiffRangeValue { Branch = "Dev" }
+        }
+      };
+      public static readonly ConfigModel PartialRepoDiffRange = new()
+      {
+        Repositories = [
+          new Repository
+          {
+            DiffRange = new DiffRange
+            {
+              From = new DiffRangeValue { Branch = "Dev" },
+              To = new DiffRangeValue { Tag = "12.0.4" },
+            }
+          },
+          new Repository
+          {
+            DiffRange = new DiffRange
+            {
+              // No global diff range, so both the 'From' and the 'To' are required here
+              From = new DiffRangeValue { Branch = "Main" }
+            }
+          }
+        ]
+      };
+    }
+
+    public static class ValidCommitReferences
+    {
+      public static readonly ConfigModel HasPattern = new()
+      {
+        References = [
+          new Reference
+          {
+            Header = null,
+            Pattern = "(FEATURE)-\\d+",
+            SubItems = null
+          }
+        ]
+      };
+      public static readonly ConfigModel HasSubItems = new()
+      {
+        References = [
+          new Reference
+          {
+            Header = null,
+            Pattern = "(FEATURE)-\\d+",
+            SubItems = [ "(TASK)-\\d+" ]
+          }
+        ]
+      };
+    }
+
+    public static class InvalidCommitReferences
+    {
+      public static readonly ConfigModel EmptyPattern = new()
+      {
+        References = [
+          new Reference
+          {
+            Header = null,
+            Pattern = "",
+            SubItems = null
+          }
+        ]
+      };
+      public static readonly ConfigModel NullPattern = new()
+      {
+        References = [
+          new Reference
+          {
+            Header = null,
+            Pattern = null,
+            SubItems = null
+          }
+        ]
+      };
+    }
+  }
+}
