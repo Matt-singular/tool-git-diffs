@@ -16,4 +16,10 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Files\configExample.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
