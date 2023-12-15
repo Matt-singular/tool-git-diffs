@@ -5,7 +5,7 @@ $coverageResults = dotnet test --collect:"XPlat Code Coverage" "--results-direct
 $combinedResults = $coverageResults -join ' '
 
 # Extract the Relative Path and Navigate to the Coverlet CoverageReport directory
-if ($combinedResults -match 'Attachments:\s*(.+)') 
+if ($combinedResults -match 'Attachments:\s*(.+)')
 {
   # Full Path
   $fullPathString = $Matches.0
@@ -34,5 +34,13 @@ $shortcut.TargetPath = $targetPath
 $shortcut.Save()
 Write-Host "A Shortcut has been saved to $targetPath`n" -ForegroundColor Green
 
-# Keep the console opening to help with debugging
-Read-Host "Press Enter to Exit..."
+# Keep the console open - allow the user to navigate to the generated report
+Write-Host "Press Enter to Open the generated report, or Esc to Exit..."
+$input = [System.Console]::ReadKey()
+if ($input.Key -eq 'Enter')
+{
+  # Open the GeneratedReport shortcut
+  $shortcutPath = Join-Path $PSScriptRoot "GeneratedReport.lnk"
+  Write-Host "Opening $shortcutPath"
+  Invoke-Item $shortcutPath
+}
