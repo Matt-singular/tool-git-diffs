@@ -3,16 +3,28 @@
 using System.Text.Json;
 using ConfigExtraction.Models;
 
-/// <summary>
-/// Validates the Config.json contents against relevant criteria
-/// </summary>
 public class ValidateConfig : IValidateConfig
 {
   public ConfigModel? Config { get; set; } = null!;
 
+  /// <summary>
+  /// Validates the Config.json contents against relevant criteria
+  /// </summary>
+  /// <returns>True if the Config.json passes all the validation, Otherwise False</returns>
   public bool Process()
   {
-    throw new NotImplementedException();
+    // 1) Check if the config contents are null or default
+    var isDefaultOrNull = this.CheckIfDefault();
+
+    // 2) Check if the config DiffRange selection is valid
+    var isValidDiffRangeSelection = this.CheckDiffRangeSelection();
+
+    // 3) Check if the config References selection is valid
+    var isValidCommitReferences = this.CheckCommitReferences();
+
+    // Only valid if not default or not, valid diff range AND valid commit references
+    var isValidConfig = !isDefaultOrNull && isValidDiffRangeSelection && isValidCommitReferences;
+    return isValidConfig;
   }
 
   /// <summary>
@@ -81,7 +93,7 @@ public class ValidateConfig : IValidateConfig
   /// <param name="globalFromValue">The global-level DiffRange from value was set</param>
   /// <param name="globalToValue">The global-level DiffRange to value was set</param>
   /// <returns>True if there are valid repository-level DiffRange values, Otherwise False</returns>
-  private bool CheckRepositoryLevelDiffRangeSelection(DiffRange? repoLevel, bool globalFromValue, bool globalToValue)
+  private static bool CheckRepositoryLevelDiffRangeSelection(DiffRange? repoLevel, bool globalFromValue, bool globalToValue)
   {
     // Grab the repository-level set values
     var (repositoryFromValue, repositoryToValue) = DiffRange.CheckDiffRangeSet(repoLevel);
