@@ -132,10 +132,10 @@ public class ReadConfigTests
     configResults.Should().BeEquivalentTo(readConfigExpected);
   }
 
+  [Theory]
   [InlineData("{}")] // Empty Json, will be deserialised to a default ConfigModel
   [InlineData("null")] // Null Json, will be deserailised to null
-  [Theory]
-  public void FailedDeserialisation_ThrowsJsonError(string mockedFileContents)
+  public void FailedDeserialisation_ThrowsJsonErrorScenarios(string mockedFileContents)
   {
     // Arrange - Mocked
     var mockedFilePath = "path/to/file.txt";
