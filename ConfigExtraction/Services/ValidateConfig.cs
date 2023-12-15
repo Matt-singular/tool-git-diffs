@@ -5,7 +5,7 @@ using ConfigExtraction.Models;
 
 public class ValidateConfig : IValidateConfig
 {
-  public ConfigModel? Config { get; set; }
+  public ConfigModel Config { get; set; } = null!;
 
   public bool Process()
   {
@@ -39,7 +39,49 @@ public class ValidateConfig : IValidateConfig
   /// <exception cref="NotImplementedException"></exception>
   public bool CheckDiffRangeSelection()
   {
-    throw new NotImplementedException();
+    // Diff Range exists at the global and repository-level
+    var globalLevel = this.Config.DiffRange;
+    var repositoryLevel = this.Config.Repositories?.Select(repo => repo?.DiffRange)?.ToList() ?? [];
+
+    // Check the global-level
+    var globalLevelSetValues = DiffRange.CheckDiffRangeSet(globalLevel);
+    var globalLevelHasBothValues = globalLevelSetValues.from && globalLevelSetValues.to;
+
+    if (globalLevelHasBothValues)
+    {
+      // Short-circuit as both the from and the to values were set at the global-level
+      return true;
+    }
+
+    // Check the repository-level
+    var repositoryLevelHasValidValues = repositoryLevel.All(repoLevel =>
+    {
+      // Grab the repository-level set values
+      var repositoryLevelSetValues = DiffRange.CheckDiffRangeSet(repoLevel);
+
+      // Check that either the repo-level has a value or the global-level has a value (both being set is also valid, so we don't check that)
+      var validFromValue = repositoryLevelSetValues.from || globalLevelSetValues.from;
+      var validToValue = repositoryLevelSetValues.to || globalLevelSetValues.to;
+
+      if (validFromValue && validToValue)
+      {
+        // Valid scenario as we have both a from and to value set at the repo-level and/or the global-level
+        return true;
+      }
+
+      // Not a valid scenario
+      return false;
+    });
+
+    var noDiffRangeSet = repositoryLevel.Count == 0;
+    if (repositoryLevelHasValidValues == false || noDiffRangeSet)
+    {
+      // Short-circuit with an error as the repo-level diff ranges aren't sufficient
+      throw new InvalidDataException(Constants.Errors.InvalidDiffRangeSelection);
+    }
+
+    // Valid diff range selection
+    return true;
   }
 
   public bool CheckCommitReferences()
@@ -51,14 +93,15 @@ public class ValidateConfig : IValidateConfig
   {
     public static class Errors
     {
-      public const string IsDefaultDueToFailedDeserialisation = "The config.json deserialisation was unsuccessful, please verify it's correctness and check the README for assistance";
+      public const string IsDefaultDueToFailedDeserialisation = "The config.json deserialisation was unsuccessful, please verify its correctness and check the README for assistance";
+      public const string InvalidDiffRangeSelection = "You have an invalid or incomplete diff range selection, please verify its correctness and check the README for assistance";
     }
   }
 }
 
 public interface IValidateConfig
 {
-  public ConfigModel? Config { get; set; }
+  public ConfigModel Config { get; set; }
   public bool Process();
   public bool CheckIfDefault(); // Model not default (will need to modify ReadConfig)
   public bool CheckDiffRangeSelection();

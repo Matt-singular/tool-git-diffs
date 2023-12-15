@@ -67,6 +67,24 @@ public class DiffRange
   /// The diffs will be generated up to the specified branch or tag
   /// </summary>
   public DiffRangeValue? To { get; set; }
+
+  /// <summary>
+  /// Returns the values for whether the from and to range values are set
+  /// </summary>
+  /// <param name="diffRange">The diff range valuies (from and to)</param>
+  /// <returns>The set of values for the from and to branch</returns>
+  public static (bool from, bool to) CheckDiffRangeSet(DiffRange? diffRange)
+  {
+    // Check if the DiffRange From value is set (branch or tag)
+    var diffRangeFrom = DiffRangeValue.CheckDiffRangeValueSet(diffRange?.From);
+
+    // Check if the DiffRange To value is set (branch or tag)
+    var diffRangeTo = DiffRangeValue.CheckDiffRangeValueSet(diffRange?.To);
+
+    // Declare the value set
+    var setValues = (from: diffRangeFrom, to: diffRangeTo);
+    return setValues;
+  }
 }
 
 /// <summary>
@@ -112,6 +130,20 @@ public class DiffRangeValue
 
     return updatedValue;
   }
+
+  /// <summary>
+  /// Checks if a diff range value was set (either the branch or the tag)
+  /// </summary>
+  /// <param name="rangeValue">the diff range value (from or to)</param>
+  /// <returns>True if either the branch or tag were set, otherwise False</returns>
+  public static bool CheckDiffRangeValueSet(DiffRangeValue? rangeValue)
+  {
+    // Checks if either the Branch or the Tag is set
+    // If both were set then the ValidateMutualExclusivityRule method above would throw an error (not an allowed scenario)
+    var diffRangeValueSet = !string.IsNullOrWhiteSpace(rangeValue?.Branch) || !string.IsNullOrWhiteSpace(rangeValue?.Tag);
+
+    return diffRangeValueSet;
+  }
 }
 
 /// <summary>
@@ -152,7 +184,7 @@ public class Reference
   /// <summary>
   /// A list of literal regex patterns that will be grouped with this reference.
   /// The grouping will be done on a commit message level, but there will be additional processing
-  /// logic to ensure that a parent feature has all it's sub items in one place
+  /// logic to ensure that a parent feature has all its sub items in one place
   /// </summary>
   public List<string>? SubItems { get; set; }
 }

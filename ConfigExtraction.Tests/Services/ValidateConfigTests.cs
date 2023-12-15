@@ -11,7 +11,8 @@ public class ValidateConfigTests
   {
     // Arrange
     var config = new ConfigModel();
-    var validateConfig = Substitute.ForPartsOf<ValidateConfig>(config);
+    var validateConfig = Substitute.ForPartsOf<ValidateConfig>();
+    validateConfig.Config = config;
 
     // Act
     var act = () => validateConfig.CheckIfDefault();
@@ -27,7 +28,8 @@ public class ValidateConfigTests
   {
     // Arrange
     ConfigModel config = null;
-    var validateConfig = Substitute.ForPartsOf<ValidateConfig>(config);
+    var validateConfig = Substitute.ForPartsOf<ValidateConfig>();
+    validateConfig.Config = config;
 
     // Act
     var act = () => validateConfig.CheckIfDefault();
@@ -43,7 +45,8 @@ public class ValidateConfigTests
   {
     // Arrange
     var config = new ConfigModel { DiffRange = new DiffRange() };
-    var validateConfig = Substitute.ForPartsOf<ValidateConfig>(config);
+    var validateConfig = Substitute.ForPartsOf<ValidateConfig>();
+    validateConfig.Config = config;
 
     // Act
     var checkIfDefault = validateConfig.CheckIfDefault();
@@ -64,7 +67,8 @@ public class ValidateConfigTests
   public void CheckDiffRangeSelection_ForValidSelections_ShouldReturnTrue(ConfigModel config)
   {
     // Arrange
-    var validateConfig = Substitute.ForPartsOf<ValidateConfig>(config);
+    var validateConfig = Substitute.ForPartsOf<ValidateConfig>();
+    validateConfig.Config = config;
 
     // Act
     var checkIfDefault = validateConfig.CheckDiffRangeSelection();
@@ -81,16 +85,19 @@ public class ValidateConfigTests
   }
   [Theory]
   [MemberData(nameof(InvalidDiffRanges))]
-  public void CheckDiffRangeSelection_ForInvalidSelections_ShouldReturnFalse(ConfigModel config)
+  public void CheckDiffRangeSelection_ForInvalidSelections_ShouldThrowException(ConfigModel config)
   {
     // Arrange
-    var validateConfig = Substitute.ForPartsOf<ValidateConfig>(config);
+    var validateConfig = Substitute.ForPartsOf<ValidateConfig>();
+    validateConfig.Config = config;
 
     // Act
-    var checkIfDefault = validateConfig.CheckDiffRangeSelection();
+    var act = () => validateConfig.CheckDiffRangeSelection();
 
     // Assert
-    checkIfDefault.Should().BeFalse();
+    act.Should()
+      .Throw<InvalidDataException>()
+      .WithMessage(ValidateConfig.Constants.Errors.InvalidDiffRangeSelection);
   }
 
   public static IEnumerable<object[]> ValidCommitReferences()
@@ -103,7 +110,8 @@ public class ValidateConfigTests
   public void CheckCommitReferences_ForValidSelections_ShouldReturnTrue(ConfigModel config)
   {
     // Arrange
-    var validateConfig = Substitute.ForPartsOf<ValidateConfig>(config);
+    var validateConfig = Substitute.ForPartsOf<ValidateConfig>();
+    validateConfig.Config = config;
 
     // Act
     var checkIfDefault = validateConfig.CheckCommitReferences();
@@ -122,7 +130,8 @@ public class ValidateConfigTests
   public void CheckCommitReferences_ForInvalidSelections_ShouldReturnFalse(ConfigModel config)
   {
     // Arrange
-    var validateConfig = Substitute.ForPartsOf<ValidateConfig>(config);
+    var validateConfig = Substitute.ForPartsOf<ValidateConfig>();
+    validateConfig.Config = config;
 
     // Act
     var checkIfDefault = validateConfig.CheckCommitReferences();
