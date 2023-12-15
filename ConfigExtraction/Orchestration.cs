@@ -1,27 +1,28 @@
 ﻿namespace ConfigExtraction;
 
+using ConfigExtraction.Models;
 using Services;
 
 /// <summary>
 /// Orchestration of all config extraction related logic
 /// </summary>
-public class Orchestration : IOrchestration
+public class Orchestration(IReadConfig readConfig, IValidateConfig validateConfig) : IOrchestration
 {
-  private readonly IReadConfig readConfig;
-
-  public Orchestration(IReadConfig readConfig)
-  {
-    this.readConfig = readConfig;
-  }
-
-  public void Process()
+  public ConfigModel Process()
   {
     // 1) Read in the config.json file
-    var configContents = this.readConfig.Process();
+    var configContents = readConfig.Process();
+
+    // 2) Validate the config model
+    validateConfig.Config = configContents;
+    var validConfig = validateConfig.Process();
+
+    // 3) Return the valid config's contents
+    return configContents;
   }
 }
 
 public interface IOrchestration
 {
-  public void Process();
+  public ConfigModel Process();
 }
