@@ -151,6 +151,41 @@ public class ValidateConfigTests
       .WithMessage(ValidateConfig.Constants.Errors.InvalidReferencePatterns);
   }
 
+  [Fact]
+  public void TestEntireValidateConfig_ValidCases_ShouldReturnTrue()
+  {
+    // Arrange
+    var config = new ConfigModel
+    {
+      DiffRange = new DiffRange
+      {
+        From = new DiffRangeValue
+        {
+          Branch = "Dev"
+        },
+        To = new DiffRangeValue
+        {
+          Tag = "12.0.4"
+        }
+      },
+      References =
+        [
+          new Reference
+          {
+            Pattern = "(FEAT)-\\d+"
+          }
+        ]
+    };
+    var validateConfig = Substitute.ForPartsOf<ValidateConfig>();
+    validateConfig.Config = config;
+
+    // Act
+    var configValidity = validateConfig.Process();
+
+    // Assert
+    configValidity.Should().BeTrue();
+  }
+
   public static class Constants
   {
     public static class ValidDiffRange
@@ -335,6 +370,11 @@ public class ValidateConfigTests
           }
         ]
       };
+    }
+
+    public static class InvalidProcess
+    {
+      public static readonly ConfigModel DefaultModel = new();
     }
   }
 }
