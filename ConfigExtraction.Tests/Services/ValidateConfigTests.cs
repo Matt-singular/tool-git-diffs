@@ -1,24 +1,41 @@
 ﻿namespace ConfigExtraction.Tests.Services;
 
-using System.Dynamic;
+using System.Text.Json;
 using ConfigExtraction.Models;
 using ConfigExtraction.Services;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 public class ValidateConfigTests
 {
   [Fact]
-  public void CheckIfDefault_ForDefaultModel_ShouldReturnTrue()
+  public void CheckIfDefault_ForDefaultModel_ShouldThrowException()
   {
     // Arrange
     var config = new ConfigModel();
     var validateConfig = Substitute.ForPartsOf<ValidateConfig>(config);
 
     // Act
-    var checkIfDefault = validateConfig.CheckIfDefault();
+    var act = () => validateConfig.CheckIfDefault();
 
     // Assert
-    checkIfDefault.Should().BeTrue();
+    act.Should()
+      .Throw<JsonException>()
+      .WithMessage(ValidateConfig.Constants.Errors.IsDefaultDueToFailedDeserialisation);
+  }
+
+  [Fact]
+  public void CheckIfDefault_ForNullModel_ShouldThrowException()
+  {
+    // Arrange
+    ConfigModel config = null;
+    var validateConfig = Substitute.ForPartsOf<ValidateConfig>(config);
+
+    // Act
+    var act = () => validateConfig.CheckIfDefault();
+
+    // Assert
+    act.Should()
+      .Throw<JsonException>()
+      .WithMessage(ValidateConfig.Constants.Errors.IsDefaultDueToFailedDeserialisation);
   }
 
   [Fact]
@@ -78,8 +95,8 @@ public class ValidateConfigTests
 
   public static IEnumerable<object[]> ValidCommitReferences()
   {
-    yield return new object[] {Constants.ValidCommitReferences.HasPattern };
-    yield return new object[] {Constants.ValidCommitReferences.HasSubItems };
+    yield return new object[] { Constants.ValidCommitReferences.HasPattern };
+    yield return new object[] { Constants.ValidCommitReferences.HasSubItems };
   }
   [Theory]
   [MemberData(nameof(ValidCommitReferences))]
@@ -151,7 +168,7 @@ public class ValidateConfigTests
             DiffRange = new DiffRange
             {
               From = new DiffRangeValue { Branch = "Dev" },
-              To = new DiffRangeValue {Tag = "12.0.4" }
+              To = new DiffRangeValue { Tag = "12.0.4" }
             }
           },
           new Repository
@@ -181,7 +198,7 @@ public class ValidateConfigTests
         ]
       };
     }
-    
+
     public static class InvalidDiffRange
     {
       public static readonly ConfigModel MissingDiffRangeValues = new()
@@ -238,7 +255,7 @@ public class ValidateConfigTests
           {
             Header = null,
             Pattern = "(FEATURE)-\\d+",
-            SubItems = [ "(TASK)-\\d+" ]
+            SubItems = ["(TASK)-\\d+"]
           }
         ]
       };
