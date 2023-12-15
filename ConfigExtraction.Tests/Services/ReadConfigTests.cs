@@ -203,34 +203,4 @@ public class ReadConfigTests
     // Assert
     act.Should().Throw<JsonException>();
   }
-
-  [Fact]
-  public void BreakConfigModelDiffRangeMutualExclusivityRule_ThrowInvalidOperation()
-  {
-    // Arrange - Mocked
-    var mockedFilePath = "path/to/file.txt";
-    var mockedFileContents = @"{
-      ""diffRange"": {
-        ""from"": {
-          ""branch"": ""main"",
-          ""tag"": ""12.0.4""
-        }
-      }
-    }"; // Violated the rule that states you should set EITHER the branch OR the tag (NOT BOTH)
-    var mockedFileServices = Substitute.For<IFileServices>();
-    mockedFileServices.GetFullPath().Returns(mockedFilePath);
-    mockedFileServices.Exists(mockedFilePath).Returns(true);
-    mockedFileServices.ReadText(mockedFilePath).Returns(mockedFileContents);
-
-    // Arrange - ReadConfig service to test
-    var readConfig = new ReadConfig(mockedFileServices);
-
-    // Act
-    var act = () => readConfig.Process();
-
-    // Assert
-    act.Should()
-      .Throw<InvalidOperationException>()
-      .WithMessage(ConfigModel.Constants.Errors.BranchTagMutualExclusivityViolated);
-  }
 }

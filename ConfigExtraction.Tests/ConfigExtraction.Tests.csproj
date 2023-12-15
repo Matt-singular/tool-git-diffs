@@ -29,8 +29,4 @@
     <ProjectReference Include="..\SharedTestDependencies\SharedTestDependencies.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
-
 </Project>
