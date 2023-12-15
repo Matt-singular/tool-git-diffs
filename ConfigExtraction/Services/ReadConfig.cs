@@ -3,15 +3,8 @@
 using System.Text.Json;
 using Models;
 
-public class ReadConfig : IReadConfig
+public class ReadConfig(IFileServices fileServices) : IReadConfig
 {
-  private readonly IFileServices fileServices;
-
-  public ReadConfig(IFileServices fileServices)
-  {
-    this.fileServices = fileServices;
-  }
-
   /// <summary>
   /// Read in the config.json file
   /// </summary>
@@ -22,10 +15,10 @@ public class ReadConfig : IReadConfig
     try
     {
       // Get the path of the user's config.json file
-      var configFilePath = this.fileServices.GetFullPath();
+      var configFilePath = fileServices.GetFullPath();
 
       // Check if the file exists, short-circuit if it doesn't
-      var configJsonPresentRuleViolated = !this.fileServices.Exists(configFilePath);
+      var configJsonPresentRuleViolated = !fileServices.Exists(configFilePath);
       if (configJsonPresentRuleViolated)
       {
         // Short-circuit with a user friendly error message
@@ -33,7 +26,7 @@ public class ReadConfig : IReadConfig
       }
 
       // Read the JSON content and deserialise it to an object
-      var configJson = this.fileServices.ReadText(configFilePath);
+      var configJson = fileServices.ReadText(configFilePath);
       var deserialisationOptions = GetJsonSerialiserOptions();
       var deserialisedObject = JsonSerializer.Deserialize<ConfigModel>(configJson, deserialisationOptions);
 
