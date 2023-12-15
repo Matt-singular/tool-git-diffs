@@ -5,11 +5,7 @@ using ConfigExtraction.Models;
 
 public class ValidateConfig : IValidateConfig
 {
-  public ConfigModel Config { get; set; }
-  public ValidateConfig(ConfigModel config)
-  {
-    this.Config = config;
-  }
+  public ConfigModel? Config { get; set; }
 
   public bool Process()
   {
@@ -34,6 +30,13 @@ public class ValidateConfig : IValidateConfig
     return isDefault;
   }
 
+  /// <summary>
+  /// Diff range values are required to be present in the Config.
+  /// The Diff range values can appear at either (or both) the global level (Config.DiffRange)
+  /// or the repository level (Config.Repositories.DiffRange).
+  /// </summary>
+  /// <returns>True if the Config conforms with the DiffRange requirements</returns>
+  /// <exception cref="NotImplementedException"></exception>
   public bool CheckDiffRangeSelection()
   {
     throw new NotImplementedException();
@@ -55,7 +58,7 @@ public class ValidateConfig : IValidateConfig
 
 public interface IValidateConfig
 {
-  public ConfigModel Config { get; set; }
+  public ConfigModel? Config { get; set; }
   public bool Process();
   public bool CheckIfDefault(); // Model not default (will need to modify ReadConfig)
   public bool CheckDiffRangeSelection();

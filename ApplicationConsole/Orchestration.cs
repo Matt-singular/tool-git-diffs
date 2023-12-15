@@ -3,19 +3,14 @@
 /// <summary>
 /// Orchestration of all the application console related logic
 /// </summary>
-public class Orchestration : IOrchestration
+public class Orchestration(ConfigExtraction.IOrchestration configExtraction) : IOrchestration
 {
-  private readonly ConfigExtraction.IOrchestration configExtractionOrchestration;
-
-  public Orchestration(ConfigExtraction.IOrchestration configExtractionOrchestration)
-  {
-    this.configExtractionOrchestration = configExtractionOrchestration;
-  }
-
   public void Process()
   {
-    // 1) Config magics
-    configExtractionOrchestration.Process();
+    // 1) Config read and validation
+    configExtraction.Process();
+
+    // Hello :)
     Console.WriteLine("Hello world");
   }
 }
