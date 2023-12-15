@@ -36,7 +36,7 @@ public class ValidateConfig : IValidateConfig
   /// or the repository level (Config.Repositories.DiffRange).
   /// </summary>
   /// <returns>True if the Config conforms with the DiffRange requirements</returns>
-  /// <exception cref="NotImplementedException"></exception>
+  /// <exception cref="InvalidDataException"></exception>
   public bool CheckDiffRangeSelection()
   {
     // Diff Range exists at the global and repository-level

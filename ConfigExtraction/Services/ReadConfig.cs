@@ -60,7 +60,6 @@ public class ReadConfig : IReadConfig
     public static class Errors
     {
       public const string FileNotFound = "The config.json file is not present, please refer to the README for assistance";
-      public const string FailedDeserialisation = "The config.json deserialisation was unsuccessful, please verify it's correctness and check the README for assistance";
     }
   }
 }
