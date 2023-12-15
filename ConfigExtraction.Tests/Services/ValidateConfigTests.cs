@@ -79,6 +79,11 @@ public class ValidateConfigTests
 
   public static IEnumerable<object[]> InvalidDiffRanges()
   {
+    yield return new object[] { Constants.InvalidDiffRange.NullConfig };
+    yield return new object[] { Constants.InvalidDiffRange.NullGlobalDiffRange };
+    yield return new object[] { Constants.InvalidDiffRange.NullRepository };
+    yield return new object[] { Constants.InvalidDiffRange.NullRepoDiffRange };
+
     yield return new object[] { Constants.InvalidDiffRange.MissingDiffRangeValues };
     yield return new object[] { Constants.InvalidDiffRange.PartialGlobalDiffRange };
     yield return new object[] { Constants.InvalidDiffRange.PartialRepoDiffRange };
@@ -122,8 +127,12 @@ public class ValidateConfigTests
 
   public static IEnumerable<object[]> InvalidCommitReferences()
   {
-    yield return new object[] { Constants.InvalidCommitReferences.EmptyPattern };
+    yield return new object[] { Constants.InvalidCommitReferences.NullConfig };
+    yield return new object[] { Constants.InvalidCommitReferences.NullReferences };
+    yield return new object[] { Constants.InvalidCommitReferences.NullReferenceItem };
+
     yield return new object[] { Constants.InvalidCommitReferences.NullPattern };
+    yield return new object[] { Constants.InvalidCommitReferences.EmptyPattern };
   }
   [Theory]
   [MemberData(nameof(InvalidCommitReferences))]
@@ -212,6 +221,26 @@ public class ValidateConfigTests
 
     public static class InvalidDiffRange
     {
+      public static readonly ConfigModel NullConfig = null!;
+      public static readonly ConfigModel NullGlobalDiffRange = new()
+      {
+        DiffRange = null
+      };
+      public static readonly ConfigModel NullRepository = new()
+      {
+        Repositories = [null!]
+      };
+      public static readonly ConfigModel NullRepoDiffRange = new()
+      {
+        Repositories =
+        [
+          new Repository
+          {
+            DiffRange = null
+          }
+        ]
+      };
+
       public static readonly ConfigModel MissingDiffRangeValues = new()
       {
         DiffRange = new DiffRange()
@@ -274,17 +303,16 @@ public class ValidateConfigTests
 
     public static class InvalidCommitReferences
     {
-      public static readonly ConfigModel EmptyPattern = new()
+      public static readonly ConfigModel NullConfig = null!;
+      public static readonly ConfigModel NullReferences = new()
       {
-        References = [
-          new Reference
-          {
-            Header = null,
-            Pattern = "",
-            SubItems = null
-          }
-        ]
+        References = null!
       };
+      public static readonly ConfigModel NullReferenceItem = new()
+      {
+        References = [null!]
+      };
+
       public static readonly ConfigModel NullPattern = new()
       {
         References = [
@@ -292,6 +320,17 @@ public class ValidateConfigTests
           {
             Header = null,
             Pattern = null!,
+            SubItems = null
+          }
+        ]
+      };
+      public static readonly ConfigModel EmptyPattern = new()
+      {
+        References = [
+          new Reference
+          {
+            Header = null,
+            Pattern = "",
             SubItems = null
           }
         ]

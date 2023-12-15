@@ -42,9 +42,9 @@ public class ValidateConfig : IValidateConfig
   /// <exception cref="InvalidDataException"></exception>
   public bool CheckDiffRangeSelection()
   {
-    // Diff Range exists at the global and repository-level
-    var globalLevel = this.Config?.DiffRange;
-    var repositoryLevel = this.Config?.Repositories?.Select(repo => repo?.DiffRange)?.ToList() ?? [];
+    // Global-level Diff Range
+    var config = this.Config ?? new();
+    var globalLevel = config.DiffRange;
 
     // Check the global-level
     var (globalFromValue, globalToValue) = DiffRange.CheckDiffRangeSet(globalLevel);
@@ -56,21 +56,14 @@ public class ValidateConfig : IValidateConfig
       return true;
     }
 
+    // Repository-level Diff Range
+    var repositoryLevelEnumerable = config.Repositories?.Select(repo => repo?.DiffRange);
+    var repositoryLevel = repositoryLevelEnumerable?.ToList() ?? [];
+
     // Check the repository-level
-    var repositoryLevelHasValidValues = repositoryLevel.All(repoLevel =>
-    {
-      // Grab the repository-level set values
-      var (repositoryFromValue, repositoryToValue) = DiffRange.CheckDiffRangeSet(repoLevel);
-
-      // Check that either the repo-level has a value or the global-level has a value (both being set is also valid, so we don't check that)
-      var validFromValue = repositoryFromValue || globalFromValue;
-      var validToValue = repositoryToValue || globalToValue;
-
-      // Valid scenario if we have both a from and to value set at the repo-level and/or the global-level
-      return (validFromValue && validToValue);
-    });
-
+    var repositoryLevelHasValidValues = repositoryLevel.All(repoLevel => CheckRepositoryLevelDiffRangeSelection(repoLevel, globalFromValue, globalToValue));
     var noDiffRangeSet = repositoryLevel.Count == 0;
+
     if (repositoryLevelHasValidValues == false || noDiffRangeSet)
     {
       // Short-circuit with an error as the repo-level diff ranges aren't sufficient
@@ -82,6 +75,26 @@ public class ValidateConfig : IValidateConfig
   }
 
   /// <summary>
+  /// Checks the repository-level DiffRange values in-conjunction with the global DiffRange values
+  /// </summary>
+  /// <param name="repoLevel">The repository's DiffRange values</param>
+  /// <param name="globalFromValue">The global-level DiffRange from value was set</param>
+  /// <param name="globalToValue">The global-level DiffRange to value was set</param>
+  /// <returns>True if there are valid repository-level DiffRange values, Otherwise False</returns>
+  private bool CheckRepositoryLevelDiffRangeSelection(DiffRange? repoLevel, bool globalFromValue, bool globalToValue)
+  {
+    // Grab the repository-level set values
+    var (repositoryFromValue, repositoryToValue) = DiffRange.CheckDiffRangeSet(repoLevel);
+
+    // Check that either the repo-level has a value or the global-level has a value (both being set is also valid, so we don't check that)
+    var validFromValue = repositoryFromValue || globalFromValue;
+    var validToValue = repositoryToValue || globalToValue;
+
+    // Valid scenario if we have both a from and to value set at the repo-level and/or the global-level
+    return (validFromValue && validToValue);
+  }
+
+  /// <summary>
   /// Checks that all the commit references have patterns set
   /// </summary>
   /// <returns>True if the commit references have patterns</returns>
@@ -89,12 +102,14 @@ public class ValidateConfig : IValidateConfig
   public bool CheckCommitReferences()
   {
     // Get the commit reference parent patterns
-    var referencePatterns = this.Config?.References?.Select(reference => reference.Pattern)?.ToList() ?? [];
+    var config = this.Config ?? new();
+    var referencePatternsEnumerable = config.References?.Select(reference => reference?.Pattern);
+    var referencePatterns = referencePatternsEnumerable?.ToList() ?? [];
 
     // Check if ALL the reference patterns are valid (not checking sub items)
     var validReferencePatterns = referencePatterns.All(pattern => string.IsNullOrWhiteSpace(pattern) == false);
-
     var noReferencePatterns = referencePatterns.Count == 0;
+
     if (validReferencePatterns == false || noReferencePatterns)
     {
       // Short-circuit with an error as the commit reference patterns aren't set correctly
