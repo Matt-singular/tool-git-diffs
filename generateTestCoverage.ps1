@@ -29,7 +29,7 @@ dotnet "$env:USERPROFILE\.nuget\packages\reportgenerator\5.2.0\tools\net8.0\Repo
 # Create a shortcut for the generated CoverageReport
 $targetPath = Join-Path $PSScriptRoot "CoverageReport\GeneratedReport\index.html"
 $shell = New-Object -ComObject WScript.Shell
-$shortcut = $shell.CreateShortcut("CoverageReport\GeneratedReport.lnk")
+$shortcut = $shell.CreateShortcut("GeneratedReport.lnk")
 $shortcut.TargetPath = $targetPath
 $shortcut.Save()
 Write-Host "A Shortcut has been saved to $targetPath`n" -ForegroundColor Green
