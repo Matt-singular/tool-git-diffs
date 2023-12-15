@@ -19,7 +19,7 @@ public class ConfigModelTests
           {
             Branch = "Main",
             Tag = "12.0.4"
-        }
+          }
         }
       };
     };
@@ -34,21 +34,16 @@ public class ConfigModelTests
   public void ValidDiffRangeMutualExclusivityConfigModel()
   {
     // Act
-    var act = () =>
+    var configModel = new ConfigModel
     {
-      var configModel = new ConfigModel
+      DiffRange = new DiffRange
       {
-        DiffRange = new DiffRange
+        From = new DiffRangeValue
         {
-          From = new DiffRangeValue
-          {
-            Branch = "Main",
-          }
+          Branch = "Main",
         }
-      };
-      return configModel;
+      }
     };
-    var configModel = act();
 
     // Assert
     configModel.Should().NotBeNull();
