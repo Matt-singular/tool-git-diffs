@@ -3,9 +3,12 @@
 using System.Text.Json;
 using ConfigExtraction.Models;
 
+/// <summary>
+/// Validates the Config.json contents against relevant criteria
+/// </summary>
 public class ValidateConfig : IValidateConfig
 {
-  public ConfigModel Config { get; set; } = null!;
+  public ConfigModel? Config { get; set; } = null!;
 
   public bool Process()
   {
@@ -40,12 +43,12 @@ public class ValidateConfig : IValidateConfig
   public bool CheckDiffRangeSelection()
   {
     // Diff Range exists at the global and repository-level
-    var globalLevel = this.Config.DiffRange;
-    var repositoryLevel = this.Config.Repositories?.Select(repo => repo?.DiffRange)?.ToList() ?? [];
+    var globalLevel = this.Config?.DiffRange;
+    var repositoryLevel = this.Config?.Repositories?.Select(repo => repo?.DiffRange)?.ToList() ?? [];
 
     // Check the global-level
-    var globalLevelSetValues = DiffRange.CheckDiffRangeSet(globalLevel);
-    var globalLevelHasBothValues = globalLevelSetValues.from && globalLevelSetValues.to;
+    var (globalFromValue, globalToValue) = DiffRange.CheckDiffRangeSet(globalLevel);
+    var globalLevelHasBothValues = globalFromValue && globalToValue;
 
     if (globalLevelHasBothValues)
     {
@@ -57,20 +60,14 @@ public class ValidateConfig : IValidateConfig
     var repositoryLevelHasValidValues = repositoryLevel.All(repoLevel =>
     {
       // Grab the repository-level set values
-      var repositoryLevelSetValues = DiffRange.CheckDiffRangeSet(repoLevel);
+      var (repositoryFromValue, repositoryToValue) = DiffRange.CheckDiffRangeSet(repoLevel);
 
       // Check that either the repo-level has a value or the global-level has a value (both being set is also valid, so we don't check that)
-      var validFromValue = repositoryLevelSetValues.from || globalLevelSetValues.from;
-      var validToValue = repositoryLevelSetValues.to || globalLevelSetValues.to;
+      var validFromValue = repositoryFromValue || globalFromValue;
+      var validToValue = repositoryToValue || globalToValue;
 
-      if (validFromValue && validToValue)
-      {
-        // Valid scenario as we have both a from and to value set at the repo-level and/or the global-level
-        return true;
-      }
-
-      // Not a valid scenario
-      return false;
+      // Valid scenario if we have both a from and to value set at the repo-level and/or the global-level
+      return (validFromValue && validToValue);
     });
 
     var noDiffRangeSet = repositoryLevel.Count == 0;
@@ -84,9 +81,28 @@ public class ValidateConfig : IValidateConfig
     return true;
   }
 
+  /// <summary>
+  /// Checks that all the commit references have patterns set
+  /// </summary>
+  /// <returns>True if the commit references have patterns</returns>
+  /// <exception cref="InvalidDataException"></exception>
   public bool CheckCommitReferences()
   {
-    throw new NotImplementedException();
+    // Get the commit reference parent patterns
+    var referencePatterns = this.Config?.References?.Select(reference => reference.Pattern)?.ToList() ?? [];
+
+    // Check if ALL the reference patterns are valid (not checking sub items)
+    var validReferencePatterns = referencePatterns.All(pattern => string.IsNullOrWhiteSpace(pattern) == false);
+
+    var noReferencePatterns = referencePatterns.Count == 0;
+    if (validReferencePatterns == false || noReferencePatterns)
+    {
+      // Short-circuit with an error as the commit reference patterns aren't set correctly
+      throw new InvalidDataException(Constants.Errors.InvalidReferencePatterns);
+    }
+
+    // Valid commit references
+    return true;
   }
 
   public static class Constants
@@ -95,13 +111,14 @@ public class ValidateConfig : IValidateConfig
     {
       public const string IsDefaultDueToFailedDeserialisation = "The config.json deserialisation was unsuccessful, please verify its correctness and check the README for assistance";
       public const string InvalidDiffRangeSelection = "You have an invalid or incomplete diff range selection, please verify its correctness and check the README for assistance";
+      public const string InvalidReferencePatterns = "You have an invalid or incomplete set of reference patterns, please verify its correctness and check the README for assistance";
     }
   }
 }
 
 public interface IValidateConfig
 {
-  public ConfigModel Config { get; set; }
+  public ConfigModel? Config { get; set; }
   public bool Process();
   public bool CheckIfDefault(); // Model not default (will need to modify ReadConfig)
   public bool CheckDiffRangeSelection();

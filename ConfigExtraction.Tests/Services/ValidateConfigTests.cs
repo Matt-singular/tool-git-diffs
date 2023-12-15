@@ -27,7 +27,7 @@ public class ValidateConfigTests
   public void CheckIfDefault_ForNullModel_ShouldThrowException()
   {
     // Arrange
-    ConfigModel config = null;
+    ConfigModel config = null!;
     var validateConfig = Substitute.ForPartsOf<ValidateConfig>();
     validateConfig.Config = config;
 
@@ -127,17 +127,19 @@ public class ValidateConfigTests
   }
   [Theory]
   [MemberData(nameof(InvalidCommitReferences))]
-  public void CheckCommitReferences_ForInvalidSelections_ShouldReturnFalse(ConfigModel config)
+  public void CheckCommitReferences_ForInvalidSelections_ShouldThrowException(ConfigModel config)
   {
     // Arrange
     var validateConfig = Substitute.ForPartsOf<ValidateConfig>();
     validateConfig.Config = config;
 
     // Act
-    var checkIfDefault = validateConfig.CheckCommitReferences();
+    var act = () => validateConfig.CheckCommitReferences();
 
     // Assert
-    checkIfDefault.Should().BeFalse();
+    act.Should()
+      .Throw<InvalidDataException>()
+      .WithMessage(ValidateConfig.Constants.Errors.InvalidReferencePatterns);
   }
 
   public static class Constants
@@ -289,7 +291,7 @@ public class ValidateConfigTests
           new Reference
           {
             Header = null,
-            Pattern = null,
+            Pattern = null!,
             SubItems = null
           }
         ]
