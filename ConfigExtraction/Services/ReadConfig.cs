@@ -12,7 +12,12 @@ public class ReadConfig : IReadConfig
     this.fileServices = fileServices;
   }
 
-  public ConfigModel Process()
+  /// <summary>
+  /// Read in the config.json file
+  /// </summary>
+  /// <returns>The contents of the config.json file</returns>
+  /// <exception cref="FileNotFoundException"></exception>
+  public ConfigModel? Process()
   {
     try
     {
@@ -31,13 +36,6 @@ public class ReadConfig : IReadConfig
       var configJson = this.fileServices.ReadText(configFilePath);
       var deserialisationOptions = GetJsonSerialiserOptions();
       var deserialisedObject = JsonSerializer.Deserialize<ConfigModel>(configJson, deserialisationOptions);
-
-      // Check if the deserialisation was unsuccessful
-      if (deserialisedObject?.IsDefault() ?? true)
-      {
-        // Short-circuit with a user friendly error message
-        throw new JsonException(Constants.Errors.FailedDeserialisation);
-      }
 
       return deserialisedObject;
     }
@@ -69,5 +67,5 @@ public class ReadConfig : IReadConfig
 
 public interface IReadConfig
 {
-  public ConfigModel Process();
+  public ConfigModel? Process();
 }
