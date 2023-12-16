@@ -10,12 +10,12 @@ public class ReadConfig(IFileServices fileServices) : IReadConfig
   /// </summary>
   /// <returns>The contents of the config.json file</returns>
   /// <exception cref="FileNotFoundException"></exception>
-  public ConfigModel? Process()
+  public ConfigModel? Process(string? fileName = null)
   {
     try
     {
       // Get the path of the user's config.json file
-      var configFilePath = fileServices.GetFullPath();
+      var configFilePath = fileServices.GetFullPath(fileName);
 
       // Check if the file exists, short-circuit if it doesn't
       var configJsonPresentRuleViolated = !fileServices.Exists(configFilePath);
@@ -59,5 +59,5 @@ public class ReadConfig(IFileServices fileServices) : IReadConfig
 
 public interface IReadConfig
 {
-  public ConfigModel? Process();
+  public ConfigModel? Process(string? fileName = null);
 }

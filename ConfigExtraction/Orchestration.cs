@@ -8,7 +8,7 @@ using Services;
 /// </summary>
 public class Orchestration(IReadConfig readConfig, IValidateConfig validateConfig) : IOrchestration
 {
-  public ConfigModel? Process()
+  public ConfigModel Process()
   {
     // 1) Read in the config.json file
     var configContents = readConfig.Process();
@@ -18,11 +18,11 @@ public class Orchestration(IReadConfig readConfig, IValidateConfig validateConfi
     validateConfig.Process();
 
     // 3) Return the valid config's contents
-    return configContents;
+    return configContents!;
   }
 }
 
 public interface IOrchestration
 {
-  public ConfigModel? Process();
+  public ConfigModel Process();
 }

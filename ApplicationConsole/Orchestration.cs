@@ -8,7 +8,7 @@ public class Orchestration(ConfigExtraction.IOrchestration configExtraction) : I
   public void Process()
   {
     // 1) Config read and validation
-    configExtraction.Process();
+    var configContents = configExtraction.Process();
 
     // Hello :)
     Console.WriteLine("Hello world");
