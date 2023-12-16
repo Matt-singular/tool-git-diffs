@@ -3,6 +3,7 @@
 using ConfigExtraction.Base;
 using ConfigExtraction.Services;
 using Microsoft.Extensions.DependencyInjection;
+using SharedTestDependencies;
 
 public class DependencyInjectionExtensionTests
 {
@@ -32,19 +33,5 @@ public class DependencyInjectionExtensionTests
     // Assert
     serviceCollection.Should().ContainSingle(descriptor => Helpers.ValidDependencyType<IFileServices, FileServices>(descriptor, ServiceLifetime.Scoped));
     serviceCollection.Should().ContainSingle(descriptor => Helpers.ValidDependencyType<IValidateConfig, ValidateConfig>(descriptor, ServiceLifetime.Scoped));
-  }
-
-  public static class Helpers
-  {
-    public static bool ValidDependencyType<TServiceInterface, TServiceConcrete>(ServiceDescriptor serviceDescriptor, ServiceLifetime serviceLifetime)
-    {
-      var validServiceType = serviceDescriptor.ServiceType == typeof(TServiceInterface);
-
-      var validImpmentationType = serviceDescriptor.ImplementationType == typeof(TServiceConcrete);
-
-      var validServiceLifetime = serviceDescriptor.Lifetime == serviceLifetime;
-
-      return validServiceType && validImpmentationType && validServiceLifetime;
-    }
   }
 }
