@@ -4,7 +4,7 @@ Clear-Host
 
 # 1 - Run the Unit tests and generate the coverlet code coverage
 Write-Host "Generating Coverlet Code Coverage for Project" -ForegroundColor Green
-#dotnet test --collect:"XPlat Code Coverage" "--results-directory:CoverageReport\CoverletRaw" # TODO: currently running twice to maintain output
+dotnet test --collect:"XPlat Code Coverage" "--results-directory:CoverageReport\CoverletRaw" # TODO: currently running twice to maintain output
 $coverageResults = dotnet test --collect:"XPlat Code Coverage" "--results-directory:CoverageReport\CoverletRaw"
 $combinedResults = $coverageResults -join ' '
 
