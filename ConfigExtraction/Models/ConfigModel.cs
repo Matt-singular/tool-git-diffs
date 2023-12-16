@@ -1,4 +1,4 @@
-﻿namespace ConfigExtraction.Models;
+﻿namespace ConfigExtraction.Models; // TODO: extract to multiple files and unit tests.
 
 using System;
 using System.Collections.Generic;
