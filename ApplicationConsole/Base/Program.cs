@@ -1,11 +1,13 @@
 ﻿using ApplicationConsole.Base;
 using ConfigExtraction.Base;
+using ReferenceExtraction.Base;
 using Microsoft.Extensions.DependencyInjection;
 
 // Application startup - set up DI container
 var serviceProvider = new ServiceCollection()
   .AddApplicationConsoleServices()
   .AddConfigExtractionServices()
+  .AddReferenceExtractionServices()
   .BuildServiceProvider();
 
 // Exception Handling 
