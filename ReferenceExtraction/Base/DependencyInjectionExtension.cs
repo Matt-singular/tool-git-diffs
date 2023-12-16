@@ -2,6 +2,7 @@
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using ReferenceExtraction.Services;
 
 public static class DependencyInjectionExtension
 {
@@ -16,7 +17,8 @@ public static class DependencyInjectionExtension
     serviceCollection.TryAddSingleton<IOrchestration, Orchestration>();
 
     // Scoped Services
-    // TODO:
+    serviceCollection.TryAddScoped<IGenerateRegexes, GenerateRegexes>();
+    serviceCollection.TryAddScoped<IExtractReferences, ExtractReferences>();
 
     return serviceCollection;
   }
