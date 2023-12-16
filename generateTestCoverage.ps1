@@ -1,33 +1,55 @@
-# Run the Unit tests and generate the coverlet code coverage
+# 0 - Declarations
+$relativePaths = New-Object System.Collections.ArrayList
+Clear-Host
+
+# 1 - Run the Unit tests and generate the coverlet code coverage
 Write-Host "Generating Coverlet Code Coverage for Project" -ForegroundColor Green
-dotnet test --collect:"XPlat Code Coverage" "--results-directory:CoverageReport\CoverletRaw" # TODO: currenlty running twice to maintain output
+#dotnet test --collect:"XPlat Code Coverage" "--results-directory:CoverageReport\CoverletRaw" # TODO: currently running twice to maintain output
 $coverageResults = dotnet test --collect:"XPlat Code Coverage" "--results-directory:CoverageReport\CoverletRaw"
 $combinedResults = $coverageResults -join ' '
 
-# Extract the Relative Path and Navigate to the Coverlet CoverageReport directory
-$originalPath = Get-Location
-if ($combinedResults -match 'Attachments:\s*(.+)')
-{
-  # Full Path
-  $fullPathString = $Matches.0
-  $fullPathString = $fullPathString.Trim()
-  #Write-Output "Extracted path string = $fullPathString`n"
+# 2 - Extract the different coverage results for the test projects
+$testPaths = @()
+Write-Host
+if ($combinedResults -match 'Attachments:\s*(.+)'){
+  # Extract the attchment string and clean it up
+  $attachmentString = $Matches.0
+  $attachmentString = $attachmentString -replace 'Attachments:', ''
+  $attachmentString = $attachmentString.Trim()
+  $attachmentString = $attachmentString -replace '(\s+)', '#'
+  #Write-Host "Attachment string is: $attachmentString"
 
-  # Relative Path
-  $relativePath = $fullPathString -replace '.*\\git-diff-tool\\', ''
-  $relativePath = $relativePath -replace 'coverage.cobertura.xml', ''
-  #$relativePath = ".\$relativePath"
-  Write-Host "`nRelative path = $relativePath" -ForegroundColor Green
+  # Extract the full paths
+  $fullPaths = $attachmentString -split "#"
+  #Write-Host "The located paths are: $fullPaths"
 
-  # Coverlet CoverageReport Directory
-  Set-Location $relativePath
+  # Extract the relative paths
+  Write-Host "The Relative paths are:" -ForegroundColor Green
+  foreach ($fullPathString in $fullPaths)
+  {
+    # Clean each full path to a relative paths
+    $relativePath = $fullPathString -replace '.*\\git-diff-tool\\', ''
+    $_ = $relativePaths.Add($relativePath)
+    Write-Host "`t * $relativePath" -ForegroundColor Green
+    
+    # Concatenate the string
+    if ([string]::IsNullOrEmpty($testPaths)) 
+    {
+      $testPaths = $relativePath
+    } 
+    else 
+    {
+      $testPaths = $testPaths + ";" + $relativePath
+    }
+  }
+  #Write-Host "Relative Path string = $testPaths"
 }
 
-# Generate the CoverageReport
-$reportPath = "..\..\GeneratedReport"
-dotnet "$env:USERPROFILE\.nuget\packages\reportgenerator\5.2.0\tools\net8.0\ReportGenerator.dll" -reports:coverage.cobertura.xml "-targetdir:$reportPath"
+# 3 - Generate the CoverageReport
+Write-Host "`nGenerating Code Coverage Report" -ForegroundColor Green
+dotnet "$env:USERPROFILE\.nuget\packages\reportgenerator\5.2.0\tools\net8.0\ReportGenerator.dll" "-reports:$testPaths" "-targetdir:CoverageReport\GeneratedReport"
 
-# Create a shortcut for the generated CoverageReport
+# 4 - Create a shortcut for the generated CoverageReport
 $targetPath = Join-Path $PSScriptRoot "CoverageReport\GeneratedReport\index.html"
 $shell = New-Object -ComObject WScript.Shell
 $shortcut = $shell.CreateShortcut("GeneratedReport.lnk")
@@ -35,8 +57,7 @@ $shortcut.TargetPath = $targetPath
 $shortcut.Save()
 Write-Host "A Shortcut has been saved to $targetPath`n" -ForegroundColor Green
 
-# Keep the console open - allow the user to navigate to the generated report
-Set-Location $originalPath
+# 5 - Keep the console open - allow the user to navigate to the generated report
 Write-Host "Press Enter to Open the generated report, or Esc to Exit..."
 $input = [System.Console]::ReadKey()
 
@@ -51,7 +72,8 @@ if ($input.Key -eq 'Enter')
 
 if ($input.Key -eq 'Esc')
 {
-  # Exit the script (it should do  this by default, but we've done itr explicitly here')
+  # Exit the script
   Clear-Host
-  exit
+  Invoke-Item $nop
+  Clear-Host
 }
