@@ -1,8 +1,5 @@
-# 0 - Declarations
-$relativePaths = New-Object System.Collections.ArrayList
-Clear-Host
-
 # 1 - Run the Unit tests and generate the coverlet code coverage
+Clear-Host
 Write-Host "Generating Coverlet Code Coverage for Project" -ForegroundColor Green
 dotnet test --collect:"XPlat Code Coverage" "--results-directory:CoverageReport\CoverletRaw" # TODO: currently running twice to maintain output
 $coverageResults = dotnet test --collect:"XPlat Code Coverage" "--results-directory:CoverageReport\CoverletRaw"
@@ -25,6 +22,7 @@ if ($combinedResults -match 'Attachments:\s*(.+)'){
 
   # Extract the relative paths
   #Write-Host "The Relative paths are:" -ForegroundColor Green
+$relativePaths = New-Object System.Collections.ArrayList
   foreach ($fullPathString in $fullPaths)
   {
     # Clean each full path to a relative paths
