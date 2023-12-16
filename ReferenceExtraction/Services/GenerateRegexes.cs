@@ -14,14 +14,20 @@ public class GenerateRegexes : IGenerateRegexes
     // Check the config references patterns and create the regexes
     var configReferences = config.References;
 
-    var referenceRegexEnumerable = configReferences.Select(reference => new ReferencePatternValue
+    var referenceRegexesEnumerable = configReferences.Select(reference =>
     {
-      Header = reference.Header,
-      Pattern = new Regex(reference.Pattern),
-      SubPatterns = reference?.SubItems?.Select(subPattern => new Regex(subPattern))?.ToList() ?? []
-    });
+      // Grab the sub item references regex patterns
+      var subPatternsEnumerable = reference?.SubItems?.Select(subPattern => new Regex(subPattern));
+      var subPatterns = subPatternsEnumerable?.ToList() ?? [];
 
-    var referenceRegexes = referenceRegexEnumerable.ToList();
+      return new ReferencePatternValue
+      {
+        Header = reference!.Header,
+        Pattern = new Regex(reference.Pattern),
+        SubPatterns = subPatterns
+      };
+    });
+    var referenceRegexes = referenceRegexesEnumerable.ToList();
 
     // Set and return the responsee
     var response = new ReferencePatterns();
