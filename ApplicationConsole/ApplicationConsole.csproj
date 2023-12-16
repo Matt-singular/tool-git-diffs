@@ -9,6 +9,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ConfigExtraction\ConfigExtraction.csproj" />
+    <ProjectReference Include="..\DiffGeneration\DiffGeneration.csproj" />
+    <ProjectReference Include="..\ReferenceExtraction\ReferenceExtraction.csproj" />
     <ProjectReference Include="..\SharedDependencies\SharedDependencies.csproj" />
   </ItemGroup>
 
