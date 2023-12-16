@@ -31,8 +31,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedDependencies", "Share
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedTestDependencies", "SharedTestDependencies\SharedTestDependencies.csproj", "{D57BF974-1BF0-4341-A8CB-5635379B5D2F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReferenceExtraction.Tests", "ReferenceExtraction.Tests\ReferenceExtraction.Tests.csproj", "{71FA1575-1DD3-419D-9B71-043DAA65C959}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,10 +65,6 @@ Global
 		{D57BF974-1BF0-4341-A8CB-5635379B5D2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D57BF974-1BF0-4341-A8CB-5635379B5D2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D57BF974-1BF0-4341-A8CB-5635379B5D2F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{71FA1575-1DD3-419D-9B71-043DAA65C959}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{71FA1575-1DD3-419D-9B71-043DAA65C959}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{71FA1575-1DD3-419D-9B71-043DAA65C959}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{71FA1575-1DD3-419D-9B71-043DAA65C959}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -79,7 +73,6 @@ Global
 		{3E05300E-7468-447A-A233-618D3C7EBF22} = {24C81E82-BE61-49B7-B67E-DBC5F016B60C}
 		{024B4E00-ED37-4F4C-93FC-A84EBE68DC1C} = {F6DAAE4A-CE78-4369-8982-B54496C31981}
 		{D57BF974-1BF0-4341-A8CB-5635379B5D2F} = {24C81E82-BE61-49B7-B67E-DBC5F016B60C}
-		{71FA1575-1DD3-419D-9B71-043DAA65C959} = {24C81E82-BE61-49B7-B67E-DBC5F016B60C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E4C66092-5401-4DFF-99A3-D252047A9690}
