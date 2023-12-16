@@ -24,13 +24,13 @@ if ($combinedResults -match 'Attachments:\s*(.+)'){
   #Write-Host "The located paths are: $fullPaths"
 
   # Extract the relative paths
-  Write-Host "The Relative paths are:" -ForegroundColor Green
+  #Write-Host "The Relative paths are:" -ForegroundColor Green
   foreach ($fullPathString in $fullPaths)
   {
     # Clean each full path to a relative paths
     $relativePath = $fullPathString -replace '.*\\git-diff-tool\\', ''
     $_ = $relativePaths.Add($relativePath)
-    Write-Host "`t * $relativePath" -ForegroundColor Green
+    #Write-Host "`t * $relativePath" -ForegroundColor Green
     
     # Concatenate the string
     if ([string]::IsNullOrEmpty($testPaths)) 
@@ -46,7 +46,7 @@ if ($combinedResults -match 'Attachments:\s*(.+)'){
 }
 
 # 3 - Generate the CoverageReport
-Write-Host "`nGenerating Code Coverage Report" -ForegroundColor Green
+Write-Host "Generating Code Coverage Report" -ForegroundColor Green
 dotnet "$env:USERPROFILE\.nuget\packages\reportgenerator\5.2.0\tools\net8.0\ReportGenerator.dll" "-reports:$testPaths" "-targetdir:CoverageReport\GeneratedReport"
 
 # 4 - Create a shortcut for the generated CoverageReport
