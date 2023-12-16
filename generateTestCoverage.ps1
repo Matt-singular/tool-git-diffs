@@ -39,6 +39,7 @@ Write-Host "A Shortcut has been saved to $targetPath`n" -ForegroundColor Green
 Set-Location $originalPath
 Write-Host "Press Enter to Open the generated report, or Esc to Exit..."
 $input = [System.Console]::ReadKey()
+
 if ($input.Key -eq 'Enter')
 {
   # Open the GeneratedReport shortcut
@@ -46,4 +47,11 @@ if ($input.Key -eq 'Enter')
   Write-Host "Opening $shortcutPath"
   Clear-Host
   Invoke-Item $shortcutPath
+}
+
+if ($input.Key -eq 'Esc')
+{
+  # Exit the script (it should do  this by default, but we've done itr explicitly here')
+  Clear-Host
+  exit
 }
