@@ -5,6 +5,11 @@ on:
     workflows: ["Generate Code Coverage"]
     types:
       - completed
+  workflow_dispatch:
+    inputs:
+      manual_run:
+        description: 'Run the workflow manually'
+        default: 'true'
 
 jobs:
   build:
