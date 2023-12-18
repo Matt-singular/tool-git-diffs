@@ -1,0 +1,19 @@
+name: Generate Code Coverage
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  run_script:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Execute coverlet code coverage and generate report
+      run: |
+        .\generateTestCoverage.ps1
+        echo "Running PowerShell script"
