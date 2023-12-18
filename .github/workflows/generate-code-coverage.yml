@@ -4,6 +4,11 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
+    inputs:
+      manual_run:
+        description: 'Run the workflow manually'
+        default: 'true'
 
 jobs:
   run_script:
