@@ -1,3 +1,7 @@
+## [GitHub Pages](https://matt-singular.github.io/git-diff-tool/)
+
+Published code coverage report
+
 ## Requirements
 
 A generic config-driven project that can be published and used to generate diffs and extract specific ticket references.
