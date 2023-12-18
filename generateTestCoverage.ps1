@@ -45,10 +45,10 @@ $relativePaths = New-Object System.Collections.ArrayList
 
 # 3 - Generate the CoverageReport
 Write-Host "Generating Code Coverage Report" -ForegroundColor Green
-dotnet "$env:USERPROFILE\.nuget\packages\reportgenerator\5.2.0\tools\net8.0\ReportGenerator.dll" "-reports:$testPaths" "-targetdir:CoverageReport\GeneratedReport"
+dotnet "$env:USERPROFILE\.nuget\packages\reportgenerator\5.2.0\tools\net8.0\ReportGenerator.dll" "-reports:$testPaths" "-targetdir:CoverageReport"
 
 # 4 - Create a shortcut for the generated CoverageReport
-$targetPath = Join-Path $PSScriptRoot "CoverageReport\GeneratedReport\index.html"
+$targetPath = Join-Path $PSScriptRoot "CoverageReport\index.html"
 $shell = New-Object -ComObject WScript.Shell
 $shortcut = $shell.CreateShortcut("GeneratedReport.lnk")
 $shortcut.TargetPath = $targetPath
