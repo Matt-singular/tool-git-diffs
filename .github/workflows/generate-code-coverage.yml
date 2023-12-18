@@ -20,5 +20,5 @@ jobs:
 
     - name: Execute coverlet code coverage and generate report
       run: |
-        .\generateTestCoverage.ps1
+        pwsh ./generateTestCoverage.ps1
         echo "Running PowerShell script"
