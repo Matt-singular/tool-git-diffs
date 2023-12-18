@@ -1,9 +1,10 @@
 name: Update GitHub Pages
 
 on:
-  push:
-    branches:
-      - main
+  workflow_run:
+    workflows: ["Generate Code Coverage"]
+    types:
+      - completed
 
 jobs:
   build:
@@ -17,4 +18,4 @@ jobs:
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./C:\Clients\Singular\Automation\Tools\git-diff-tool\CoverageReport
+        publish_dir: ./C:/Clients/Singular/Automation/Tools/git-diff-tool/CoverageReport
