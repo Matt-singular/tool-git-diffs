@@ -10,7 +10,8 @@
     <ProjectReference Include="..\SharedDependencies\SharedDependencies.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
+  <!-- Only copy config.json file if running the debug configuration --> 
+  <ItemGroup Condition=" '$(Configuration)' == 'Debug' ">
     <None Include="Files\config.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
