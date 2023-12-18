@@ -17,5 +17,5 @@ jobs:
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./C:/Clients/Singular/Automation/Tools/git-diff-tool/CoverageReport
+        github_token: ${{ secrets.ACCESS_TOKEN }}
+        publish_dir: ./CoverageReport
