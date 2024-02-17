@@ -1,4 +1,4 @@
-## [GitHub Pages](https://matt-singular.github.io/git-diff-tool/)
+## [GitHub Pages](https://matt-singular.github.io/tool-git-diffs/)
 
 Published code coverage report
 
