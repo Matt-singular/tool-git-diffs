@@ -3,6 +3,7 @@
 using ApplicationConsole.Configuration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 
 /// <summary>
@@ -49,9 +50,20 @@ public static class ApplicationDependencyInjection
   private static IServiceCollection AddApplicationConsoleServices(this IServiceCollection serviceCollection)
   {
     // Add the ApplicationConsole services
-    //serviceCollection.TryAddSingleton<IOrchestration, Orchestration>();
+    serviceCollection.TryAddSingleton<IConfigurationAppService, ConfigurationAppService>();
+    serviceCollection.TryAddSingleton<IOrchestrationAppConsole, Orchestration>();
 
     return serviceCollection;
+  }
+
+  /// <summary>
+  /// Validates the application's configurations.
+  /// </summary>
+  /// <param name="serviceProvider">The service provider to use for retrieving services.</param>
+  public static void ValidateConfigurations(this IServiceProvider serviceProvider)
+  {
+    var configuration = serviceProvider.GetRequiredService<IConfigurationAppService>();
+    configuration.Process();
   }
 
   /// <summary>
@@ -63,6 +75,7 @@ public static class ApplicationDependencyInjection
   /// <param name="to">The ending point for the diff generation.</param>
   public static void ExecuteDiffGeneration(this IServiceProvider serviceProvider, string build, string from, string to)
   {
-    // TODO:
+    var orchestration = serviceProvider.GetRequiredService<IOrchestrationAppConsole>();
+    orchestration.Process();
   }
 }
