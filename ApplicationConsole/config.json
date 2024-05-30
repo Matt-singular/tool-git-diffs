@@ -1,5 +1,6 @@
 ﻿{
   "Secrets": {
-    "GitHubAccessToken":  "SECRET"
+    "GitHubAccessToken": "SECRET",
+    "GitHubOrganisation":  "SECRET"
   }
 }
