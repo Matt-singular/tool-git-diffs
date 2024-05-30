@@ -1,23 +1,29 @@
-﻿using ApplicationConsole.Base;
+﻿using ApplicationConsole.ConsoleHelpers;
+using ApplicationConsole.Dependency;
 using ApplicationConsole.Errors;
-using ConfigExtraction.Base;
-using Microsoft.Extensions.DependencyInjection;
-using ReferenceExtraction.Base;
+using Microsoft.Extensions.Hosting;
 
-// Application startup - set up DI container
-var serviceProvider = new ServiceCollection()
-  .AddApplicationConsoleServices()
-  .AddConfigExtractionServices()
-  .AddReferenceExtractionServices()
-  .BuildServiceProvider();
+// 1) Application Builder
+var host = Host.CreateDefaultBuilder(args);
 
-// Exception Handling 
+// 2) Application Configuration
+host.SetupApplicationConfiguration();
+
+// 3) Set up DI container
+host.SetupProjectServices();
+var serviceProvider = host.Build().Services;
+
+// 4) Exception Handling 
 ExceptionMiddleware.SetupGlobalExceptionHandler();
 
-// Call the application orchestration logic
-var applicationOrchestration = serviceProvider.GetRequiredService<ApplicationConsole.IOrchestration>();
-applicationOrchestration.Process();
+// 5) User Input - build name, from, and to references
+var build = ConsoleHelpers.PromptUserInput("Please enter a name for the build");
+var from = ConsoleHelpers.PromptUserInput("Please enter a reference to pull from");
+var to = ConsoleHelpers.PromptUserInput("Please enter a reference to pull until");
 
-// Ensure the Console remains open
-Console.Write("\nPress Enter to exit...");
-_ = Console.ReadLine();
+// 6) Execute diff generation
+//var diffs = serviceProvider.ExecuteDiffGeneration(build, from, to);
+serviceProvider.ExecuteDiffGeneration(build, from, to);
+
+// 7) Ensure the Console remains open
+ConsoleHelpers.KeepConsoleOpen();

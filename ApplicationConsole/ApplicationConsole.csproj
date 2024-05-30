@@ -8,10 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ConfigExtraction\ConfigExtraction.csproj" />
-    <ProjectReference Include="..\DiffGeneration\DiffGeneration.csproj" />
-    <ProjectReference Include="..\ReferenceExtraction\ReferenceExtraction.csproj" />
-    <ProjectReference Include="..\SharedDependencies\SharedDependencies.csproj" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Configuration\config.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
