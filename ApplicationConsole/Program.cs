@@ -15,6 +15,7 @@ var serviceProvider = host.Build().Services;
 
 // 4) Exception Handling 
 ExceptionMiddleware.SetupGlobalExceptionHandler();
+serviceProvider.ValidateConfigurations();
 
 // 5) User Input - build name, from, and to references
 var build = ConsoleHelpers.PromptUserInput("Please enter a name for the build");
