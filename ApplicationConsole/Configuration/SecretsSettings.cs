@@ -1,4 +1,5 @@
 ﻿namespace ApplicationConsole.Configuration;
+
 /// <summary>
 /// Represents the secrets settings for the application as found in config.json
 /// </summary>
