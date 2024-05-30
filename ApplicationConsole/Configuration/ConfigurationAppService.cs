@@ -25,18 +25,35 @@ public class ConfigurationAppService : IConfigurationAppService
 
     foreach (var property in properties)
     {
-      var value = property.GetValue(secrets) as string;
-      if (string.IsNullOrWhiteSpace(value) || value.Equals("SECRET", StringComparison.CurrentCultureIgnoreCase))
+      var propertyValue = property.GetValue(secrets);
+      var propertyName = property.Name;
+
+      switch (propertyValue)
       {
+        case string str:
+          HandleError(str, propertyName);
+          break;
+        case string[] strArray when strArray.Any():
+          HandleError(strArray.First(), propertyName);
+          break;
+        default:
+          throw new NotImplementedException($"Property type not handled for {propertyName}");
+      }
+    }
+  }
+
+  public void HandleError(string propertyValue, string propertyName)
+  {
+    if (string.IsNullOrWhiteSpace(propertyValue) || propertyValue.Equals("SECRET", StringComparison.CurrentCultureIgnoreCase))
+    {
 #if RELEASE
-        var message = $"{property.Name} has not been set in the config.json";
-        throw new ArgumentNullException(property.Name, message);
+      var message = $"{propertyName} has not been set in the config.json";
+      throw new ArgumentNullException(propertyName, message);
 #endif
 #if DEBUG
-      var message = $"{property.Name} secret has not been configured, use the dotnet secrets-set comamnd to configure";
-      throw new ArgumentNullException(property.Name, message);
+      var message = $"{propertyName} secret has not been configured, use the dotnet secrets-set comamnd to configure";
+      throw new ArgumentNullException(propertyName, message);
 #endif
-      }
     }
   }
 }
