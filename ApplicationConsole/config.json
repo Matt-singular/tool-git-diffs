@@ -1,7 +1,7 @@
 ﻿{
   "Secrets": {
     "GitHubAccessToken": "SECRET",
-    "GitHubOrganisation": "SECRET",
+    "GitHubOrganisationName": "SECRET",
     "GitHubRepositories": [ "SECRET" ]
   }
 }

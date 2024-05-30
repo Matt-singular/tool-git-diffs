@@ -25,8 +25,8 @@ public class ConfigurationAppService : IConfigurationAppService
 
     foreach (var property in properties)
     {
-      var propertyValue = property.GetValue(secrets);
       var propertyName = property.Name;
+      var propertyValue = property.GetValue(secrets);
 
       switch (propertyValue)
       {

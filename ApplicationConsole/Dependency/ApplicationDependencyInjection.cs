@@ -31,6 +31,7 @@ public static class ApplicationDependencyInjection
   {
     // Add config.json file
     hostBuilder.ConfigureAppConfiguration((context, config) => config.AddJsonFile("config.json", optional: true, reloadOnChange: true));
+    hostBuilder.ConfigureAppConfiguration((context, config) => config.AddUserSecrets<Program>());
 
     // Configure config.json settings
     hostBuilder.ConfigureServices((context, services) =>
