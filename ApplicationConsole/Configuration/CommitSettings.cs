@@ -2,7 +2,6 @@
 
 using System.Collections.Generic;
 
-
 /// <summary>
 /// Represents the commit settings for the application as found in config.json
 /// </summary>

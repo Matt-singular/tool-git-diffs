@@ -6,7 +6,7 @@
   },
 
   "Files": {
-    "OutputPath": ".\\PublishedFiles"
+    "OutputPath": "PublishedFiles"
   },
 
   "Commits": {

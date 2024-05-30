@@ -1,20 +1,24 @@
 ﻿namespace ApplicationConsole.Configuration;
+
 using Microsoft.Extensions.Options;
 
 public class ConfigurationAppService : IConfigurationAppService
 {
   // Configuration - settings
-  private readonly SecretSettings SecretsSettings;
+  private readonly SecretSettings SecretSettings;
+  private readonly FileSettings FileSettings;
 
-  public ConfigurationAppService(IOptions<SecretSettings> secretSettings)
+  public ConfigurationAppService(IOptions<SecretSettings> secretSettings, IOptions<FileSettings> fileSettings)
   {
-    // Validation of secret configurations (if any aren't set then an error will occur here)
-    this.SecretsSettings = secretSettings.Value;
+    // Configuration - settings
+    this.SecretSettings = secretSettings.Value;
+    this.FileSettings = fileSettings.Value;
   }
 
   public void Process()
   {
-    ValidateSecrets(this.SecretsSettings);
+    ValidateSecrets(this.SecretSettings);
+    ValidateFiles(this.FileSettings);
   }
 
   public void ValidateSecrets(SecretSettings secrets)
@@ -39,6 +43,30 @@ public class ConfigurationAppService : IConfigurationAppService
         default:
           throw new NotImplementedException($"Property type not handled for {propertyName}");
       }
+    }
+  }
+
+  public void ValidateFiles(FileSettings settings)
+  {
+    static string getFilePath(string filePath)
+    {
+      if (!Directory.Exists(filePath))
+      {
+        // Get the full path
+        var appName = "tool-git-diffs";
+        var appDomainPath = AppDomain.CurrentDomain.BaseDirectory;
+        var appDomainRootPath = appDomainPath.Substring(0, appDomainPath.IndexOf(appName));
+        var fullFilePath = Path.Combine(appDomainRootPath, appName, filePath);
+        return fullFilePath;
+      }
+
+      return filePath;
+    }
+
+    // validate filepath exists
+    if (!Directory.Exists(getFilePath(settings.OutputPath)))
+    {
+      throw new DirectoryNotFoundException($"The directory {settings.OutputPath} does not exist.");
     }
   }
 
