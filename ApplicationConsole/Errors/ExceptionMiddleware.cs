@@ -1,4 +1,4 @@
-﻿namespace ApplicationConsole.Base;
+﻿namespace ApplicationConsole.Errors;
 
 using System;
 

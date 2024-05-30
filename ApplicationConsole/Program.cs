@@ -1,7 +1,8 @@
 ﻿using ApplicationConsole.Base;
+using ApplicationConsole.Errors;
 using ConfigExtraction.Base;
-using ReferenceExtraction.Base;
 using Microsoft.Extensions.DependencyInjection;
+using ReferenceExtraction.Base;
 
 // Application startup - set up DI container
 var serviceProvider = new ServiceCollection()
