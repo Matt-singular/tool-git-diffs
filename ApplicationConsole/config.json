@@ -3,5 +3,26 @@
     "GitHubAccessToken": "SECRET",
     "GitHubOrganisationName": "SECRET",
     "GitHubRepositories": [ "SECRET" ]
+  },
+
+  "Files": {
+    "OutputPath": ".\\PublishedFiles"
+  },
+
+  "Commits": {
+    "Rules": [
+      {
+        "Header": "Features",
+        "GroupBy": "(FEAT)-\\d+",
+        "Pattern": "(DEV)-\\d+"
+      },
+      {
+        "Header": "Defects",
+        "GroupBy": "(DEFECT)-\\d+",
+        "Pattern": "(DEV)-\\d+"
+      }
+    ],
+    "GroupByHeaders": true,
+    "IncludeUnmatchedCommits": false
   }
 }

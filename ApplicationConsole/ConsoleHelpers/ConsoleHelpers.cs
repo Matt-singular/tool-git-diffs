@@ -28,6 +28,12 @@ public static class ConsoleHelpers
     Console.WriteLine(prompt);
     var answer = Console.ReadLine();
     Console.WriteLine();
-    return answer ?? throw new ArgumentNullException("You must enter an answer.");
+
+    if (string.IsNullOrWhiteSpace(answer))
+    {
+      throw new ArgumentNullException("You must enter an answer.");
+    }
+
+    return answer;
   }
 }

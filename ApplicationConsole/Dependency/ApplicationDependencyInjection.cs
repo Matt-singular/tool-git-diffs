@@ -37,7 +37,9 @@ public static class ApplicationDependencyInjection
     hostBuilder.ConfigureServices((context, services) =>
     {
       // Configure strongly-typed settings objects
-      services.Configure<SecretsSettings>(context.Configuration.GetSection("Secrets"));
+      services.Configure<SecretSettings>(context.Configuration.GetSection("Secrets"));
+      services.Configure<FileSettings>(context.Configuration.GetSection("Files"));
+      services.Configure<CommitSettings>(context.Configuration.GetSection("Commits"));
     });
 
     return hostBuilder;
@@ -52,7 +54,7 @@ public static class ApplicationDependencyInjection
   {
     // Add the ApplicationConsole services
     serviceCollection.TryAddSingleton<IConfigurationAppService, ConfigurationAppService>();
-    serviceCollection.TryAddSingleton<IOrchestrationAppConsole, Orchestration>();
+    serviceCollection.TryAddSingleton<IOrchestrationAppConsole, OrchestrationAppService>();
 
     return serviceCollection;
   }

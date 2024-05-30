@@ -4,9 +4,9 @@ using Microsoft.Extensions.Options;
 public class ConfigurationAppService : IConfigurationAppService
 {
   // Configuration - settings
-  private readonly SecretsSettings SecretsSettings;
+  private readonly SecretSettings SecretsSettings;
 
-  public ConfigurationAppService(IOptions<SecretsSettings> secretSettings)
+  public ConfigurationAppService(IOptions<SecretSettings> secretSettings)
   {
     // Validation of secret configurations (if any aren't set then an error will occur here)
     this.SecretsSettings = secretSettings.Value;
@@ -17,10 +17,10 @@ public class ConfigurationAppService : IConfigurationAppService
     ValidateSecrets(this.SecretsSettings);
   }
 
-  public void ValidateSecrets(SecretsSettings secrets)
+  public void ValidateSecrets(SecretSettings secrets)
   {
     // Use reflection to iterate through the properties and check their values.
-    var properties = typeof(SecretsSettings).GetProperties();
+    var properties = typeof(SecretSettings).GetProperties();
     var errorMessages = new List<(string propName, string msg)>();
 
     foreach (var property in properties)

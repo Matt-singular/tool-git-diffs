@@ -4,12 +4,12 @@ using ApplicationConsole.Configuration;
 using ApplicationConsole.Dependency;
 using Microsoft.Extensions.Options;
 
-public class Orchestration : IOrchestrationAppConsole
+public class OrchestrationAppService : IOrchestrationAppConsole
 {
   // Configuration
-  private readonly SecretsSettings SecretsSettings;
+  private readonly SecretSettings SecretsSettings;
 
-  public Orchestration(IOptions<SecretsSettings> secretSettings)
+  public OrchestrationAppService(IOptions<SecretSettings> secretSettings)
   {
     // Configuration
     this.SecretsSettings = secretSettings.Value;
