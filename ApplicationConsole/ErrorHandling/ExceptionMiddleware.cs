@@ -2,6 +2,7 @@
 
 using System;
 using ApplicationConsole.ConsoleHelpers;
+using ApplicationConsole.ErrorHandling;
 
 /// <summary>
 /// Catch all the thrown and unhandled exceptions to allow custom handling logic
@@ -14,7 +15,7 @@ public static class ExceptionMiddleware
     {
       // Extract the Exception and message
       var exception = args.ExceptionObject as Exception;
-      var message = exception?.Message;
+      var message = ErrorsHelpers.GetInnermostExceptionMessage(exception);
 
       // Write the error message
       Console.ForegroundColor = ConsoleColor.Red;
