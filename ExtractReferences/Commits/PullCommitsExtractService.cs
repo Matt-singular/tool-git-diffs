@@ -1,21 +1,19 @@
 ﻿namespace ExtractReferences.Commits;
 
-using Configuration.Settings;
 using ExtractReferences.Authorisation;
 using ExtractReferences.Extensions;
-using Microsoft.Extensions.Options;
 
-public class PullCommitsExtractService(IOptions<SecretSettings> secretSettings, IGitHubAuthExtractService gitHubAuthService) : IPullCommitsExtractService
+public class PullCommitsExtractService(IGitHubAuthExtractService gitHubAuthService) : IPullCommitsExtractService
 {
-  private readonly SecretSettings SecretSettings = secretSettings.Value;
   private readonly IGitHubAuthExtractService GitHubAuthService = gitHubAuthService;
 
   public async Task<GitHubCommitDetailsResponse> ProcessAsync(string repositoryName, string startRef, string endRef)
   {
     // Get GitHub client
-    var gitHubClient = this.GitHubAuthService.GetGitHubClient();
+    var gitHubAuthResponse = this.GitHubAuthService.GetGitHubClient();
+    var gitHubClient = gitHubAuthResponse.GitHubAuthClient;
+    var organisationName = gitHubAuthResponse.OrganisationName;
     var repository = gitHubClient.Repository.Commit;
-    var organisationName = this.SecretSettings.GitHubOrganisationName;
 
     try
     {
@@ -24,12 +22,13 @@ public class PullCommitsExtractService(IOptions<SecretSettings> secretSettings, 
       var repositoryCommitsResponse = await repositoryCommitsTask.ConfigureAwait(false);
 
       // Mapping GitHub commits
-      return new GitHubCommitDetailsResponse
+      var gitHubCommitDetailsResponse = new GitHubCommitDetailsResponse
       {
         OrganisationName = organisationName,
         RepositoryName = repositoryName,
         CommitDetails = MapGitHubCommitDetails(repositoryCommitsResponse.Commits)
       };
+      return gitHubCommitDetailsResponse;
     }
     catch (Octokit.NotFoundException ex)
     {
@@ -63,4 +62,9 @@ public class PullCommitsExtractService(IOptions<SecretSettings> secretSettings, 
 
     return mappedCommits;
   }
+}
+
+public interface IPullCommitsExtractService
+{
+  Task<GitHubCommitDetailsResponse> ProcessAsync(string repositoryName, string startRef, string endRef);
 }
