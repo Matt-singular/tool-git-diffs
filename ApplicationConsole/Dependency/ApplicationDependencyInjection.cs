@@ -2,6 +2,7 @@
 
 using Configuration;
 using Configuration.Dependency;
+using ExtractReferences.Dependency;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -20,6 +21,7 @@ public static class ApplicationDependencyInjection
     {
       services.AddApplicationConsoleServices();
       services.AddConfigurationServices();
+      services.AddExtractReferencesServices();
     });
   }
 
@@ -42,7 +44,7 @@ public static class ApplicationDependencyInjection
   /// <param name="serviceProvider">The service provider to use for retrieving services.</param>
   public static void ValidateConfigurations(this IServiceProvider serviceProvider)
   {
-    var configuration = serviceProvider.GetRequiredService<IValidateConfigurationAppService>();
+    var configuration = serviceProvider.GetRequiredService<IValidateConfigurationService>();
     configuration.Process();
   }
 }
