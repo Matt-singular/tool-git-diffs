@@ -9,6 +9,7 @@
   <!-- Project References -->
   <ItemGroup>
     <ProjectReference Include="..\Configuration\Configuration.csproj" />
+    <ProjectReference Include="..\ExtractReferences\ExtractReferences.csproj" />
   </ItemGroup>
   
   <ItemGroup>

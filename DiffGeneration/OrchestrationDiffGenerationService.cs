@@ -1,20 +1,33 @@
 ﻿namespace DiffGeneration;
 
 using Configuration.Settings;
+using ExtractReferences.Commits;
 using Microsoft.Extensions.Options;
 
-public class OrchestrationDiffGenerationService(IOptions<CommitSettings> commitSettings) : IOrchestrationDiffGenerationService
+public class OrchestrationDiffGenerationService(IOptions<CommitSettings> commitSettings, IOptions<SecretSettings> SecretSettings,
+  IPullCommitsExtractService pullCommitsExtractService) : IOrchestrationDiffGenerationService
 {
+  private readonly SecretSettings SecretSettings = SecretSettings.Value;
   private readonly CommitSettings CommitSettings = commitSettings.Value;
+  private readonly IPullCommitsExtractService PullCommitsExtractService = pullCommitsExtractService;
 
   public Task ProcessAsync(string build, string from, string to)
   {
-    throw new NotImplementedException();
+    var rawDiffs = PullRawDiffs(from, to);
+    return null;
   }
 
-  public Task PullRawDiffs()
+  public async Task<List<GitHubCommitDetailsResponse>> PullRawDiffs(string from, string to)
   {
-    throw new NotImplementedException();
+    var repositories = this.SecretSettings.GitHubRepositories;
+
+    var pullCommitTasks = repositories
+      .Select(repoName => this.PullCommitsExtractService.ProcessAsync(repoName, from, to))
+      .ToList();
+
+    var pullCommitResponses = await Task.WhenAll(pullCommitTasks).ConfigureAwait(false);
+
+    return pullCommitResponses.ToList();
   }
 
   public Task CleanDiffs()
@@ -22,7 +35,7 @@ public class OrchestrationDiffGenerationService(IOptions<CommitSettings> commitS
     throw new NotImplementedException();
   }
 
-  public Task GenerateTextFile()
+  public Task GenerateTextFile(string build)
   {
     throw new NotImplementedException();
   }
@@ -31,7 +44,7 @@ public class OrchestrationDiffGenerationService(IOptions<CommitSettings> commitS
 public interface IOrchestrationDiffGenerationService
 {
   Task ProcessAsync(string build, string from, string to);
-  Task PullRawDiffs();
+  Task<List<GitHubCommitDetailsResponse>> PullRawDiffs(string from, string to);
   Task CleanDiffs();
-  Task GenerateTextFile();
+  Task GenerateTextFile(string build);
 }
