@@ -48,12 +48,9 @@ public class ValidateConfigurationAppService(IOptions<SecretSettings> secretSett
     {
       if (!Directory.Exists(filePath))
       {
-        // Get the full path
-        var appName = "tool-git-diffs";
-        var appDomainPath = AppDomain.CurrentDomain.BaseDirectory;
-        var appDomainRootPath = appDomainPath.Substring(0, appDomainPath.IndexOf(appName));
-        var fullFilePath = Path.Combine(appDomainRootPath, appName, filePath);
-        return fullFilePath;
+        // If the path doesn't exist then check a path relative to the project
+        var projectFilePath = ConfigurationHelpers.ConfigurationHelpers.GetOutputFilePath(filePath);
+        return projectFilePath;
       }
 
       return filePath;
@@ -62,7 +59,7 @@ public class ValidateConfigurationAppService(IOptions<SecretSettings> secretSett
     // Validate output path exists
     if (!Directory.Exists(getFilePath(settings.OutputPath)))
     {
-      throw new DirectoryNotFoundException($"The directory {settings.OutputPath} does not exist.");
+      throw new DirectoryNotFoundException($"The OutputPath directory '{settings.OutputPath}' as configured in config.json does not exist.");
     }
   }
 

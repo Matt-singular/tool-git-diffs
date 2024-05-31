@@ -1,5 +1,6 @@
 ﻿namespace Configuration.Dependency;
 
+using Configuration.ConfigurationHelpers;
 using Configuration.Settings;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,9 +19,10 @@ public static class ConfigurationDependencyInjection
   public static IHostBuilder SetupApplicationConfiguration<TClass>(this IHostBuilder hostBuilder) where TClass : class
   {
     // Add config.json file
-    // TODO: get the config.json path programmatically (needs to work for debug and release modes)
-    var configPath = "C:\\Matt\\Projects\\tool-git-diffs\\ApplicationConsole\\config.json";
+    var configPath = ConfigurationHelpers.GetConfigJsonPath();
     hostBuilder.ConfigureAppConfiguration((context, config) => config.AddJsonFile(configPath, optional: true, reloadOnChange: true));
+
+    // Enable User Secrets
     hostBuilder.ConfigureAppConfiguration((context, config) => config.AddUserSecrets<TClass>());
 
     // Configure config.json settings
@@ -42,7 +44,7 @@ public static class ConfigurationDependencyInjection
   /// <returns>The configured ServiceCollection</returns>
   public static IServiceCollection AddConfigurationServices(this IServiceCollection serviceCollection)
   {
-    // Add the ApplicationConsole services
+    // Add the Configuration services
     serviceCollection.TryAddSingleton<IValidateConfigurationAppService, ValidateConfigurationAppService>();
 
     return serviceCollection;
