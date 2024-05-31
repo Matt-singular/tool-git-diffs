@@ -3,14 +3,14 @@
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Options;
 
-public class ConfigurationAppService : IConfigurationAppService
+public class ValidateConfigurationAppService : IValidateConfigurationAppService
 {
   // Configuration - settings
   private readonly SecretSettings SecretSettings;
   private readonly FileSettings FileSettings;
   private readonly CommitSettings CommitSettings;
 
-  public ConfigurationAppService(IOptions<SecretSettings> secretSettings, IOptions<FileSettings> fileSettings, IOptions<CommitSettings> commitSettings)
+  public ValidateConfigurationAppService(IOptions<SecretSettings> secretSettings, IOptions<FileSettings> fileSettings, IOptions<CommitSettings> commitSettings)
   {
     // Configuration - settings
     this.SecretSettings = secretSettings.Value;
@@ -131,7 +131,7 @@ public class ConfigurationAppService : IConfigurationAppService
   }
 }
 
-public interface IConfigurationAppService
+public interface IValidateConfigurationAppService
 {
   public void Process();
 }

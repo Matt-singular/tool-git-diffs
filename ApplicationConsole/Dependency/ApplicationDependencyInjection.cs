@@ -53,8 +53,7 @@ public static class ApplicationDependencyInjection
   private static IServiceCollection AddApplicationConsoleServices(this IServiceCollection serviceCollection)
   {
     // Add the ApplicationConsole services
-    serviceCollection.TryAddSingleton<IConfigurationAppService, ConfigurationAppService>();
-    serviceCollection.TryAddSingleton<IOrchestrationAppConsole, OrchestrationAppService>();
+    serviceCollection.TryAddSingleton<IValidateConfigurationAppService, ValidateConfigurationAppService>();
 
     return serviceCollection;
   }
@@ -65,7 +64,7 @@ public static class ApplicationDependencyInjection
   /// <param name="serviceProvider">The service provider to use for retrieving services.</param>
   public static void ValidateConfigurations(this IServiceProvider serviceProvider)
   {
-    var configuration = serviceProvider.GetRequiredService<IConfigurationAppService>();
+    var configuration = serviceProvider.GetRequiredService<IValidateConfigurationAppService>();
     configuration.Process();
   }
 
