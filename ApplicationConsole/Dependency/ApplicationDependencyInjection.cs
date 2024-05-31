@@ -67,17 +67,4 @@ public static class ApplicationDependencyInjection
     var configuration = serviceProvider.GetRequiredService<IValidateConfigurationAppService>();
     configuration.Process();
   }
-
-  /// <summary>
-  /// Executes the diff generation process.
-  /// </summary>
-  /// <param name="serviceProvider">The service provider to use for the diff generation.</param>
-  /// <param name="build">The build to use for the diff generation.</param>
-  /// <param name="from">The starting point for the diff generation.</param>
-  /// <param name="to">The ending point for the diff generation.</param>
-  public static void ExecuteDiffGeneration(this IServiceProvider serviceProvider, string build, string from, string to)
-  {
-    var orchestration = serviceProvider.GetRequiredService<IOrchestrationAppConsole>();
-    orchestration.Process();
-  }
 }
