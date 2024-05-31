@@ -18,7 +18,7 @@ public class PullCommitsExtractServiceIntegrationTests
 
     // Act
     var repositoryName = mockedSecretSettings.Value.GitHubRepositories.First();
-    Func<Task> act = async () => await pullCommitsExtractService.ProcessAsync(repositoryName, "unknown", "12.2.1");
+    var act = async () => await pullCommitsExtractService.ProcessAsync(repositoryName, IntegrationHelpers.NonExistantReference, IntegrationHelpers.ValidToTagReference);
 
     // Assert
     await act.Should().ThrowAsync<Octokit.NotFoundException>();
@@ -34,7 +34,7 @@ public class PullCommitsExtractServiceIntegrationTests
 
     // Act
     var repositoryName = mockedSecretSettings.Value.GitHubRepositories.First();
-    var result = await pullCommitsExtractService.ProcessAsync(repositoryName, "12.2.0", "12.2.1");
+    var result = await pullCommitsExtractService.ProcessAsync(repositoryName, IntegrationHelpers.ValidFromTagReference, IntegrationHelpers.ValidToTagReference);
 
     // Assert
     result.CommitDetails.Should().NotBeEmpty();

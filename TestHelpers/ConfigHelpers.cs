@@ -7,7 +7,7 @@ using Microsoft.Extensions.Options;
 
 public static class ConfigHelpers
 {
-  public static IOptions<SecretSettings> MockSecretSettings()
+  private static IConfigurationRoot? GetValuesFromConfigJson()
   {
     // Pull values from config.json
     var config = new ConfigurationBuilder()
@@ -16,10 +16,30 @@ public static class ConfigHelpers
         .AddUserSecrets<Program>()
         .Build();
 
+    return config;
+  }
+
+  public static IOptions<SecretSettings> MockSecretSettings()
+  {
+    // Pull values from config.json
+    var config = GetValuesFromConfigJson();
+
     // Mocked SecretSettings
     var secretSettings = config.GetSection("Secrets").Get<SecretSettings>();
     var mockedSecretSettings = Options.Create(secretSettings);
 
     return mockedSecretSettings;
+  }
+
+  public static IOptions<CommitSettings?> MockCommitSettings()
+  {
+    // Pull values from config.json
+    var config = GetValuesFromConfigJson();
+
+    // Mocked CommitSettings
+    var commitSettings = config.GetSection("Commits").Get<CommitSettings>();
+    var mockedCommitSettings = Options.Create(commitSettings);
+
+    return mockedCommitSettings;
   }
 }
