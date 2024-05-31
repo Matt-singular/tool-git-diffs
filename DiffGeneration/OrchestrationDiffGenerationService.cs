@@ -19,15 +19,27 @@ public class OrchestrationDiffGenerationService(IOptions<CommitSettings> commitS
 
   public async Task<List<GitHubCommitDetailsResponse>> PullRawDiffs(string from, string to)
   {
+    // Pull raw Diffs
     var repositories = this.SecretSettings.GitHubRepositories;
+    var commitSettings = this.CommitSettings;
 
     var pullCommitTasks = repositories
       .Select(repoName => this.PullCommitsExtractService.ProcessAsync(repoName, from, to))
       .ToList();
-
     var pullCommitResponses = await Task.WhenAll(pullCommitTasks).ConfigureAwait(false);
 
-    return pullCommitResponses.ToList();
+    // Filter out merge commits if applicable
+    var commitDetails = pullCommitResponses
+      .Select(repo =>
+        new GitHubCommitDetailsResponse
+        {
+          RepositoryName = repo.RepositoryName,
+          OrganisationName = repo.OrganisationName,
+          CommitDetails = repo?.CommitDetails?.Where(commit => !commitSettings.FilterMergeCommits || !commit.IsMergeCommit)?.ToList() ?? []
+        })
+      .ToList();
+
+    return commitDetails;
   }
 
   public Task CleanDiffs()
