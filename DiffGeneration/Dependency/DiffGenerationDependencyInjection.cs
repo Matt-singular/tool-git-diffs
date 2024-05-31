@@ -1,6 +1,7 @@
 ﻿namespace DiffGeneration.Dependency;
 
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 /// <summary>
 /// This class is responsible for setting up the services for ExtractReferences.
@@ -15,7 +16,7 @@ public static class DiffGenerationDependencyInjection
   public static IServiceCollection AddDiffGenerationServices(this IServiceCollection serviceCollection)
   {
     // Add the Configuration services
-    //serviceCollection.TryAddSingleton<IGitHubAuthExtractService, GitHubAuthExtractService>();
+    serviceCollection.TryAddSingleton<IOrchestrationDiffGenerationService, OrchestrationDiffGenerationService>();
 
     return serviceCollection;
   }

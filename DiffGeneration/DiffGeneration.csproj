@@ -10,5 +10,10 @@
   <ItemGroup>
     <ProjectReference Include="..\Configuration\Configuration.csproj" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <Folder Include="CleanDiffs\" />
+    <Folder Include="PullRawDiffs\" />
+  </ItemGroup>
 
 </Project>

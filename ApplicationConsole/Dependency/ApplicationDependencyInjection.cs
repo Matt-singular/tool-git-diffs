@@ -2,6 +2,7 @@
 
 using Configuration;
 using Configuration.Dependency;
+using DiffGeneration;
 using DiffGeneration.Dependency;
 using ExtractReferences.Dependency;
 using Microsoft.Extensions.DependencyInjection;
@@ -48,5 +49,15 @@ public static class ApplicationDependencyInjection
   {
     var configuration = serviceProvider.GetRequiredService<IValidateConfigurationService>();
     configuration.Process();
+  }
+
+  /// <summary>
+  /// Execute the Diff Generation logic.
+  /// </summary>
+  /// <param name="serviceProvider">The service provider to use for retrieving services.</param>
+  public static async Task ExecuteDiffGeneration(this IServiceProvider serviceProvider, string build, string from, string to)
+  {
+    var diffGenerationOrchestration = serviceProvider.GetRequiredService<IOrchestrationDiffGenerationService>();
+    await diffGenerationOrchestration.ProcessAsync(build, from, to).ConfigureAwait(false);
   }
 }

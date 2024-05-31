@@ -24,5 +24,8 @@ var build = ConsoleHelpers.PromptUserInput("Please enter a name for the build");
 var from = ConsoleHelpers.PromptUserInput("Please enter a reference to pull from");
 var to = ConsoleHelpers.PromptUserInput("Please enter a reference to pull until");
 
-// 6) Ensure the Console remains open
+// 6) Execute Diff Generation Logic
+await serviceProvider.ExecuteDiffGeneration(build, from, to).ConfigureAwait(false);
+
+// 7) Ensure the Console remains open
 ConsoleHelpers.KeepConsoleOpen();
