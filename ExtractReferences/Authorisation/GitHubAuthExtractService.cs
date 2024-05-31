@@ -12,7 +12,7 @@ public class GitHubAuthExtractService(IOptions<SecretSettings> secretSettings) :
   /// Sets up the Octkit API client to access GitHub
   /// </summary>
   /// <returns>The authorised GitHub client</returns>
-  public GitHubClient GetGitHubClient()
+  public GitHubAuthorisationResponse GetGitHubClient()
   {
     var applicationName = "tool-git-diffs";
     var gitHubAccessToken = SecretSettings.GitHubAccessToken;
@@ -22,6 +22,15 @@ public class GitHubAuthExtractService(IOptions<SecretSettings> secretSettings) :
       Credentials = new Credentials(gitHubAccessToken)
     };
 
-    return gitHubClient;
+    return new GitHubAuthorisationResponse
+    {
+      OrganisationName = SecretSettings.GitHubOrganisationName!,
+      GitHubAuthClient = gitHubClient
+    };
   }
+}
+
+public interface IGitHubAuthExtractService
+{
+  GitHubAuthorisationResponse GetGitHubClient();
 }
