@@ -3,6 +3,7 @@ using ApplicationConsole.Dependency;
 using ApplicationConsole.Errors;
 using Configuration.Dependency;
 using Microsoft.Extensions.Hosting;
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("TestHelpers")] // UnitTests
 
 // 1) Application Builder
 var host = Host.CreateDefaultBuilder(args);
