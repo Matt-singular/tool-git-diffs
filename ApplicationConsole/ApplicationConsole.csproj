@@ -18,6 +18,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Configuration\Configuration.csproj" />
     <ProjectReference Include="..\DiffGeneration\DiffGeneration.csproj" />
+    <ProjectReference Include="..\ExtractReferences\ExtractReferences.csproj" />
   </ItemGroup>
 
   <!-- Copy Files to build path -->
