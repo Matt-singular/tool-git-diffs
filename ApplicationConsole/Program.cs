@@ -1,13 +1,14 @@
 ﻿using ApplicationConsole.ConsoleHelpers;
 using ApplicationConsole.Dependency;
 using ApplicationConsole.Errors;
+using Configuration.Dependency;
 using Microsoft.Extensions.Hosting;
 
 // 1) Application Builder
 var host = Host.CreateDefaultBuilder(args);
 
 // 2) Application Configuration
-host.SetupApplicationConfiguration();
+host.SetupApplicationConfiguration<Program>();
 
 // 3) Set up DI container
 host.SetupProjectServices();

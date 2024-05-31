@@ -1,9 +1,8 @@
 ﻿namespace ApplicationConsole.Dependency;
 
-using ApplicationConsole.Configuration;
-using Microsoft.Extensions.Configuration;
+using Configuration;
+using Configuration.Dependency;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 
 /// <summary>
@@ -20,29 +19,8 @@ public static class ApplicationDependencyInjection
     return hostBuilder.ConfigureServices((context, services) =>
     {
       services.AddApplicationConsoleServices();
+      services.AddConfigurationServices();
     });
-  }
-
-  /// <summary>
-  /// Sets up the application configuration.
-  /// </summary>
-  /// <returns>The host builder with the configured application settings.</returns>
-  public static IHostBuilder SetupApplicationConfiguration(this IHostBuilder hostBuilder)
-  {
-    // Add config.json file
-    hostBuilder.ConfigureAppConfiguration((context, config) => config.AddJsonFile("config.json", optional: true, reloadOnChange: true));
-    hostBuilder.ConfigureAppConfiguration((context, config) => config.AddUserSecrets<Program>());
-
-    // Configure config.json settings
-    hostBuilder.ConfigureServices((context, services) =>
-    {
-      // Configure strongly-typed settings objects
-      services.Configure<SecretSettings>(context.Configuration.GetSection("Secrets"));
-      services.Configure<FileSettings>(context.Configuration.GetSection("Files"));
-      services.Configure<CommitSettings>(context.Configuration.GetSection("Commits"));
-    });
-
-    return hostBuilder;
   }
 
   /// <summary>
@@ -53,7 +31,7 @@ public static class ApplicationDependencyInjection
   public static IServiceCollection AddApplicationConsoleServices(this IServiceCollection serviceCollection)
   {
     // Add the ApplicationConsole services
-    serviceCollection.TryAddSingleton<IValidateConfigurationAppService, ValidateConfigurationAppService>();
+    //serviceCollection.TryAddSingleton<IValidateConfigurationAppService, ValidateConfigurationAppService>();
 
     return serviceCollection;
   }

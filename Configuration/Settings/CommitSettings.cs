@@ -1,4 +1,4 @@
-﻿namespace ApplicationConsole.Configuration;
+﻿namespace Configuration.Settings;
 
 using System.Collections.Generic;
 

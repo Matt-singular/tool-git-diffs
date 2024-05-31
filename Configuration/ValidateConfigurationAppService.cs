@@ -1,35 +1,27 @@
-﻿namespace ApplicationConsole.Configuration;
+﻿namespace Configuration;
 
 using System.Text.RegularExpressions;
+using Configuration.Settings;
 using Microsoft.Extensions.Options;
 
-public class ValidateConfigurationAppService : IValidateConfigurationAppService
+public class ValidateConfigurationAppService(IOptions<SecretSettings> secretSettings, IOptions<FileSettings> fileSettings, IOptions<CommitSettings> commitSettings) : IValidateConfigurationAppService
 {
   // Configuration - settings
-  private readonly SecretSettings SecretSettings;
-  private readonly FileSettings FileSettings;
-  private readonly CommitSettings CommitSettings;
-
-  public ValidateConfigurationAppService(IOptions<SecretSettings> secretSettings, IOptions<FileSettings> fileSettings, IOptions<CommitSettings> commitSettings)
-  {
-    // Configuration - settings
-    this.SecretSettings = secretSettings.Value;
-    this.FileSettings = fileSettings.Value;
-    this.CommitSettings = commitSettings.Value;
-  }
+  private readonly SecretSettings SecretSettings = secretSettings.Value;
+  private readonly FileSettings FileSettings = fileSettings.Value;
+  private readonly CommitSettings CommitSettings = commitSettings.Value;
 
   public void Process()
   {
-    ValidateSecretSettings(this.SecretSettings);
-    ValidateFileSettings(this.FileSettings);
-    ValidateCommitSettings(this.CommitSettings);
+    ValidateSecretSettings(SecretSettings);
+    ValidateFileSettings(FileSettings);
+    ValidateCommitSettings(CommitSettings);
   }
 
   public void ValidateSecretSettings(SecretSettings secrets)
   {
     // Use reflection to iterate through the properties and check their values.
     var properties = typeof(SecretSettings).GetProperties();
-    var errorMessages = new List<(string propName, string msg)>();
 
     foreach (var property in properties)
     {
