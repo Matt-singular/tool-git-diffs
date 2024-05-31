@@ -1,5 +1,6 @@
 ﻿namespace ApplicationConsole.Configuration;
 
+using System.Text.RegularExpressions;
 using Microsoft.Extensions.Options;
 
 public class ConfigurationAppService : IConfigurationAppService
@@ -7,21 +8,24 @@ public class ConfigurationAppService : IConfigurationAppService
   // Configuration - settings
   private readonly SecretSettings SecretSettings;
   private readonly FileSettings FileSettings;
+  private readonly CommitSettings CommitSettings;
 
-  public ConfigurationAppService(IOptions<SecretSettings> secretSettings, IOptions<FileSettings> fileSettings)
+  public ConfigurationAppService(IOptions<SecretSettings> secretSettings, IOptions<FileSettings> fileSettings, IOptions<CommitSettings> commitSettings)
   {
     // Configuration - settings
     this.SecretSettings = secretSettings.Value;
     this.FileSettings = fileSettings.Value;
+    this.CommitSettings = commitSettings.Value;
   }
 
   public void Process()
   {
-    ValidateSecrets(this.SecretSettings);
-    ValidateFiles(this.FileSettings);
+    ValidateSecretSettings(this.SecretSettings);
+    ValidateFileSettings(this.FileSettings);
+    ValidateCommitSettings(this.CommitSettings);
   }
 
-  public void ValidateSecrets(SecretSettings secrets)
+  public void ValidateSecretSettings(SecretSettings secrets)
   {
     // Use reflection to iterate through the properties and check their values.
     var properties = typeof(SecretSettings).GetProperties();
@@ -46,7 +50,7 @@ public class ConfigurationAppService : IConfigurationAppService
     }
   }
 
-  public void ValidateFiles(FileSettings settings)
+  public void ValidateFileSettings(FileSettings settings)
   {
     static string getFilePath(string filePath)
     {
@@ -63,10 +67,51 @@ public class ConfigurationAppService : IConfigurationAppService
       return filePath;
     }
 
-    // validate filepath exists
+    // Validate output path exists
     if (!Directory.Exists(getFilePath(settings.OutputPath)))
     {
       throw new DirectoryNotFoundException($"The directory {settings.OutputPath} does not exist.");
+    }
+  }
+
+  public void ValidateCommitSettings(CommitSettings settings)
+  {
+    // Validate if there are any rules
+    var hasRules = settings.Rules?.Any() ?? false;
+    if (!hasRules)
+    {
+      // Short-circuit as there aren't any rules
+      throw new ArgumentNullException("Commits.Rules", "No rules have been configured in the config.json");
+    }
+
+    // Validate Regex
+    void isValidRegex(string pattern, string section, string header, bool isRequired = true)
+    {
+      if (isRequired && string.IsNullOrWhiteSpace(pattern))
+      {
+        // Short-circuit as there isn't a pattern
+        throw new ArgumentNullException(header, $"Commits.{section} has not been set in the config.json");
+      }
+
+      try
+      {
+        new Regex(pattern);
+      }
+      catch (Exception ex)
+      {
+        // Short-circuit as the pattern is invalid
+        throw new ArgumentException(header, $"Commits.{section} contaisn any invalid Regex pattern in config.json: {pattern}", ex);
+      }
+    }
+
+    // Iterate through the Rules and validate the patterns
+    foreach (var rule in settings.Rules)
+    {
+      // Validate groupBy
+      isValidRegex(rule.GroupBy, nameof(rule.GroupBy), rule.Header, isRequired: true);
+
+      // Validate the pattern (not required)
+      isValidRegex(rule.Pattern, nameof(rule.Pattern), rule.Header, isRequired: false);
     }
   }
 
