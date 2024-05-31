@@ -2,6 +2,7 @@
 
 using Configuration;
 using Configuration.Dependency;
+using DiffGeneration.Dependency;
 using ExtractReferences.Dependency;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -22,6 +23,7 @@ public static class ApplicationDependencyInjection
       services.AddApplicationConsoleServices();
       services.AddConfigurationServices();
       services.AddExtractReferencesServices();
+      services.AddDiffGenerationServices();
     });
   }
 
