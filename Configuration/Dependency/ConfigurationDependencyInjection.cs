@@ -45,7 +45,7 @@ public static class ConfigurationDependencyInjection
   public static IServiceCollection AddConfigurationServices(this IServiceCollection serviceCollection)
   {
     // Add the Configuration services
-    serviceCollection.TryAddSingleton<IValidateConfigurationAppService, ValidateConfigurationAppService>();
+    serviceCollection.TryAddSingleton<IValidateConfigurationService, ValidateConfigurationService>();
 
     return serviceCollection;
   }

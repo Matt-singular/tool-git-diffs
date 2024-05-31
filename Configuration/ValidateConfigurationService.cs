@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 using Configuration.Settings;
 using Microsoft.Extensions.Options;
 
-public class ValidateConfigurationAppService(IOptions<SecretSettings> secretSettings, IOptions<FileSettings> fileSettings, IOptions<CommitSettings> commitSettings) : IValidateConfigurationAppService
+public class ValidateConfigurationService(IOptions<SecretSettings> secretSettings, IOptions<FileSettings> fileSettings, IOptions<CommitSettings> commitSettings) : IValidateConfigurationService
 {
   // Configuration - settings
   private readonly SecretSettings SecretSettings = secretSettings.Value;
@@ -120,7 +120,7 @@ public class ValidateConfigurationAppService(IOptions<SecretSettings> secretSett
   }
 }
 
-public interface IValidateConfigurationAppService
+public interface IValidateConfigurationService
 {
   public void Process();
 }

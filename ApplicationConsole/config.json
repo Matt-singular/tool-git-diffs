@@ -23,6 +23,7 @@
       }
     ],
     "GroupByHeaders": true,
-    "IncludeUnmatchedCommits": false
+    "IncludeUnmatchedCommits": false,
+    "FilterMergeCommits":  false
   }
 }

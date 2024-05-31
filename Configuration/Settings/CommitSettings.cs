@@ -10,6 +10,7 @@ public class CommitSettings
   public List<Rule> Rules { get; set; }
   public bool GroupByHeaders { get; set; }
   public bool IncludeUnmatchedCommits { get; set; }
+  public bool FilterMergeCommits { get; set; }
 
   public class Rule
   {
