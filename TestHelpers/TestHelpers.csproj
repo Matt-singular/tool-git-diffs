@@ -13,6 +13,12 @@
     <PackageReference Include="NSubstitute" Version="5.1.0" />
     <PackageReference Include="ReportGenerator" Version="5.3.4" />
   </ItemGroup>
+  
+  <!-- Project References -->
+  <ItemGroup>
+    <ProjectReference Include="..\ApplicationConsole\ApplicationConsole.csproj" />
+    <ProjectReference Include="..\Configuration\Configuration.csproj" />
+  </ItemGroup>
 
   <!-- Global Usings -->
   <ItemGroup>
