@@ -20,6 +20,7 @@
 
   <!-- Project References -->
   <ItemGroup>
+    <ProjectReference Include="..\ExtractReferences\ExtractReferences.csproj" />
     <ProjectReference Include="..\TestHelpers\TestHelpers.csproj" />
   </ItemGroup>
 

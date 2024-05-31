@@ -26,6 +26,9 @@
   <!-- Global Usings -->
   <ItemGroup>
     <Using Include="Xunit" />
+    <Using Include="FluentAssertions"/>
+    <Using Include="TestHelpers"/>
+    <Using Include="NSubstitute"/>
   </ItemGroup>
 
 </Project>
