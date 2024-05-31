@@ -14,7 +14,7 @@ public class PullCommitsExtractServiceIntegrationTests
     // Arrange
     var mockedSecretSettings = ConfigHelpers.MockSecretSettings();
     var gitHubAuthService = Substitute.ForPartsOf<GitHubAuthExtractService>(mockedSecretSettings);
-    var pullCommitsExtractService = Substitute.ForPartsOf<PullCommitsExtractService>(mockedSecretSettings, gitHubAuthService);
+    var pullCommitsExtractService = Substitute.ForPartsOf<PullCommitsExtractService>(gitHubAuthService);
 
     // Act
     var repositoryName = mockedSecretSettings.Value.GitHubRepositories.First();
@@ -30,7 +30,7 @@ public class PullCommitsExtractServiceIntegrationTests
     // Arrange
     var mockedSecretSettings = ConfigHelpers.MockSecretSettings();
     var gitHubAuthService = Substitute.ForPartsOf<GitHubAuthExtractService>(mockedSecretSettings);
-    var pullCommitsExtractService = Substitute.ForPartsOf<PullCommitsExtractService>(mockedSecretSettings, gitHubAuthService);
+    var pullCommitsExtractService = Substitute.ForPartsOf<PullCommitsExtractService>(gitHubAuthService);
 
     // Act
     var repositoryName = mockedSecretSettings.Value.GitHubRepositories.First();
