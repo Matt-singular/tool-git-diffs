@@ -50,7 +50,7 @@ public static class ApplicationDependencyInjection
   /// </summary>
   /// <param name="serviceCollection">The service collection to add the services to.</param>
   /// <returns>The configured ServiceCollection</returns>
-  private static IServiceCollection AddApplicationConsoleServices(this IServiceCollection serviceCollection)
+  public static IServiceCollection AddApplicationConsoleServices(this IServiceCollection serviceCollection)
   {
     // Add the ApplicationConsole services
     serviceCollection.TryAddSingleton<IValidateConfigurationAppService, ValidateConfigurationAppService>();
