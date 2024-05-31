@@ -5,6 +5,9 @@ using Configuration.Settings;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 
+/// <summary>
+/// Provides helper methods for mocking configuration settings.
+/// </summary>
 public static class ConfigHelpers
 {
   private static IConfigurationRoot? GetValuesFromConfigJson()
