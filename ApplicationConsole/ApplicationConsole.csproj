@@ -5,27 +5,13 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <UserSecretsId>938cd202-f3f5-4c4d-ae7d-eb4e826fac1a</UserSecretsId>
   </PropertyGroup>
 
-  <!-- Package References -->
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
-  </ItemGroup>
-
-  <!-- Project References -->
-  <ItemGroup>
-    <ProjectReference Include="..\Configuration\Configuration.csproj" />
+    <ProjectReference Include="..\ConfigExtraction\ConfigExtraction.csproj" />
     <ProjectReference Include="..\DiffGeneration\DiffGeneration.csproj" />
-    <ProjectReference Include="..\ExtractReferences\ExtractReferences.csproj" />
-  </ItemGroup>
-
-  <!-- Copy Files to build path -->
-  <ItemGroup>
-    <None Update="config.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <ProjectReference Include="..\ReferenceExtraction\ReferenceExtraction.csproj" />
+    <ProjectReference Include="..\SharedDependencies\SharedDependencies.csproj" />
   </ItemGroup>
 
 </Project>
