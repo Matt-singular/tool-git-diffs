@@ -11,7 +11,11 @@
     <Folder Include="DataRepository\" />
     <Folder Include="Extensions\" />
     <Folder Include="Services\" />
-    <Folder Include="ThirdPartyServices\" />
+    <Folder Include="ThirdPartyServices\GitHubOctokit\Commits\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Octokit" Version="12.0.0" />
   </ItemGroup>
 
 </Project>
