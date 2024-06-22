@@ -2,13 +2,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Business.Domain\Business.Domain.csproj" />
+    <ProjectReference Include="..\Common.Shared\Common.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="DataRepository\" />
     <Folder Include="Extensions\" />
     <Folder Include="Services\" />
-    <Folder Include="ThirdPartyServices\" />
   </ItemGroup>
 
   <ItemGroup>

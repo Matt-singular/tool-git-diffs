@@ -26,11 +26,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Config\" />
     <Folder Include="DataRepository\" />
     <Folder Include="Extensions\" />
     <Folder Include="Services\" />
-    <Folder Include="ThirdPartyServices\GitHubOctokit\Commits\" />
   </ItemGroup>
 
 </Project>
