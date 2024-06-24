@@ -7,7 +7,6 @@
 
   <ItemGroup>
     <Folder Include="DataRepository\" />
-    <Folder Include="Extensions\" />
     <Folder Include="Services\" />
   </ItemGroup>
 

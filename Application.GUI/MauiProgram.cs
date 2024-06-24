@@ -1,5 +1,6 @@
 ﻿namespace Application.GUI;
 
+using Business.Infrastructure.Extensions;
 using Common.Shared;
 using Common.Shared.Extensions;
 using Microsoft.Extensions.Logging;
@@ -16,6 +17,7 @@ public static class MauiProgram
 
     // Dependency Injection
     builder.Services.AddCommonSharedServices();
+    builder.Services.AddBusinessInfrastructureServices();
 
     // TODO: testing things
     var serviceProvider = builder.Services.BuildServiceProvider();
