@@ -1,32 +1,52 @@
 ﻿namespace Common.Shared.Extensions;
 
+using Common.Shared.Config;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 public static class StartupExtensions
 {
   /// <summary>
   /// Sets up the application configuration.
   /// </summary>
-  /// <returns>The host builder with the configured application settings.</returns>
-  public static IHostBuilder SetupCommonSharedConfiguration<TStartupClass>(this IHostBuilder builder)
-    where TStartupClass : class
+  /// <param name="config"></param>
+  /// <returns>The configuration builder with the appsettings and user secrets configured.</returns>
+  public static IConfigurationBuilder SetupCommonSharedConfiguration(this IConfigurationBuilder config)
   {
-    // Add config.json file
-    builder.ConfigureAppConfiguration((context, config) => config.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true));
+    config
+      .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+      .AddUserSecrets<Startup>();
 
-    // Enable User Secrets
-    builder.ConfigureAppConfiguration((context, config) => config.AddUserSecrets<TStartupClass>());
+    return config;
+  }
 
-    // Configure config.json settings
-    builder.ConfigureServices((context, services) =>
-    {
-      // Configure strongly-typed settings objects
-      //services.Configure<SecretSettings>(context.Configuration.GetSection("Secrets"));
-      //services.Configure<FileSettings>(context.Configuration.GetSection("Files"));
-      //services.Configure<CommitSettings>(context.Configuration.GetSection("Commits"));
-    });
+  /// <summary>
+  /// Configures the various config setting models
+  /// </summary>
+  /// <param name="services">The application's service collection</param>
+  /// <param name="configuration">The application's configuration</param>
+  /// <returns>The application's service collection with the setting objects configured</returns>
+  public static IServiceCollection SetupCommonSharedConfigSettings(this IServiceCollection services, IConfiguration configuration)
+  {
+    // Configure strongly-typed settings objects
+    services.Configure<SecretSettings>(configuration.GetSection("Secrets"));
 
-    return builder;
+    // Add services here
+    return services;
+  }
+
+  /// <summary>
+  /// Configures the Common.Shared services
+  /// </summary>
+  /// <param name="services">The application's service collection</param>
+  /// <returns>The configured services</returns>
+  public static IServiceCollection AddCommonSharedServices(this IServiceCollection services)
+  {
+    services.TryAddScoped<ITestService, TestService>(); // TODO: testing.
+
+    return services;
   }
 }
+
+public class Startup { }
