@@ -7,7 +7,7 @@ using Octokit;
 /// </summary>
 public class GetAuthorisedApiClientOctokitResponse : GitHubClient
 {
-  public GetAuthorisedApiClientOctokitResponse(string accessToken) : base(new ProductHeaderValue("tool-git-diffs"))
+  public GetAuthorisedApiClientOctokitResponse(string? accessToken) : base(new ProductHeaderValue("tool-git-diffs"))
   {
     if (string.IsNullOrEmpty(accessToken))
     {

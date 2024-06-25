@@ -10,9 +10,11 @@ using Microsoft.Extensions.Options;
 /// <param name="secretSettings">Contains the configured GitHub access token which determines the capability of the Octokit API</param>
 public class GetAuthorisedApiClientOctokitService(IOptions<SecretSettings> secretSettings) : IGetAuthorisedApiClientOctokitService
 {
+  private readonly SecretSettings secretSettings = secretSettings.Value;
+
   public GetAuthorisedApiClientOctokitResponse Process()
   {
-    var accessToken = secretSettings.Value.GitHubAccessToken;
+    var accessToken = this.secretSettings.GitHubAccessToken;
     var octokitApiClient = new GetAuthorisedApiClientOctokitResponse(accessToken);
 
     return octokitApiClient;
