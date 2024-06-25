@@ -5,7 +5,7 @@
 /// </summary>
 public class SecretSettings
 {
-  public required string GitHubAccessToken { get; set; }
-  public required string GitHubOrganisationName { get; set; }
-  public required string[] GitHubRepositories { get; set; }
+  public string? GitHubAccessToken { get; set; }
+  public string? GitHubOrganisationName { get; set; }
+  public string[]? GitHubRepositories { get; set; }
 }
