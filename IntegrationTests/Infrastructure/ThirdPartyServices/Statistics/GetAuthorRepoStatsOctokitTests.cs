@@ -9,7 +9,6 @@ using IntegrationTests;
 using Microsoft.Extensions.Options;
 using NSubstitute;
 
-
 public class GetAuthorRepoStatsOctokitTests
 {
   private readonly IGetAuthorRepoStatsOctokitService getRepositoryStatisticsOctokitService;
@@ -40,7 +39,6 @@ public class GetAuthorRepoStatsOctokitTests
     };
 
     // Act
-
     var result = await getRepositoryStatisticsOctokitService.ProcessAsync(request);
 
     // Assert
