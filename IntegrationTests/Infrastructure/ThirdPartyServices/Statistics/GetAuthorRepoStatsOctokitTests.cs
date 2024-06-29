@@ -33,7 +33,6 @@ public class GetAuthorRepoStatsOctokitTests
     var gitHubRepo = secretSettings.Value.GitHubRepositories!.First();
     var request = new GetAuthorRepoStatsOctokitRequest
     {
-      //Author = "Matt-singular",
       Author = null,
       RepositoryName = gitHubRepo,
       Since = DateTime.Now.AddDays(-30),
