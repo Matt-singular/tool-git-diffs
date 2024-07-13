@@ -10,7 +10,7 @@ public class GetAuthorRepoStatsOctokitService(IOptions<SecretSettings> secretSet
   private readonly SecretSettings secretSettings = secretSettings.Value;
   private readonly GetAuthorisedApiClientOctokitResponse octokitApiClient = getAuthorisedApiClientOctokitService.Process();
 
-  public async Task<GetAuthorRepoStatsOctokitResponse> ProcessAsync(GetAuthorRepoStatsOctokitRequest request)
+  public async Task<GetAuthorRepoStatsOctokitDomainResponse> ProcessAsync(GetAuthorRepoStatsOctokitDomainRequest request)
   {
     // Secrets
     var organisation = secretSettings.GitHubOrganisationName;
@@ -30,7 +30,7 @@ public class GetAuthorRepoStatsOctokitService(IOptions<SecretSettings> secretSet
       .Select(authorStats => (authorName: authorStats.Key, commitCount: authorStats.Count()))
       .ToList();
 
-    return new GetAuthorRepoStatsOctokitResponse
+    return new GetAuthorRepoStatsOctokitDomainResponse
     {
       RepositoryName = repositoryDetail.Name,
       AuthorStatistics = authorStats

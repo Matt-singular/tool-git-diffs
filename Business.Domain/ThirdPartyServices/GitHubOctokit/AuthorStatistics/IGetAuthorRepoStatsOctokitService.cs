@@ -2,5 +2,5 @@
 
 public interface IGetAuthorRepoStatsOctokitService
 {
-  public Task<GetAuthorRepoStatsOctokitResponse> ProcessAsync(GetAuthorRepoStatsOctokitRequest request);
+  public Task<GetAuthorRepoStatsOctokitDomainResponse> ProcessAsync(GetAuthorRepoStatsOctokitDomainRequest request);
 }

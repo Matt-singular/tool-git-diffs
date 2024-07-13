@@ -2,7 +2,7 @@
 
 using Octokit;
 
-public class GetAuthorRepoStatsOctokitRequest : CommitRequest
+public class GetAuthorRepoStatsOctokitDomainRequest : CommitRequest
 {
   public required string RepositoryName { get; set; }
   public required new string? Author { get; set; }

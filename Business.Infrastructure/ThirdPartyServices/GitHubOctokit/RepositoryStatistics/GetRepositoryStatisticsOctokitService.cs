@@ -21,14 +21,14 @@ public class GetRepositoryStatisticsOctokitService : IGetRepositoryStatisticsOct
     this.authorisedOctokitApiClient = authorisedOctokitApiClient.Process();
   }
 
-  public async Task<GetRepositoryStatisticsOctokitResponse> ProcessAsync(GetRepositoryStatisticsOctokitRequest request)
+  public async Task<GetRepositoryStatisticsOctokitDomainResponse> ProcessAsync(GetRepositoryStatisticsOctokitDomainRequest request)
   {
     // Gets the repository statistics from Octokit
     var getRepoStatsOctokitTask = GetRepositoryStatisticsFromOctokit(request, secretSettings.GitHubOrganisationName);
     var repoStatsOctokitResponse = await getRepoStatsOctokitTask.ConfigureAwait(false);
 
     // Maps the Octokit response to the domain response
-    var repositoryStatisticsResponse = new GetRepositoryStatisticsOctokitResponse
+    var repositoryStatisticsResponse = new GetRepositoryStatisticsOctokitDomainResponse
     {
       RepositoryName = request.RepositoryName,
       Commits = MapRepositoryCommitStatistics(repoStatsOctokitResponse)
@@ -37,7 +37,7 @@ public class GetRepositoryStatisticsOctokitService : IGetRepositoryStatisticsOct
     return repositoryStatisticsResponse;
   }
 
-  public async Task<Octokit.CompareResult> GetRepositoryStatisticsFromOctokit(GetRepositoryStatisticsOctokitRequest request, string? organisationName)
+  public async Task<Octokit.CompareResult> GetRepositoryStatisticsFromOctokit(GetRepositoryStatisticsOctokitDomainRequest request, string? organisationName)
   {
     // Gets the repository statistics from Octokit
     var repoOctokitClient = this.authorisedOctokitApiClient.Repository.Commit;
@@ -48,9 +48,9 @@ public class GetRepositoryStatisticsOctokitService : IGetRepositoryStatisticsOct
     return repoStatsOctokitResponse;
   }
 
-  private List<GetRepositoryStatisticsOctokitResponse.CommitDetails> MapRepositoryCommitStatistics(Octokit.CompareResult repoStatsOctokitResponse)
+  private List<GetRepositoryStatisticsOctokitDomainResponse.CommitDetails> MapRepositoryCommitStatistics(Octokit.CompareResult repoStatsOctokitResponse)
   {
-    var commits = repoStatsOctokitResponse.Commits.Select(commit => new GetRepositoryStatisticsOctokitResponse.CommitDetails
+    var commits = repoStatsOctokitResponse.Commits.Select(commit => new GetRepositoryStatisticsOctokitDomainResponse.CommitDetails
     {
       Hash = commit.Sha,
       AuthorName = commit.Author.Login,

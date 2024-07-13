@@ -30,7 +30,7 @@ public class GetAuthorRepoStatsOctokitTests
   {
     // Arrange
     var gitHubRepo = secretSettings.Value.GitHubRepositories!.First();
-    var request = new GetAuthorRepoStatsOctokitRequest
+    var request = new GetAuthorRepoStatsOctokitDomainRequest
     {
       Author = null,
       RepositoryName = gitHubRepo,

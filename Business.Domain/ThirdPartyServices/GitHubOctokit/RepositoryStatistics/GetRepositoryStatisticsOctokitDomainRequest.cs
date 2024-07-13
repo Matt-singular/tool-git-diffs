@@ -1,6 +1,6 @@
 ﻿namespace Business.Domain.ThirdPartyServices.GitHubOctokit.RepositoryStatistics;
 
-public class GetRepositoryStatisticsOctokitRequest
+public class GetRepositoryStatisticsOctokitDomainRequest
 {
   public required string RepositoryName { get; set; }
 

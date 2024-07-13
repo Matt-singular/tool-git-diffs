@@ -2,5 +2,5 @@
 
 public interface IGetRepositoryStatisticsOctokitService
 {
-  public Task<GetRepositoryStatisticsOctokitResponse> ProcessAsync(GetRepositoryStatisticsOctokitRequest request);
+  public Task<GetRepositoryStatisticsOctokitDomainResponse> ProcessAsync(GetRepositoryStatisticsOctokitDomainRequest request);
 }
