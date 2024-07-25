@@ -50,6 +50,5 @@ public class GetOrgRepoCommitsOctokitIntegrationTests
     result.RepositoryName.Should().Be(gitHubRepo);
     result.Commits.Should().NotBeNull();
     result.Commits.Should().NotBeEmpty();
-    result.Commits.Count.Should().BeGreaterThan(0);
   }
 }

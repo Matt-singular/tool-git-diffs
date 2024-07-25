@@ -50,7 +50,7 @@ public class GetAuthorisedApiClientOctokitResponse
 
   public async Task<IReadOnlyList<GitHubCommit>> GetRepositoryStatisticsAsync(long repositoryId, CommitRequest request)
   {
-    // Vaslidate mandatory parameter values
+    // Validate mandatory parameter values
     if (repositoryId == 0)
     {
       throw new ArgumentNullException(nameof(repositoryId), "Mandatory parameter has not been configured");
