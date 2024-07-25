@@ -29,7 +29,7 @@ public class GetOrgRepoCommitsOctokitIntegrationTests
   }
 
   [Fact]
-  public async Task GetRepositoryStatisticsOctokitIntegrationTest()
+  public async Task GetOrgRepoCommitsOctokitIntegrationTest()
   {
     // Arrange
     var gitHubRepo = secretSettings.Value.GitHubRepositories!.First();
