@@ -13,31 +13,30 @@ using Microsoft.Extensions.Options;
 public class GetOrgRepoAuthorStatsOctokitService(IOptions<SecretSettings> secretSettings, IGetAuthorisedApiClientOctokitService getAuthorisedApiClientOctokitService) : IGetOrgRepoAuthorStatsOctokitService
 {
   private readonly SecretSettings secretSettings = secretSettings.Value;
-  private readonly GetAuthorisedApiClientOctokitResponse octokitApiClient = getAuthorisedApiClientOctokitService.Process();
+  private readonly GetAuthorisedApiClientOctokitResponse octokitApiClient = getAuthorisedApiClientOctokitService.CreateClient();
 
   public async Task<GetOrgRepoAuthorStatsOctokitDomainResponse> ProcessAsync(GetOrgRepoAuthorStatsOctokitDomainRequest request)
   {
     // Secrets
-    var organisation = secretSettings.GitHubOrganisationName;
+    var organisationName = secretSettings.GitHubOrganisationName;
 
     // Get repository details
-    var getRepositoryDetailTask = this.octokitApiClient.Repository.Get(organisation, request.RepositoryName);
-    var repositoryDetail = await getRepositoryDetailTask.ConfigureAwait(false);
+    var getRepositoryDataOctokitTask = this.octokitApiClient.GetRepositoryDataAsync(repositoryOwner: organisationName, request.RepositoryName);
+    var getRepositoryDataOctokitResponse = await getRepositoryDataOctokitTask.ConfigureAwait(false);
 
     // Get repository statistics
-    var repositoryId = repositoryDetail.Id;
-    var getRepositoryStatsTask = this.octokitApiClient.Repository.Commit.GetAll(repositoryId, request);
-    var repositoryStats = await getRepositoryStatsTask.ConfigureAwait(false);
+    var getRepositoryStatsOctokitTask = this.octokitApiClient.GetRepositoryStatisticsAsync(getRepositoryDataOctokitResponse.Id, request);
+    var getRepositoryStatsOctokitResponse = await getRepositoryStatsOctokitTask.ConfigureAwait(false);
 
     // Map the repository statistics per Author
-    var authorStats = repositoryStats
+    var authorStats = getRepositoryStatsOctokitResponse
       .GroupBy(repoStats => repoStats.Author.Login)
       .Select(authorStats => (authorName: authorStats.Key, commitCount: authorStats.Count()))
       .ToList();
 
     return new GetOrgRepoAuthorStatsOctokitDomainResponse
     {
-      RepositoryName = repositoryDetail.Name,
+      RepositoryName = getRepositoryDataOctokitResponse.Name,
       AuthorStatistics = authorStats
     };
   }

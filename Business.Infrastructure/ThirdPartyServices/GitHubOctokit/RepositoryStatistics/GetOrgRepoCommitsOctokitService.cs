@@ -14,7 +14,7 @@ using Microsoft.Extensions.Options;
 public class GetOrgRepoCommitsOctokitService(IOptions<SecretSettings> secretSettings, IGetAuthorisedApiClientOctokitService getAuthorisedApiClientOctokitService) : IGetRepositoryStatisticsOctokitService
 {
   private readonly SecretSettings secretSettings = secretSettings.Value;
-  private readonly GetAuthorisedApiClientOctokitResponse octokitApiClient = getAuthorisedApiClientOctokitService.Process();
+  private readonly GetAuthorisedApiClientOctokitResponse octokitApiClient = getAuthorisedApiClientOctokitService.CreateClient();
 
   public async Task<GetRepositoryStatisticsOctokitDomainResponse> ProcessAsync(GetRepositoryStatisticsOctokitDomainRequest request)
   {
@@ -35,12 +35,10 @@ public class GetOrgRepoCommitsOctokitService(IOptions<SecretSettings> secretSett
   public async Task<Octokit.CompareResult> GetRepositoryStatisticsFromOctokit(GetRepositoryStatisticsOctokitDomainRequest request, string? organisationName)
   {
     // Gets the repository statistics from Octokit
-    var repoOctokitClient = this.octokitApiClient.Repository.Commit;
-    var repoStatsOctokitTask = repoOctokitClient.Compare(owner: organisationName, request.RepositoryName,
-      @base: request.FromBranchOrTag, head: request.ToBranchOrTag);
+    var getRepositoryCommitsOctokitTask = this.octokitApiClient.GetRepositoryCommitsAsync(repositoryOwner: organisationName, request.RepositoryName, request.FromBranchOrTag, request.ToBranchOrTag);
+    var getRepositoryCommitsOctokitResponse = await getRepositoryCommitsOctokitTask.ConfigureAwait(false);
 
-    var repoStatsOctokitResponse = await repoStatsOctokitTask.ConfigureAwait(false);
-    return repoStatsOctokitResponse;
+    return getRepositoryCommitsOctokitResponse;
   }
 
   private static List<GetRepositoryStatisticsOctokitDomainResponse.CommitDetails> MapRepositoryCommitStatistics(Octokit.CompareResult repoStatsOctokitResponse)
