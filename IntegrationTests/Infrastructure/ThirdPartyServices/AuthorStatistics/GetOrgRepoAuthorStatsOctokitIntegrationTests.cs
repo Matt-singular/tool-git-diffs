@@ -1,4 +1,4 @@
-﻿namespace IntegrationTests.Infrastructure.ThirdPartyServices.Statistics;
+﻿namespace IntegrationTests.Infrastructure.ThirdPartyServices.AuthorStatistics;
 
 using Business.Domain.ThirdPartyServices.GitHubOctokit.Statistics;
 using Business.Infrastructure.ThirdPartyServices.GitHubOctokit.Authorisation;
