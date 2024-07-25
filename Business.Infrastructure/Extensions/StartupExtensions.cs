@@ -23,7 +23,7 @@ public static class StartupExtensions
     // DomainServices
     services.TryAddScoped<IGetOrgRepoRawCommitsDomainService, GetOrgRepoRawCommitsDomainService>();
 
-    // ThirdPartyServices - GitHubOctokit
+    // ThirdPartyServices - Octokit
     services.TryAddSingleton<IGetAuthorisedApiClientOctokitService, GetAuthorisedApiClientOctokitService>();
     services.TryAddScoped<IGetOrgRepoAuthorStatsOctokitService, GetOrgRepoAuthorStatsOctokitService>();
     services.TryAddScoped<IGetOrgRepoCommitsOctokitService, GetOrgRepoCommitsOctokitService>();
