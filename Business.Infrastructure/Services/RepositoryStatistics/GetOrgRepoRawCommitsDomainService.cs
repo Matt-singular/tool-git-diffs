@@ -12,9 +12,20 @@ public class GetOrgRepoRawCommitsDomainService(IGetOrgRepoCommitsOctokitService 
 {
   public async Task<GetOrgRepoRawCommitsDomainResponse> GetRawCommits(GetOrgRepoRawCommitsDomainRequest domainRequest)
   {
-    var getRepositoryStatisticsOctokitResponses = await GetRepositoryCommitsFromOctokitAsync(domainRequest).ConfigureAwait(false);
+    // Validate the Domain Request Model
+    if (!domainRequest.ValidateModel())
+    {
+      throw new ArgumentNullException(nameof(domainRequest), "Manadatory data is missing from the request");
+    }
 
-    var domainResponse = MapRepositoryCommits(getRepositoryStatisticsOctokitResponses);
+    // Octokit API Calls
+    var getRepositoryStatisticsOctokitTasks = GetRepositoryCommitsFromOctokitAsync(domainRequest);
+    var getRepositoryStatisticsOctokitResponses = await getRepositoryStatisticsOctokitTasks.ConfigureAwait(false);
+
+    // Mapping
+    var repositoryCommits = MapRepositoryCommits(getRepositoryStatisticsOctokitResponses);
+    var domainResponse = new GetOrgRepoRawCommitsDomainResponse();
+    domainResponse.AddRange(repositoryCommits);
 
     return domainResponse;
   }
@@ -43,21 +54,24 @@ public class GetOrgRepoRawCommitsDomainService(IGetOrgRepoCommitsOctokitService 
     return getOrgRepoCommitsOctokitResponses.ToList();
   }
 
-  public static GetOrgRepoRawCommitsDomainResponse MapRepositoryCommits(List<GetOrgRepoCommitsOctokitDomainResponse> getRepositoryStatisticsOctokitResponses)
+  public static List<GetOrgRepoRawCommitsDomainResponse.RepositoryCommits> MapRepositoryCommits(List<GetOrgRepoCommitsOctokitDomainResponse> getRepositoryStatisticsOctokitResponses)
   {
     var repositoryCommits = getRepositoryStatisticsOctokitResponses
       .SelectMany(repo =>
       {
         var repoName = repo.RepositoryName;
-        return repo.Commits.Select(repoCommits =>
+        return repo.Commits.Select(repoCommits => new GetOrgRepoRawCommitsDomainResponse.RepositoryCommits
         {
-          var repositoryCommit = (GetOrgRepoRawCommitsDomainResponse.RepositoryCommits)repoCommits;
-          repositoryCommit.RepositoryName = repoName;
-          return repositoryCommit;
+          RepositoryName = repoName,
+          Hash = repoCommits.Hash,
+          AuthorName = repoCommits.AuthorName,
+          AuthorEmail = repoCommits.AuthorEmail,
+          Message = repoCommits.Message,
+          DateOfCommit = repoCommits.DateOfCommit,
+          IsMergeCommit = repoCommits.IsMergeCommit,
         });
       });
 
-    var domainResponse = (GetOrgRepoRawCommitsDomainResponse)repositoryCommits.ToList();
-    return domainResponse;
+    return repositoryCommits.ToList();
   }
 }

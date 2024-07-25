@@ -6,7 +6,7 @@ public static class GetOrgRepoRawCommitsDomainExtensions
   {
     // Gets the appropriate from branch/tag
     var fromBranchOrTag = domainRequest.FromBranchOrTag;
-    if (string.IsNullOrEmpty(repository.FromBranchOrTag))
+    if (!string.IsNullOrEmpty(repository.FromBranchOrTag))
     {
       // Gets the repository-level from branch/tag
       fromBranchOrTag = repository.FromBranchOrTag;
@@ -14,7 +14,7 @@ public static class GetOrgRepoRawCommitsDomainExtensions
 
     // Gets the appropriate to branch/tag
     var toBranchOrTag = domainRequest.ToBranchOrTag;
-    if (string.IsNullOrEmpty(repository.ToBranchOrTag))
+    if (!string.IsNullOrEmpty(repository.ToBranchOrTag))
     {
       // Gets the repository-level to branch/tag
       toBranchOrTag = repository.FromBranchOrTag;
