@@ -73,7 +73,7 @@ public class GetAuthorisedApiClientOctokitResponse
 
     // Get the specified rrepository's commits from Octokit
     var getRepositoryCommitsOctokitTask = this.octokitApiClient.Repository.Commit.Compare(owner: repositoryOwner, name: repositoryName,
-      @base: fromReference, head: toReference);
+      @base: toReference, head: fromReference);
     var getRepositoryCommitsOctokitResponse = await getRepositoryCommitsOctokitTask.ConfigureAwait(false);
 
     return getRepositoryCommitsOctokitResponse;
