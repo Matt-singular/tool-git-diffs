@@ -9,12 +9,15 @@ using IntegrationTests;
 using Microsoft.Extensions.Options;
 using NSubstitute;
 
-public class GetAuthorRepoStatsOctokitTests
+/// <summary>
+/// Simple Integration test that will actual call the underlying logic and API services
+/// </summary>
+public class GetOrgRepoAuthorStatsOctokitIntegrationTests
 {
-  private readonly IGetAuthorRepoStatsOctokitService getRepositoryStatisticsOctokitService;
+  private readonly IGetOrgRepoAuthorStatsOctokitService getRepositoryStatisticsOctokitService;
   private readonly IOptions<SecretSettings> secretSettings;
 
-  public GetAuthorRepoStatsOctokitTests()
+  public GetOrgRepoAuthorStatsOctokitIntegrationTests()
   {
     // Configures the application configuration
     var configuration = IntegrationTestHelpers.GetBuiltApplicationConfiguration();
@@ -22,7 +25,7 @@ public class GetAuthorRepoStatsOctokitTests
 
     // Configures the services
     var getAuthorisedApiClientOctokitService = Substitute.ForPartsOf<GetAuthorisedApiClientOctokitService>(secretSettings);
-    getRepositoryStatisticsOctokitService = Substitute.ForPartsOf<GetAuthorRepoStatsOctokitService>(secretSettings, getAuthorisedApiClientOctokitService);
+    getRepositoryStatisticsOctokitService = Substitute.ForPartsOf<GetOrgRepoAuthorStatsOctokitService>(secretSettings, getAuthorisedApiClientOctokitService);
   }
 
   [Fact]
@@ -30,7 +33,7 @@ public class GetAuthorRepoStatsOctokitTests
   {
     // Arrange
     var gitHubRepo = secretSettings.Value.GitHubRepositories!.First();
-    var request = new GetAuthorRepoStatsOctokitDomainRequest
+    var request = new GetOrgRepoAuthorStatsOctokitDomainRequest
     {
       Author = null,
       RepositoryName = gitHubRepo,
