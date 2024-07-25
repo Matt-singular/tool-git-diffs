@@ -1,6 +1,6 @@
 ﻿namespace Business.Domain.Services.RepositoryStatistics;
 
-public class GetRawCommitsDomainRequest
+public class GetOrgRepoRawCommitsDomainRequest
 {
   /// <summary>
   /// The repositories to pull data for

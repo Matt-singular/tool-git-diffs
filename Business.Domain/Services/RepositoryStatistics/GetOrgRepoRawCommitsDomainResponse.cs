@@ -2,7 +2,7 @@
 
 using Business.Domain.ThirdPartyServices.GitHubOctokit.RepositoryStatistics;
 
-public class GetRawCommitsDomainResponse : List<GetRawCommitsDomainResponse.RepositoryCommits>
+public class GetOrgRepoRawCommitsDomainResponse : List<GetOrgRepoRawCommitsDomainResponse.RepositoryCommits>
 {
   public class RepositoryCommits : GetOrgRepoCommitsOctokitDomainResponse.CommitDetails
   {
