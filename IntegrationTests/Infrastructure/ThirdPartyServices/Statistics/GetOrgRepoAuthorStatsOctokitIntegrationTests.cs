@@ -14,7 +14,7 @@ using NSubstitute;
 /// </summary>
 public class GetOrgRepoAuthorStatsOctokitIntegrationTests
 {
-  private readonly IGetOrgRepoAuthorStatsOctokitService getRepositoryStatisticsOctokitService;
+  private readonly IGetOrgRepoAuthorStatsOctokitService getOrgRepoAuthorStatsOctokitService;
   private readonly IOptions<SecretSettings> secretSettings;
 
   public GetOrgRepoAuthorStatsOctokitIntegrationTests()
@@ -25,7 +25,7 @@ public class GetOrgRepoAuthorStatsOctokitIntegrationTests
 
     // Configures the services
     var getAuthorisedApiClientOctokitService = Substitute.ForPartsOf<GetAuthorisedApiClientOctokitService>(secretSettings);
-    getRepositoryStatisticsOctokitService = Substitute.ForPartsOf<GetOrgRepoAuthorStatsOctokitService>(secretSettings, getAuthorisedApiClientOctokitService);
+    getOrgRepoAuthorStatsOctokitService = Substitute.ForPartsOf<GetOrgRepoAuthorStatsOctokitService>(secretSettings, getAuthorisedApiClientOctokitService);
   }
 
   [Fact]
@@ -42,7 +42,7 @@ public class GetOrgRepoAuthorStatsOctokitIntegrationTests
     };
 
     // Act
-    var result = await getRepositoryStatisticsOctokitService.ProcessAsync(request);
+    var result = await getOrgRepoAuthorStatsOctokitService.ProcessAsync(request);
 
     // Assert
     result.Should().NotBeNull();
