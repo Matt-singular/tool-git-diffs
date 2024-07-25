@@ -7,19 +7,14 @@ using Common.Shared.Config;
 using Microsoft.Extensions.Options;
 
 /// <summary>
-/// 
+/// Gets the list of commits for the specified organisation repository
 /// </summary>
-public class GetRepositoryStatisticsOctokitService : IGetRepositoryStatisticsOctokitService
+/// <param name="secretSettings">Contains the Organisation's name to run use when pulling repository statistics</param>
+/// <param name="getAuthorisedApiClientOctokitService">The service that encapsulates the Octokit API client</param>
+public class GetOrgRepoCommitsOctokitService(IOptions<SecretSettings> secretSettings, IGetAuthorisedApiClientOctokitService getAuthorisedApiClientOctokitService) : IGetRepositoryStatisticsOctokitService
 {
-  private readonly SecretSettings secretSettings;
-  private readonly GetAuthorisedApiClientOctokitResponse authorisedOctokitApiClient;
-
-  public GetRepositoryStatisticsOctokitService(IOptions<SecretSettings> secretSettings,
-    IGetAuthorisedApiClientOctokitService authorisedOctokitApiClient)
-  {
-    this.secretSettings = secretSettings.Value;
-    this.authorisedOctokitApiClient = authorisedOctokitApiClient.Process();
-  }
+  private readonly SecretSettings secretSettings = secretSettings.Value;
+  private readonly GetAuthorisedApiClientOctokitResponse octokitApiClient = getAuthorisedApiClientOctokitService.Process();
 
   public async Task<GetRepositoryStatisticsOctokitDomainResponse> ProcessAsync(GetRepositoryStatisticsOctokitDomainRequest request)
   {
@@ -40,7 +35,7 @@ public class GetRepositoryStatisticsOctokitService : IGetRepositoryStatisticsOct
   public async Task<Octokit.CompareResult> GetRepositoryStatisticsFromOctokit(GetRepositoryStatisticsOctokitDomainRequest request, string? organisationName)
   {
     // Gets the repository statistics from Octokit
-    var repoOctokitClient = this.authorisedOctokitApiClient.Repository.Commit;
+    var repoOctokitClient = this.octokitApiClient.Repository.Commit;
     var repoStatsOctokitTask = repoOctokitClient.Compare(owner: organisationName, request.RepositoryName,
       @base: request.FromBranchOrTag, head: request.ToBranchOrTag);
 
@@ -48,7 +43,7 @@ public class GetRepositoryStatisticsOctokitService : IGetRepositoryStatisticsOct
     return repoStatsOctokitResponse;
   }
 
-  private List<GetRepositoryStatisticsOctokitDomainResponse.CommitDetails> MapRepositoryCommitStatistics(Octokit.CompareResult repoStatsOctokitResponse)
+  private static List<GetRepositoryStatisticsOctokitDomainResponse.CommitDetails> MapRepositoryCommitStatistics(Octokit.CompareResult repoStatsOctokitResponse)
   {
     var commits = repoStatsOctokitResponse.Commits.Select(commit => new GetRepositoryStatisticsOctokitDomainResponse.CommitDetails
     {
