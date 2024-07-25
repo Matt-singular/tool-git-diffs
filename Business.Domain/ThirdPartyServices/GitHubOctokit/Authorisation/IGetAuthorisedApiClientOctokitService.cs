@@ -5,5 +5,5 @@
 /// </summary>
 public interface IGetAuthorisedApiClientOctokitService
 {
-  public GetAuthorisedApiClientOctokitResponse Process();
+  public GetAuthorisedApiClientOctokitResponse CreateClient();
 }

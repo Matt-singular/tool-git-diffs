@@ -49,4 +49,4 @@ public static class StartupExtensions
   }
 }
 
-public class Startup { }
+public class Startup {/* Instantiate Dotnet secrets against this shared project */}

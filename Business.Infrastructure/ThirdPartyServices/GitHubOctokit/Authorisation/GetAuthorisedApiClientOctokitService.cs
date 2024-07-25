@@ -12,7 +12,7 @@ public class GetAuthorisedApiClientOctokitService(IOptions<SecretSettings> secre
 {
   private readonly SecretSettings secretSettings = secretSettings.Value;
 
-  public GetAuthorisedApiClientOctokitResponse Process()
+  public GetAuthorisedApiClientOctokitResponse CreateClient()
   {
     var accessToken = this.secretSettings.GitHubAccessToken;
     var octokitApiClient = new GetAuthorisedApiClientOctokitResponse(accessToken);
