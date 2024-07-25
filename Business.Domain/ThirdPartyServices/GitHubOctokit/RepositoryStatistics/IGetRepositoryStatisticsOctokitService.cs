@@ -1,6 +1,0 @@
-﻿namespace Business.Domain.ThirdPartyServices.GitHubOctokit.RepositoryStatistics;
-
-public interface IGetRepositoryStatisticsOctokitService
-{
-  public Task<GetRepositoryStatisticsOctokitDomainResponse> ProcessAsync(GetRepositoryStatisticsOctokitDomainRequest request);
-}
