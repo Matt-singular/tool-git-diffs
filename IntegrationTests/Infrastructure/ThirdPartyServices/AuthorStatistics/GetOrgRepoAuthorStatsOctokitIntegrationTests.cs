@@ -10,7 +10,7 @@ using Microsoft.Extensions.Options;
 using NSubstitute;
 
 /// <summary>
-/// Simple Integration test that will actual call the underlying logic and API services
+/// Simple Integration test that will actually call the underlying logic and API services
 /// </summary>
 public class GetOrgRepoAuthorStatsOctokitIntegrationTests
 {
