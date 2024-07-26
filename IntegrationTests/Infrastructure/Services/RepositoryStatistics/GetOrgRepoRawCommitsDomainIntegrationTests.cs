@@ -3,7 +3,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Business.Domain.Services.RepositoryStatistics;
+using Business.Domain.Services.RepositoryStatistics.GetOrgRepoRawCommits;
 using Business.Infrastructure.Services.RepositoryStatistics;
 using Business.Infrastructure.ThirdPartyServices.GitHubOctokit.Authorisation;
 using Business.Infrastructure.ThirdPartyServices.GitHubOctokit.RepositoryStatistics;

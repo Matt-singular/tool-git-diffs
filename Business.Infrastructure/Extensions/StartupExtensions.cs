@@ -1,6 +1,6 @@
 ﻿namespace Business.Infrastructure.Extensions;
 
-using Business.Domain.Services.RepositoryStatistics;
+using Business.Domain.Services.RepositoryStatistics.GetOrgRepoRawCommits;
 using Business.Domain.ThirdPartyServices.GitHubOctokit.Authorisation;
 using Business.Domain.ThirdPartyServices.GitHubOctokit.RepositoryStatistics;
 using Business.Domain.ThirdPartyServices.GitHubOctokit.Statistics;
