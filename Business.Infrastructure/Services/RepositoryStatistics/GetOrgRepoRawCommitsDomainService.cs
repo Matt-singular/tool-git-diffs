@@ -1,7 +1,7 @@
 ﻿namespace Business.Infrastructure.Services.RepositoryStatistics;
 
 using System.Threading.Tasks;
-using Business.Domain.Services.RepositoryStatistics;
+using Business.Domain.Services.RepositoryStatistics.GetOrgRepoRawCommits;
 using Business.Domain.ThirdPartyServices.GitHubOctokit.RepositoryStatistics;
 
 /// <summary>
