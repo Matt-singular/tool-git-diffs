@@ -1,7 +1,7 @@
 ﻿namespace Common.Shared.Config;
 
 /// <summary>
-/// Represents the secrets settings for the application as found in config.json
+/// Represents the secrets settings for the application as found in the appsettings.json file
 /// </summary>
 public class SecretSettings
 {
