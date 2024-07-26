@@ -1,8 +1,7 @@
-﻿namespace Business.Infrastructure.Services.RepositoryStatisticsl
-{
-  using Business.Domain.Services.RepositoryStatistics.GetOrgRepoCleanedCommits;
+﻿namespace Business.Infrastructure.Services.RepositoryStatisticsl;
 
-  public class GetOrgRepoCleanedCommitsDomainService : IGetOrgRepoCleanedCommitsDomainService
-  {
-  }
+using Business.Domain.Services.RepositoryStatistics.GetOrgRepoCleanedCommits;
+
+public class GetOrgRepoCleanedCommitsDomainService : IGetOrgRepoCleanedCommitsDomainService
+{
 }
