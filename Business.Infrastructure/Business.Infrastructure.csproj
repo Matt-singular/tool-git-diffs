@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <Folder Include="DataRepository\" />
+    <Folder Include="Services\System\" />
   </ItemGroup>
 
   <ItemGroup>
