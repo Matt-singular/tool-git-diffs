@@ -1,0 +1,65 @@
+[
+  {
+    "RepositoryName": "repo-name",
+    "Hash": "c4ca4238a0b923820dcc509a6f75849b",
+    "AuthorName": "FirstAuthor",
+    "AuthorEmail": "firstAuthor@mail.com",
+    "Message": "FEAT-1234, DEV-5678 this is a commit message here",
+    "DateOfCommit": "2024-03-18T00:00:00",
+    "IsMergeCommit": false
+  },
+  {
+    "RepositoryName": "repo-name",
+    "Hash": "c81e728d9d4c2f636f067f89cc14862c",
+    "AuthorName": "SecondAuthor",
+    "AuthorEmail": "secondAuthor@mail.com",
+    "Message": "FEAT-987 A different message goes here",
+    "DateOfCommit": "2024-03-18T00:00:00",
+    "IsMergeCommit": false
+  },
+  {
+    "RepositoryName": "repo-name",
+    "Hash": "eccbc87e4b5ce2fe28308fd9f2a7baf3",
+    "AuthorName": "FirstAuthor",
+    "AuthorEmail": "firstAuthor@mail.com",
+    "Message": "FEAT-1234, DEV-3456 adding percentage calculate.",
+    "DateOfCommit": "2024-03-19T00:00:00",
+    "IsMergeCommit": false
+  },
+  {
+    "RepositoryName": "repo-name",
+    "Hash": "a87ff679a2f3e71d9181a67b7542122c",
+    "AuthorName": "SecondAuthor",
+    "AuthorEmail": "secondAuthor@mail.com",
+    "Message": "FEAT-1234 DEV-5678 Duplicate dev ticket here",
+    "DateOfCommit": "2024-03-19T00:00:00",
+    "IsMergeCommit": false
+  },
+  {
+    "RepositoryName": "repo-name",
+    "Hash": "e4da3b7fbbce2345d7772b0674a318d5",
+    "AuthorName": "SecondAuthor",
+    "AuthorEmail": "secondAuthor@mail.com",
+    "Message": "A random commit message without a reference",
+    "DateOfCommit": "2024-03-26T00:00:00",
+    "IsMergeCommit": false
+  },
+  {
+    "RepositoryName": "another-repo-name",
+    "Hash": "1679091c5a880faf6fb5e6087eb1b2dc",
+    "AuthorName": "SecondAuthor",
+    "AuthorEmail": "secondAuthor@mail.com",
+    "Message": "FEAT-1234 DEV-6789 Temp commit",
+    "DateOfCommit": "2024-03-19T00:00:00",
+    "IsMergeCommit": false
+  },
+  {
+    "RepositoryName": "another-repo-name",
+    "Hash": "8f14e45fceea167a5a36dedd4bea2543",
+    "AuthorName": "SecondAuthor",
+    "AuthorEmail": "secondAuthor@mail.com",
+    "Message": "Message without reference",
+    "DateOfCommit": "2024-05-21T00:00:00",
+    "IsMergeCommit": false
+  }
+]

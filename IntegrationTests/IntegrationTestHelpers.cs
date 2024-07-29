@@ -19,12 +19,12 @@ public static class IntegrationTestHelpers
     return configuration;
   }
 
-  public static IOptions<TSettings> GetOptions<TSettings>(this IConfigurationRoot configuration, string sectionName) where TSettings : class, new()
+  public static IOptions<TSettings> GetOptions<TSettings>(this IConfigurationRoot configuration, string sectionName) where TSettings : class
   {
     // Configures the settings class using the applicaton configuration
-    var settings = new TSettings();
-    configuration.GetSection(sectionName).Bind(settings);
+    var settings = (TSettings)Activator.CreateInstance(typeof(TSettings))!;
+    configuration.GetSection(sectionName).Bind(settings!);
 
-    return Options.Create(settings);
+    return Options.Create(settings!);
   }
 }
