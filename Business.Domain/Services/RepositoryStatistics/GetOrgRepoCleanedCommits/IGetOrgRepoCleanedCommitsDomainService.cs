@@ -2,4 +2,5 @@
 
 public interface IGetOrgRepoCleanedCommitsDomainService
 {
+  public Task<GetOrgRepoCleanedCommitsDomainResponse> GetCleanedCommits(GetOrgRepoCleanedCommitsDomainRequest domainRequest);
 }
