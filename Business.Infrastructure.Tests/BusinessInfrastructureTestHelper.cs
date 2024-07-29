@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using NSubstitute;
+using NSubstitute.Routing.Handlers;
 
 public static class BusinessInfrastructureTestHelper
 {
@@ -15,16 +16,30 @@ public static class BusinessInfrastructureTestHelper
     return mockedOptions;
   }
 
+  public static TService CreateDomainService<TService>(params object[] serviceConstructorArguments) where TService : class
+  {
+    // Ensure the TService provided is a class
+    var isClass = typeof(TService).IsClass;
+    if (!isClass)
+    {
+      throw new ArgumentException("You must specify a class when instantiating a domain service instance.");
+    }
+
+    // instantiate the service instance
+    var serviceInstance =  Substitute.ForPartsOf<TService>(serviceConstructorArguments);
+    return serviceInstance;
+  }
+
   public static TService MockDomainService<TService>() where TService : class
   {
-    // Ensure the service provided is an interface as this allows proper mocking
+    // Ensure the TService provided is an interface as this allows proper mocking
     var isInterface = typeof(TService).IsInterface;
     if (!isInterface)
     {
-      throw new ArgumentException("You must specify an interface when mocking.");
+      throw new ArgumentException("You must specify an interface when mocking a domain service.");
     }
 
-    // Mock out the specified service & method
+    // Mock out the specified service
     var mockedService = Substitute.For<TService>();
     return mockedService;
   }

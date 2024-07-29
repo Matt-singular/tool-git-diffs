@@ -5,7 +5,6 @@ using Business.Domain.Services.RepositoryStatistics.GetOrgRepoRawCommits;
 using Business.Infrastructure.Services.RepositoryStatisticsl;
 using Common.Shared.Config;
 using FluentAssertions;
-using NSubstitute;
 
 /// <summary>
 /// Unit tests focused on the GetOrgRepoCleanedCommits Domain service logic
@@ -33,9 +32,8 @@ public class GetOrgRepoCleanedCommitsDomainUnitTests
       .MockDomainServiceResponse<IGetOrgRepoRawCommitsDomainService, GetOrgRepoRawCommitsDomainRequest, GetOrgRepoRawCommitsDomainResponse>(service => service.GetRawCommits, mockedGetOrgRepoRawCommitsResponse!);
 
     // Configure the service to test
-    getOrgRepoCleanedCommitsDomainService = Substitute.ForPartsOf<GetOrgRepoCleanedCommitsDomainService>(mockedCommitOptions, mockedGetOrgRepoRawCommits);
+    getOrgRepoCleanedCommitsDomainService = BusinessInfrastructureTestHelper.CreateDomainService<GetOrgRepoCleanedCommitsDomainService>(mockedCommitOptions, mockedGetOrgRepoRawCommits);
   }
-
 
   [Fact]
   public async Task GetOrgRepoCleanedCommitsWithValidFeatureReferencesOnly()
