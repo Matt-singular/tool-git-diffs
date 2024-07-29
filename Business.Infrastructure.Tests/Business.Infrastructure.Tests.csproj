@@ -34,4 +34,10 @@
     <Folder Include="ThirdPartyServices\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Services\RepositoryStatistics\GetOrgRepoCleanedCommits\getOrgRepoRawCommitsFeatReferencesPayload.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
