@@ -1,5 +1,6 @@
 ﻿namespace Business.Infrastructure.Tests.Services.RepositoryStatistics.GetOrgRepoCleanedCommits;
 
+using Business.Domain.Services.RepositoryStatistics;
 using Business.Domain.Services.RepositoryStatistics.GetOrgRepoCleanedCommits;
 using Business.Domain.Services.RepositoryStatistics.GetOrgRepoRawCommits;
 using Business.Infrastructure.Services.RepositoryStatisticsl;
@@ -41,7 +42,10 @@ public class GetOrgRepoCleanedCommitsDomainUnitTests
     // Arrange
     var request = new GetOrgRepoCleanedCommitsDomainRequest
     {
-      // TODO: update request once it has been set up
+      // Update placeholder data
+      Repositories = [new IGetRepoCommitsDomainRequest.Repository { RepositoryName = "fakeRepo" }],
+      FromBranchOrTag = "fakeFromReference",
+      ToBranchOrTag = "fakeToReference"
     };
 
     // Act

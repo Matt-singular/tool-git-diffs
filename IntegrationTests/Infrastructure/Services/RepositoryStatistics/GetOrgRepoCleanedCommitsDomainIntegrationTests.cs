@@ -1,5 +1,6 @@
 ﻿namespace IntegrationTests.Infrastructure.Services.RepositoryStatistics;
 
+using Business.Domain.Services.RepositoryStatistics;
 using Business.Domain.Services.RepositoryStatistics.GetOrgRepoCleanedCommits;
 using Business.Infrastructure.Services.RepositoryStatistics;
 using Business.Infrastructure.Services.RepositoryStatisticsl;
@@ -39,7 +40,10 @@ public class GetOrgRepoCleanedCommitsDomainIntegrationTests
     var gitHubRepo = secretSettings.Value.GitHubRepositories!.First();
     var request = new GetOrgRepoCleanedCommitsDomainRequest
     {
-      // TODO: update request once it has been set up
+      // Update placeholder data
+      Repositories = [new IGetRepoCommitsDomainRequest.Repository { RepositoryName = gitHubRepo }],
+      FromBranchOrTag = "FROM",
+      ToBranchOrTag = "TO"
     };
 
     // Act
