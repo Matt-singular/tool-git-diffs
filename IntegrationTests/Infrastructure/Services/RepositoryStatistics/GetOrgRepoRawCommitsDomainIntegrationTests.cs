@@ -3,6 +3,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Business.Domain.Services.RepositoryStatistics;
 using Business.Domain.Services.RepositoryStatistics.GetOrgRepoRawCommits;
 using Business.Infrastructure.Services.RepositoryStatistics;
 using Business.Infrastructure.ThirdPartyServices.GitHubOctokit.Authorisation;
@@ -40,7 +41,7 @@ public class GetOrgRepoRawCommitsDomainIntegrationTests
     var request = new GetOrgRepoRawCommitsDomainRequest
     {
       // Update placeholder data
-      Repositories = [new GetOrgRepoRawCommitsDomainRequest.Repository { RepositoryName = gitHubRepo }],
+      Repositories = [new IGetRepoCommitsDomainRequest.Repository { RepositoryName = gitHubRepo }],
       FromBranchOrTag = "FROM",
       ToBranchOrTag = "TO",
     };

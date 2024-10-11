@@ -1,7 +1,6 @@
 ﻿namespace Business.Domain.ThirdPartyServices.GitHubOctokit.Authorisation;
 
 using Octokit;
-using Octokit.Internal;
 
 /// <summary>
 /// The authorised GitHub Octokit API client and encapsulated services
@@ -73,7 +72,7 @@ public class GetAuthorisedApiClientOctokitResponse
 
     // Get the specified rrepository's commits from Octokit
     var getRepositoryCommitsOctokitTask = this.octokitApiClient.Repository.Commit.Compare(owner: repositoryOwner, name: repositoryName,
-      @base: toReference, head: fromReference);
+      @base: fromReference, head: toReference);
     var getRepositoryCommitsOctokitResponse = await getRepositoryCommitsOctokitTask.ConfigureAwait(false);
 
     return getRepositoryCommitsOctokitResponse;
