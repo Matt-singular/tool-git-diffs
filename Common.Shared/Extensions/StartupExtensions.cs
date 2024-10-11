@@ -43,7 +43,7 @@ public static class StartupExtensions
   /// <returns>The configured services</returns>
   public static IServiceCollection AddCommonSharedServices(this IServiceCollection services)
   {
-    services.TryAddScoped<ITestService, TestService>(); // TODO: testing.
+    // Register Common.Shared services
 
     return services;
   }

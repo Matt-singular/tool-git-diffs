@@ -1,24 +1,32 @@
 ﻿namespace Application.GUI;
 
+using Business.Domain.Services.RepositoryStatistics;
+using Business.Domain.Services.RepositoryStatistics.GetOrgRepoCleanedCommits;
+using Business.Infrastructure.Services.RepositoryStatisticsl;
+
 public partial class MainPage : ContentPage
 {
-	int count = 0;
+  private string FromReference { get => FromReferenceEntryElement.Text; }
+  private string ToReference { get => ToReferenceEntryElement.Text; }
+  private readonly IGetOrgRepoCleanedCommitsDomainService getOrgRepoCleanedCommitsDomainService;
 
-	public MainPage()
-	{
-		InitializeComponent();
-	}
+  public MainPage(IGetOrgRepoCleanedCommitsDomainService getOrgRepoCleanedCommitsDomainService)
+  {
+    this.getOrgRepoCleanedCommitsDomainService = getOrgRepoCleanedCommitsDomainService;
 
-	private void OnCounterClicked(object sender, EventArgs e)
-	{
-		count++;
+    InitializeComponent();
+  }
 
-		if (count == 1)
-			CounterBtn.Text = $"Clicked {count} time";
-		else
-			CounterBtn.Text = $"Clicked {count} times";
+  private void OnGenerateClicked(object sender, EventArgs e)
+  {
+    var request = new GetOrgRepoCleanedCommitsDomainRequest
+    {
+      // Update placeholder data
+      Repositories = [new IGetRepoCommitsDomainRequest.Repository { RepositoryName = "testing" }],
+      FromBranchOrTag = FromReference,
+      ToBranchOrTag = ToReference
+    };
 
-		SemanticScreenReader.Announce(CounterBtn.Text);
-	}
+    var result = getOrgRepoCleanedCommitsDomainService.GetCleanedCommits(request).GetAwaiter().GetResult();
+  }
 }
-
