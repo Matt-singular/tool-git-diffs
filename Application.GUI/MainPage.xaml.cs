@@ -1,32 +1,30 @@
 ﻿namespace Application.GUI;
 
-using Business.Domain.Services.RepositoryStatistics;
-using Business.Domain.Services.RepositoryStatistics.GetOrgRepoCleanedCommits;
-using Business.Infrastructure.Services.RepositoryStatisticsl;
+using Business.Domain.ThirdPartyServices.GitHubOctokit.RepositoryStatistics;
 
 public partial class MainPage : ContentPage
 {
   private string FromReference { get => FromReferenceEntryElement.Text; }
   private string ToReference { get => ToReferenceEntryElement.Text; }
-  private readonly IGetOrgRepoCleanedCommitsDomainService getOrgRepoCleanedCommitsDomainService;
+  private readonly IGetOrgRepoCommitsOctokitService getOrgRepoCommitsOctokitService;
 
-  public MainPage(IGetOrgRepoCleanedCommitsDomainService getOrgRepoCleanedCommitsDomainService)
+  public MainPage(IGetOrgRepoCommitsOctokitService getOrgRepoCommitsOctokitService)
   {
-    this.getOrgRepoCleanedCommitsDomainService = getOrgRepoCleanedCommitsDomainService;
+    this.getOrgRepoCommitsOctokitService = getOrgRepoCommitsOctokitService;
 
     InitializeComponent();
   }
 
   private void OnGenerateClicked(object sender, EventArgs e)
   {
-    var request = new GetOrgRepoCleanedCommitsDomainRequest
+    var domainRequest = new GetOrgRepoCommitsOctokitDomainRequest
     {
-      // Update placeholder data
-      Repositories = [new IGetRepoCommitsDomainRequest.Repository { RepositoryName = "testing" }],
+      RepositoryName = "placeholder",
       FromBranchOrTag = FromReference,
-      ToBranchOrTag = ToReference
+      ToBranchOrTag = ToReference,
+      ExcludeMergeCommits = false
     };
 
-    var result = getOrgRepoCleanedCommitsDomainService.GetCleanedCommits(request).GetAwaiter().GetResult();
+    var domainResponse = getOrgRepoCommitsOctokitService.ProcessAsync(domainRequest).GetAwaiter().GetResult();
   }
 }
