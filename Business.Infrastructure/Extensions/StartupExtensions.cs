@@ -1,10 +1,12 @@
 ﻿namespace Business.Infrastructure.Extensions;
 
+using Business.Domain.Services.Excel;
 using Business.Domain.Services.RepositoryStatistics.GetOrgRepoCleanedCommits;
 using Business.Domain.Services.RepositoryStatistics.GetOrgRepoRawCommits;
 using Business.Domain.ThirdPartyServices.GitHubOctokit.Authorisation;
 using Business.Domain.ThirdPartyServices.GitHubOctokit.RepositoryStatistics;
 using Business.Domain.ThirdPartyServices.GitHubOctokit.Statistics;
+using Business.Infrastructure.Services.Excel;
 using Business.Infrastructure.Services.RepositoryStatistics;
 using Business.Infrastructure.Services.RepositoryStatisticsl;
 using Business.Infrastructure.ThirdPartyServices.GitHubOctokit.Authorisation;
@@ -25,6 +27,7 @@ public static class StartupExtensions
     // DomainServices
     services.TryAddScoped<IGetOrgRepoRawCommitsDomainService, GetOrgRepoRawCommitsDomainService>();
     services.TryAddScoped<IGetOrgRepoCleanedCommitsDomainService, GetOrgRepoCleanedCommitsDomainService>();
+    services.TryAddScoped<ICreateExcelSheetDomainService, CreateExcelSheetDomainService>();
 
     // ThirdPartyServices - Octokit
     services.TryAddSingleton<IGetAuthorisedApiClientOctokitService, GetAuthorisedApiClientOctokitService>();

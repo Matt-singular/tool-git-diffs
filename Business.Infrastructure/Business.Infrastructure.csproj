@@ -7,10 +7,10 @@
 
   <ItemGroup>
     <Folder Include="DataRepository\" />
-    <Folder Include="Services\System\" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="ClosedXML" Version="0.104.1" />
     <PackageReference Include="Octokit" Version="12.0.0" />
   </ItemGroup>
 
