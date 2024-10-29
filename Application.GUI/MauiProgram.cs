@@ -11,8 +11,8 @@ public static class MauiProgram
     var builder = MauiApp.CreateBuilder();
 
     // Configurations
-    builder.Configuration.SetupCommonSharedConfiguration();
-    builder.Services.SetupCommonSharedConfigSettings(builder.Configuration);
+    builder.Configuration.AddCommonSharedConfiguration();
+    builder.Services.ConfigureCommonSettings(builder.Configuration);
 
     // Dependency Injection
     builder.Services.AddMauiServices();
