@@ -35,4 +35,6 @@ public partial class MainPage : ContentPage
     // POC TEST 2
     createExcelSheetDomainService.Process();
   }
+
+  private async Task ShowSimpleAlert() => await Microsoft.Maui.Controls.Application.Current.MainPage.DisplayAlert("Alert", "message", "Ok");
 }
