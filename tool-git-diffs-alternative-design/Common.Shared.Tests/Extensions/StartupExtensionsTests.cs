@@ -40,7 +40,8 @@ public class StartupExtensionsTests
     var result = services.ConfigureCommonSettings(configuration);
     var serviceProvider = result.BuildServiceProvider();
 
-    var settings = serviceProvider.GetService(typeof(IOptions<>).MakeGenericType(settingsType));
+    var configuredSettingsType = typeof(IOptions<>).MakeGenericType(settingsType);
+    var settings = serviceProvider.GetService(configuredSettingsType);
 
     // Assert
     settings.Should().NotBeNull();
