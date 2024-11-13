@@ -47,7 +47,6 @@ public class StartupExtensionsTests
     configuration.Received().GetSection(sectionName);
   }
 
-
   [Fact]
   public void AddCommonSharedServices_ShouldRegisterServices()
   {
