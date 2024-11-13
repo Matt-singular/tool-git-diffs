@@ -11,11 +11,11 @@ public static class StartupExtensions
   /// </summary>
   /// <param name="config"></param>
   /// <returns>The configuration builder with the appsettings and user secrets configured.</returns>
-  public static IConfigurationBuilder SetupCommonSharedConfiguration(this IConfigurationBuilder config)
+  public static IConfigurationBuilder AddCommonSharedConfiguration(this IConfigurationBuilder config)
   {
     config
       .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-      .AddUserSecrets<Startup>();
+      .AddUserSecrets<Startup>(optional: true, reloadOnChange: true);
 
     return config;
   }
@@ -26,7 +26,7 @@ public static class StartupExtensions
   /// <param name="services">The application's service collection</param>
   /// <param name="configuration">The application's configuration</param>
   /// <returns>The application's service collection with the setting objects configured</returns>
-  public static IServiceCollection SetupCommonSharedConfigSettings(this IServiceCollection services, IConfiguration configuration)
+  public static IServiceCollection ConfigureCommonSettings(this IServiceCollection services, IConfiguration configuration)
   {
     // Configure strongly-typed settings objects
     services.Configure<SecretSettings>(configuration.GetSection("Secrets"));
@@ -37,9 +37,10 @@ public static class StartupExtensions
   }
 
   /// <summary>
-  /// Configures the Common.Shared services
+  /// Adds Common.Shared services to the service collection.
   /// </summary>
-  /// <param name="services">The application's service collection</param>
+  /// <param name="services">The application's service collection.</param>
+  /// <returns>The service collection with Common.Shared services registered.</returns>llection</param>
   /// <returns>The configured services</returns>
   public static IServiceCollection AddCommonSharedServices(this IServiceCollection services)
   {
