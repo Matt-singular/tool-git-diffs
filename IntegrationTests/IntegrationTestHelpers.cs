@@ -13,7 +13,7 @@ public static class IntegrationTestHelpers
   {
     // Gets the built application configuration (appsettings.json)
     var configuration = new ConfigurationBuilder()
-      .SetupCommonSharedConfiguration()
+      .AddCommonSharedConfiguration()
       .Build();
 
     return configuration;
