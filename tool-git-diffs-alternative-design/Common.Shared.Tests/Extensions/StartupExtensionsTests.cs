@@ -17,7 +17,7 @@ public class StartupExtensionsTests
     var configurationBuilder = new ConfigurationBuilder();
 
     // Act
-    var result = configurationBuilder.SetupCommonSharedConfiguration();
+    var result = configurationBuilder.AddCommonSharedConfiguration();
 
     // Assert
     result.Sources.Should().Contain(source => source.GetType().Name == "JsonConfigurationSource");
@@ -25,28 +25,26 @@ public class StartupExtensionsTests
     result.Sources.Should().Contain(source => ((FileConfigurationSource)source).Path == "secrets.json");
   }
 
-  [Fact]
-  public void SetupCommonSharedConfigSettings_ShouldConfigureSettings()
+  [Theory]
+  [InlineData("Secrets", typeof(SecretSettings))]
+  [InlineData("Commits", typeof(CommitSettings))]
+  public void SetupCommonSharedConfigSettings_ShouldConfigureSettings(string sectionName, Type settingsType)
   {
     // Arrange
     var services = new ServiceCollection();
     var configuration = Substitute.For<IConfiguration>();
-    var secretsSection = Substitute.For<IConfigurationSection>();
-    var commitsSection = Substitute.For<IConfigurationSection>();
 
-    configuration.GetSection("Secrets").Returns(secretsSection);
-    configuration.GetSection("Commits").Returns(commitsSection);
+    configuration.GetSection(sectionName).Returns(Substitute.For<IConfigurationSection>());
 
     // Act
-    var result = services.SetupCommonSharedConfigSettings(configuration);
-
+    var result = services.ConfigureCommonSettings(configuration);
     var serviceProvider = result.BuildServiceProvider();
-    var secretSettings = serviceProvider.GetService<IOptions<SecretSettings>>();
-    var commitSettings = serviceProvider.GetService<IOptions<CommitSettings>>();
+
+    var settings = serviceProvider.GetService(typeof(IOptions<>).MakeGenericType(settingsType));
 
     // Assert
-    secretSettings.Should().NotBeNull();
-    commitSettings.Should().NotBeNull();
+    settings.Should().NotBeNull();
+    configuration.Received().GetSection(sectionName);
   }
 
 
