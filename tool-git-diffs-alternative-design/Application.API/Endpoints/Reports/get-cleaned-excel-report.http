@@ -1,0 +1,5 @@
+﻿@Application.API_HostAddress = https://localhost:7268
+
+GET {{Application.API_HostAddress}}/api/reports/get-cleaned-excel-report
+
+###

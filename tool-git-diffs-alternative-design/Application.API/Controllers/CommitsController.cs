@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 /// </summary>
 [ApiController]
 [Route("api/[controller]")]
-public class DiffsController : Controller
+public class CommitsController : Controller
 {
   /// <summary>
   /// Gets the raw commits for the repository
@@ -18,7 +18,20 @@ public class DiffsController : Controller
   {
     return new
     {
-      Message = "Hello World"
+      Message = "get-raw-commits"
+    };
+  }
+
+  /// <summary>
+  /// Gets the cleaned commits for the repository
+  /// </summary>
+  /// <returns>The cleaned processed commits for the repository</returns>
+  [HttpGet("get-cleaned-commits")]
+  public object GetCleanedCommits()
+  {
+    return new
+    {
+      Message = "get-cleaned-commits"
     };
   }
 }

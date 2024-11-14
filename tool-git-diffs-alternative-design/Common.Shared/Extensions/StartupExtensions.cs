@@ -4,13 +4,16 @@ using Common.Shared.Config;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
+/// <summary>
+/// Common & shared startup extension methods
+/// </summary>
 public static class StartupExtensions
 {
   /// <summary>
-  /// Sets up the application configuration.
+  /// Sets up the application configuration
   /// </summary>
   /// <param name="config"></param>
-  /// <returns>The configuration builder with the appsettings and user secrets configured.</returns>
+  /// <returns>The configuration builder with the appsettings and user secrets configured</returns>
   public static IConfigurationBuilder AddCommonSharedConfiguration(this IConfigurationBuilder config)
   {
     config
