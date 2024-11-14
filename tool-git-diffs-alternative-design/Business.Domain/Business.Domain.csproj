@@ -8,6 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="ClosedXML" Version="0.104.1" />
+    <PackageReference Include="Octokit" Version="12.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Business.Models\Business.Models.csproj" />
     <ProjectReference Include="..\Common.Shared\Common.Shared.csproj" />
   </ItemGroup>
