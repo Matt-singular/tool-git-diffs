@@ -1,14 +1,17 @@
 using System.Reflection;
+using Business.Domain;
 using Common.Shared.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddCommonSharedServices();
 builder.Services.AddControllers();
 
 builder.Configuration.AddCommonSharedConfiguration();
 builder.Services.ConfigureCommonSettings(builder.Configuration);
+
+builder.Services.AddCommonSharedServices();
+builder.Services.AddBusinessDomainServices();
 
 builder.Services.AddSwaggerGen(options =>
 {
