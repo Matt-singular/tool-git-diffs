@@ -1,4 +1,4 @@
-﻿namespace Common.Shared.Models;
+﻿namespace Common.Shared.Models.ThirdParty;
 
 using Octokit;
 
@@ -14,6 +14,6 @@ public class OctokitApiClient : GitHubClient
       throw new ArgumentNullException(nameof(accessToken), "GitHub access token has not been configured");
     }
 
-    this.Credentials = new Credentials(accessToken);
+    Credentials = new Credentials(accessToken);
   }
 }

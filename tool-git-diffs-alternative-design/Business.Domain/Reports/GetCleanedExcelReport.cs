@@ -3,7 +3,7 @@
 using System.Threading.Tasks;
 using Business.Models.Reports.GetCleanedExcelReport;
 using Common.Shared.Config;
-using Common.Shared.Models;
+using Common.Shared.Models.ThirdParty;
 using Microsoft.Extensions.Options;
 
 /// <inheritdoc cref="IGetCleanedExcelReport"/>
