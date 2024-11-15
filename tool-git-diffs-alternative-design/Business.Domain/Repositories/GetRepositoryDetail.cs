@@ -75,10 +75,10 @@ public class GetRepositoryDetail(IOptions<SecretSettings> secretSettings) : IGet
   {
     return new()
     {
+      Age = gitHubRepositorySummary.CalculateRepositoryAge(),
       CodeAdded = gitHubRepositoryDetail.MapRepositoryAdditions(),
       CodeDeleted = gitHubRepositoryDetail.MapRepositoryDeletions(),
       CreatedOn = gitHubRepositorySummary.CreatedAt,
-      Age = gitHubRepositorySummary.CalculateRepositoryAge(),
       Visibility = gitHubRepositorySummary.MapRepositoryVisibility(),
     };
   }
