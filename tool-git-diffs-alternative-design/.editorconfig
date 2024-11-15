@@ -235,4 +235,10 @@ dotnet_naming_style.begins_with_i.capitalization = pascal_case
 
 # IDE overrides
 
+# IDE0003: Remove this or Me qualification
 dotnet_diagnostic.IDE0003.severity = none
+
+# Compiler warning overrides
+
+# CS1591: Missing XML comment for publicly visible type or member
+dotnet_diagnostic.CS1591.severity = none
