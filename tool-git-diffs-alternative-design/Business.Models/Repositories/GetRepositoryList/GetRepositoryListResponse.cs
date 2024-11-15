@@ -7,8 +7,8 @@ using Common.Shared.Models.Repositories;
 /// </summary>
 public class GetRepositoryListResponse
 {
-  public string Message { get; set; } = null!;
-  public string Owner { get; set; } = null!;
-  public OwnerTypes OwnerType { get; set; }
-  public List<RepositoryDetail> Repositories { get; set; } = [];
+  public required string Message { get; set; }
+  public required string Owner { get; set; }
+  public required RepositoryOwnerTypes OwnerType { get; set; }
+  public required List<RepositorySummary> Repositories { get; set; }
 }
