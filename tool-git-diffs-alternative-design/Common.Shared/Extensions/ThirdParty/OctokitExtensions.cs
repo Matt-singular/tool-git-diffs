@@ -42,4 +42,44 @@ public static class OctokitExtensions
 
     return age;
   }
+
+  /// <summary>
+  /// Maps the repository visibility from a GitHub repository object
+  /// </summary>
+  /// <param name="gitHubRepository">The GitHub repository object</param>
+  /// <returns>The repository's visibility</returns>
+  /// <exception cref="NotImplementedException"></exception>
+  public static RepositoryVisibility MapRepositoryVisibility(this Octokit.Repository gitHubRepository)
+  {
+    return gitHubRepository.Visibility switch
+    {
+      Octokit.RepositoryVisibility.Public => RepositoryVisibility.Public,
+      Octokit.RepositoryVisibility.Private => RepositoryVisibility.Private,
+      Octokit.RepositoryVisibility.Internal or null or _ => throw new NotImplementedException()
+    };
+  }
+
+  /// <summary>
+  /// Maps the repository's code additions from a GitHub repository code frequency object
+  /// </summary>
+  /// <param name="gitHubRepositoryCodeFrequency">The GitHub repository code frequency detail</param>
+  /// <returns>The code additions that have been made to the repository</returns>
+  public static int MapRepositoryAdditions(this Octokit.CodeFrequency gitHubRepositoryCodeFrequency)
+  {
+    var additions = gitHubRepositoryCodeFrequency.AdditionsAndDeletionsByWeek.Sum(codeFrequency => codeFrequency.Additions);
+
+    return additions;
+  }
+
+  /// <summary>
+  /// Maps the repository's code deletions from a GitHub repository code frequency object
+  /// </summary>
+  /// <param name="gitHubRepositoryCodeFrequency">The GitHub repository code frequency detail</param>
+  /// <returns>The code deletions that have been made to the repository</returns>
+  public static int MapRepositoryDeletions(this Octokit.CodeFrequency gitHubRepositoryCodeFrequency)
+  {
+    var deletions = gitHubRepositoryCodeFrequency.AdditionsAndDeletionsByWeek.Sum(codeFrequency => codeFrequency.Deletions);
+
+    return deletions;
+  }
 }
