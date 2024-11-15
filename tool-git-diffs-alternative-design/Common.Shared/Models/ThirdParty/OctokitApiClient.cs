@@ -3,7 +3,7 @@
 using Octokit;
 
 /// <summary>
-/// Contains an authorised Octokit client for interacting with the GitHub API.
+/// Contains an authorised Octokit client for interacting with the GitHub API
 /// </summary>
 public class OctokitApiClient : GitHubClient
 {
