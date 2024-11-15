@@ -55,7 +55,7 @@ public class GetAuthorisedApiClientOctokitResponse
       throw new ArgumentNullException(nameof(repositoryId), "Mandatory parameter has not been configured");
     }
 
-    // Get the specified rrepository's statistics from Octokit
+    // Get the specified repository's statistics from Octokit
     var getRepositoryStatisticsOctokitTask = this.octokitApiClient.Repository.Commit.GetAll(repositoryId, request);
     var getRepositoryStatisticsOctokitResponse = await getRepositoryStatisticsOctokitTask.ConfigureAwait(false);
 
