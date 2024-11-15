@@ -3,7 +3,7 @@
 /// <summary>
 /// The different types of repository owners
 /// </summary>
-public enum OwnerTypes
+public enum RepositoryOwnerTypes
 {
   /// <summary>
   /// The owner is a GitHub organisation
