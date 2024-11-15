@@ -16,11 +16,18 @@ public class GetRepositoryListRequest
   /// <returns>True if the model is valid, otherwise False</returns>
   public bool ValidateModel()
   {
-    var notValid = this.OrganisationName is not null && this.UserName is not null;
+    var errorMessage = $"Bad Request for {nameof(GetRepositoryListRequest)}";
 
-    if (notValid)
+    if (this.OrganisationName is null && this.UserName is null)
     {
-      throw new BadRequestException($"Bad Request for {nameof(GetRepositoryListRequest)}");
+      var error = $"{errorMessage}\nYou must specify an organisation or user";
+      throw new BadRequestException(error);
+    }
+
+    if (this.OrganisationName is not null && this.UserName is not null)
+    {
+      var error = $"{errorMessage}\nYou cannot specify both an organisation and a user";
+      throw new BadRequestException(error);
     }
 
     return true;
