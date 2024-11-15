@@ -1,4 +1,4 @@
-﻿namespace Common.Shared.Models;
+﻿namespace Common.Shared.Models.Commits;
 
 /// <summary>
 /// Contains the cleaned commit details.
