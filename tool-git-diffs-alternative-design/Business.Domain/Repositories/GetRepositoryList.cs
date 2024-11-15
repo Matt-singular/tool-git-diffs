@@ -13,6 +13,7 @@ public class GetRepositoryList(IOptions<SecretSettings> secretSettings) : IGetRe
   private readonly OctokitApiClient apiClient = new(secretSettings.Value.GitHubAccessToken);
   private string owner = string.Empty;
   private OwnerTypes ownerType;
+  private string message = string.Empty;
 
   /// <inheritdoc/>
   public async Task<GetRepositoryListResponse> ProcessAsync(GetRepositoryListRequest request)
@@ -25,6 +26,7 @@ public class GetRepositoryList(IOptions<SecretSettings> secretSettings) : IGetRe
 
     return new()
     {
+      Message = this.message,
       Owner = this.owner,
       OwnerType = this.ownerType,
       Repositories = repositories
@@ -36,36 +38,54 @@ public class GetRepositoryList(IOptions<SecretSettings> secretSettings) : IGetRe
     // Fetch the list of repositories from GitHub using the appropriate source
     return request switch
     {
-      { OrganisationName: not null } => await GetRepositoryListForOrganisationFromGitHub(request.OrganisationName).ConfigureAwait(false),
-      { UserName: not null } => await GetRepositoryListForUserFromGitHub(request.UserName).ConfigureAwait(false),
+      { OrganisationName: not null } => await TryGetRepositoryListForOrganisationFromGitHub(request.OrganisationName).ConfigureAwait(false),
+      { UserName: not null } => await TryGetRepositoryListForUserFromGitHub(request.UserName).ConfigureAwait(false),
       _ => throw new InvalidOperationException()
     };
   }
 
-  private async Task<IReadOnlyList<Octokit.Repository>> GetRepositoryListForOrganisationFromGitHub(string? organisationName)
+  private async Task<IReadOnlyList<Octokit.Repository>> TryGetRepositoryListForOrganisationFromGitHub(string? organisationName)
   {
     ArgumentNullException.ThrowIfNull(nameof(organisationName), organisationName);
 
     this.owner = organisationName!;
     this.ownerType = OwnerTypes.Organisation;
 
-    var organisationRepositoriesTask = this.apiClient.Repository.GetAllForOrg(organisationName);
-    var organisationRepositoriesResponse = await organisationRepositoriesTask.ConfigureAwait(false);
+    try
+    {
+      var organisationRepositoriesTask = this.apiClient.Repository.GetAllForOrg(organisationName);
+      var organisationRepositoriesResponse = await organisationRepositoriesTask.ConfigureAwait(false);
+      this.message = "Successfully retrieved repositories for the specified organisation";
 
-    return organisationRepositoriesResponse;
+      return organisationRepositoriesResponse;
+    }
+    catch (Exception)
+    {
+      this.message = "An error occurred while retrieving repositories for the specified organisation";
+      return [];
+    }
   }
 
-  private async Task<IReadOnlyList<Octokit.Repository>> GetRepositoryListForUserFromGitHub(string? userName)
+  private async Task<IReadOnlyList<Octokit.Repository>> TryGetRepositoryListForUserFromGitHub(string? userName)
   {
     ArgumentNullException.ThrowIfNull(nameof(userName), userName);
 
     this.owner = userName!;
     this.ownerType = OwnerTypes.User;
 
-    var userRepositoriesTask = this.apiClient.Repository.GetAllForUser(userName);
-    var userRepositoriesResponse = await userRepositoriesTask.ConfigureAwait(false);
+    try
+    {
+      var userRepositoriesTask = this.apiClient.Repository.GetAllForUser(userName);
+      var userRepositoriesResponse = await userRepositoriesTask.ConfigureAwait(false);
+      this.message = "Successfully retrieved repositories for the specified user";
 
-    return userRepositoriesResponse;
+      return userRepositoriesResponse;
+    }
+    catch (Exception)
+    {
+      this.message = "An error occurred while retrieving repositories for the specified user";
+      return [];
+    }
   }
 
   private static List<RepositoryDetail> MapRepositoryList(IReadOnlyList<Octokit.Repository> gitHubRepositories)
