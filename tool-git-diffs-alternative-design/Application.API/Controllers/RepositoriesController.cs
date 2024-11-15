@@ -1,5 +1,6 @@
 ﻿namespace Application.API.Controllers;
 
+using Business.Models.Repositories.GetRepositoryList;
 using Microsoft.AspNetCore.Mvc;
 
 /// <summary>
@@ -14,11 +15,20 @@ public class RepositoriesController : Controller
   /// </summary>
   /// <returns>The list of repositories</returns>
   [HttpGet("get-repository-list")]
-  public object GetRawExcelReport()
+  public async Task<object> GetRepositoryListAsync(
+    [FromServices] IGetRepositoryList getRepositoryList,
+    [FromQuery] string? organisationName,
+    [FromQuery] string? userName)
   {
-    return new
+    var request = new GetRepositoryListRequest
     {
-      Message = "get-repository-list"
+      OrganisationName = organisationName,
+      UserName = userName
     };
+
+    var getRepositoryListTask = getRepositoryList.ProcessAsync(request);
+    var getRepositoryListResponse = await getRepositoryListTask.ConfigureAwait(false);
+
+    return getRepositoryListResponse;
   }
 }
