@@ -1,0 +1,16 @@
+﻿# Configurations
+@Application.API_HostAddress = https://localhost:7268
+@Endpoint = api/repositories/get-repository-detail
+
+@RepositoryId = 740670625
+@RepositoryOwner = Matt-Singular
+@RepositoryName = Matt-Singular
+
+### get-repository-detail using repository id
+GET {{Application.API_HostAddress}}/{{Endpoint}}?RepositoryId={{RepositoryId}}
+
+### get-repository-detail using the repository owner & name
+GET {{Application.API_HostAddress}}/{{Endpoint}}?RepositoryOwner={{RepositoryOwner}}&RepositoryName={{RepositoryName}}
+
+### get-repository-detail using repository name only (invalid scenario, should fail)
+GET {{Application.API_HostAddress}}/{{Endpoint}}?RepositoryName={{RepositoryName}}

@@ -1,5 +1,6 @@
 ﻿namespace Application.API.Controllers;
 
+using Business.Models.Repositories.GetRepositoryDetail;
 using Business.Models.Repositories.GetRepositoryList;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,5 +26,22 @@ public class RepositoriesController : Controller
     var getRepositoryListResponse = await getRepositoryListTask.ConfigureAwait(false);
 
     return getRepositoryListResponse;
+  }
+
+  /// <summary>
+  /// Gets in-depth details for a specific repository
+  /// </summary>
+  /// <param name="getRepositoryDetail">The getRepositoryDetail domain service</param>
+  /// <param name="request">The details of the repository to lookup</param>
+  /// <returns>The details for the specific repository</returns>
+  [HttpGet("get-repository-detail")]
+  public async Task<GetRepositoryDetailResponse> GetRepositoryDetailAsync(
+    [FromServices] IGetRepositoryDetail getRepositoryDetail,
+    [FromQuery] GetRepositoryDetailRequest request)
+  {
+    var getRepositoryDetailTask = getRepositoryDetail.ProcessAsync(request);
+    var getRepositoryDetailResponse = await getRepositoryDetailTask.ConfigureAwait(false);
+
+    return getRepositoryDetailResponse;
   }
 }
