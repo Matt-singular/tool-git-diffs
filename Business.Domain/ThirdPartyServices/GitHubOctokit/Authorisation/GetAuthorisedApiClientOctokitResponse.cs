@@ -70,7 +70,7 @@ public class GetAuthorisedApiClientOctokitResponse
       throw new ArgumentNullException(nameof(repositoryOwner), "Mandatory parameter has not been configured");
     }
 
-    // Get the specified rrepository's commits from Octokit
+    // Get the specified repository's commits from Octokit
     var getRepositoryCommitsOctokitTask = this.octokitApiClient.Repository.Commit.Compare(owner: repositoryOwner, name: repositoryName,
       @base: fromReference, head: toReference);
     var getRepositoryCommitsOctokitResponse = await getRepositoryCommitsOctokitTask.ConfigureAwait(false);
