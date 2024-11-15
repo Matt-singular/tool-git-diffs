@@ -10,3 +10,6 @@ GET {{Application.API_HostAddress}}/{{Endpoint}}?organisationName={{Organisation
 
 ### get-repository-list for user
 GET {{Application.API_HostAddress}}/{{Endpoint}}?userName={{UserName}}
+
+### get-repository-list for all criteria (invalid scenario, should fail)
+GET {{Application.API_HostAddress}}/{{Endpoint}}?organisationName={{OrganisationName}}&userName={{UserName}}
