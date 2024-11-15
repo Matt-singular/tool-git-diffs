@@ -7,6 +7,7 @@ using Business.Models.Commits.GetCleanedCommits;
 using Business.Models.Commits.GetRawCommits;
 using Business.Models.Reports.GetCleanedExcelReport;
 using Business.Models.Reports.GetRawExcelReport;
+using Business.Models.Repositories.GetRepositoryDetail;
 using Business.Models.Repositories.GetRepositoryList;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -48,6 +49,7 @@ public static class StartupExtensions
 
   private static IServiceCollection AddRepositoriesDomainServices(this IServiceCollection services)
   {
+    services.AddScoped<IGetRepositoryDetail, GetRepositoryDetail>();
     services.AddScoped<IGetRepositoryList, GetRepositoryList>();
 
     return services;
