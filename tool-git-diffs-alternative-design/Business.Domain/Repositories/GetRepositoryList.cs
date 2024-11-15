@@ -3,6 +3,7 @@
 using System.Threading.Tasks;
 using Business.Models.Repositories.GetRepositoryList;
 using Common.Shared.Config;
+using Common.Shared.Models.Exceptions;
 using Common.Shared.Models.Repositories;
 using Common.Shared.Models.ThirdParty;
 using Microsoft.Extensions.Options;
@@ -62,7 +63,7 @@ public class GetRepositoryList(IOptions<SecretSettings> secretSettings) : IGetRe
     catch (Exception)
     {
       this.message = "An error occurred while retrieving repositories for the specified organisation";
-      return [];
+      throw new GitHubApiException(message);
     }
   }
 
@@ -84,7 +85,7 @@ public class GetRepositoryList(IOptions<SecretSettings> secretSettings) : IGetRe
     catch (Exception)
     {
       this.message = "An error occurred while retrieving repositories for the specified user";
-      return [];
+      throw new GitHubApiException(message);
     }
   }
 
