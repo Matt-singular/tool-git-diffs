@@ -3,6 +3,7 @@
 using System.Threading.Tasks;
 using Business.Models.Repositories.GetRepositoryList;
 using Common.Shared.Config;
+using Common.Shared.Extensions.ThirdParty;
 using Common.Shared.Models.Exceptions;
 using Common.Shared.Models.Repositories;
 using Common.Shared.Models.ThirdParty;
@@ -12,45 +13,43 @@ using Microsoft.Extensions.Options;
 public class GetRepositoryList(IOptions<SecretSettings> secretSettings) : IGetRepositoryList
 {
   private readonly OctokitApiClient apiClient = new(secretSettings.Value.GitHubAccessToken);
-  private string owner = string.Empty;
-  private OwnerTypes ownerType;
   private string message = string.Empty;
+  private string owner = string.Empty;
+  private RepositoryOwnerTypes ownerType;
 
   /// <inheritdoc/>
   public async Task<GetRepositoryListResponse> ProcessAsync(GetRepositoryListRequest request)
   {
     request.ValidateModel();
 
-    var gitHubRepositories = await this.GetRepositoryListFromGitHub(request).ConfigureAwait(false);
-
-    var repositories = MapRepositoryList(gitHubRepositories);
+    var gitHubRepositories = await this.GetRepositoryListFromGitHubAsync(request).ConfigureAwait(false);
 
     return new()
     {
       Message = this.message,
       Owner = this.owner,
       OwnerType = this.ownerType,
-      Repositories = repositories
+      Repositories = MapRepositoryList(gitHubRepositories)
     };
   }
 
-  private async Task<IReadOnlyList<Octokit.Repository>> GetRepositoryListFromGitHub(GetRepositoryListRequest request)
+  private async Task<IReadOnlyList<Octokit.Repository>> GetRepositoryListFromGitHubAsync(GetRepositoryListRequest request)
   {
     // Fetch the list of repositories from GitHub using the appropriate source
     return request switch
     {
-      { OrganisationName: not null } => await TryGetRepositoryListForOrganisationFromGitHub(request.OrganisationName).ConfigureAwait(false),
-      { UserName: not null } => await TryGetRepositoryListForUserFromGitHub(request.UserName).ConfigureAwait(false),
+      { OrganisationName: not null } => await TryGetRepositoryListForOrganisationFromGitHubAsync(request.OrganisationName).ConfigureAwait(false),
+      { UserName: not null } => await TryGetRepositoryListForUserFromGitHubAsync(request.UserName).ConfigureAwait(false),
       _ => throw new InvalidOperationException()
     };
   }
 
-  private async Task<IReadOnlyList<Octokit.Repository>> TryGetRepositoryListForOrganisationFromGitHub(string? organisationName)
+  private async Task<IReadOnlyList<Octokit.Repository>> TryGetRepositoryListForOrganisationFromGitHubAsync(string? organisationName)
   {
-    ArgumentNullException.ThrowIfNull(nameof(organisationName), organisationName);
+    ArgumentNullException.ThrowIfNull(organisationName, nameof(organisationName));
 
     this.owner = organisationName!;
-    this.ownerType = OwnerTypes.Organisation;
+    this.ownerType = RepositoryOwnerTypes.Organisation;
 
     try
     {
@@ -67,12 +66,12 @@ public class GetRepositoryList(IOptions<SecretSettings> secretSettings) : IGetRe
     }
   }
 
-  private async Task<IReadOnlyList<Octokit.Repository>> TryGetRepositoryListForUserFromGitHub(string? userName)
+  private async Task<IReadOnlyList<Octokit.Repository>> TryGetRepositoryListForUserFromGitHubAsync(string? userName)
   {
-    ArgumentNullException.ThrowIfNull(nameof(userName), userName);
+    ArgumentNullException.ThrowIfNull(userName, nameof(userName));
 
     this.owner = userName!;
-    this.ownerType = OwnerTypes.User;
+    this.ownerType = RepositoryOwnerTypes.User;
 
     try
     {
@@ -89,14 +88,10 @@ public class GetRepositoryList(IOptions<SecretSettings> secretSettings) : IGetRe
     }
   }
 
-  private static List<RepositoryDetail> MapRepositoryList(IReadOnlyList<Octokit.Repository> gitHubRepositories)
+  private static List<RepositorySummary> MapRepositoryList(IReadOnlyList<Octokit.Repository> gitHubRepositories)
   {
     var mappedRepositories = gitHubRepositories
-      .Select(organisationRepository => new RepositoryDetail
-      {
-        RepositoryId = organisationRepository.Id,
-        RepositoryName = organisationRepository.Name
-      })
+      .Select(gitHubRepository => gitHubRepository.MapRepositorySummaryDetails())
       .OrderBy(repository => repository.RepositoryName)
       .ToList();
 
