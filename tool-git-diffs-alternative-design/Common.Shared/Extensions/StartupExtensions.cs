@@ -32,8 +32,8 @@ public static class StartupExtensions
   public static IServiceCollection ConfigureCommonSettings(this IServiceCollection services, IConfiguration configuration)
   {
     // Configure strongly-typed settings objects
-    services.Configure<SecretSettings>(configuration.GetSection("Secrets"));
     services.Configure<CommitSettings>(configuration.GetSection("Commits"));
+    services.Configure<SecretSettings>(configuration.GetSection("Secrets"));
 
     // Add services here
     return services;
