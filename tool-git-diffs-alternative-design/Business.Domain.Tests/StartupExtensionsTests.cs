@@ -16,7 +16,7 @@ using Microsoft.Extensions.DependencyInjection;
 /// </summary>
 public class StartupExtensionsTests
 {
-  private ServiceProvider serviceProvider;
+  private readonly ServiceProvider serviceProvider;
 
   public StartupExtensionsTests()
   {
