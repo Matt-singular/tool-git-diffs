@@ -20,10 +20,12 @@ public class StartupExtensionsTests
 
   public StartupExtensionsTests()
   {
-    // Arrange & Act
+    // Arrange
     var services = new ServiceCollection();
     services.MockConfigurationSettings();
     services.AddBusinessDomainServices();
+
+    // Act
     this.serviceProvider = services.BuildServiceProvider();
   }
 
