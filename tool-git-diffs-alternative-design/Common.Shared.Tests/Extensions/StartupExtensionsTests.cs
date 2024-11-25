@@ -1,7 +1,9 @@
 ﻿namespace Common.Shared.Tests.Extensions;
 
+using System;
 using Common.Shared.Config;
 using Common.Shared.Extensions;
+using Common.Shared.Services.Commits.GetRawCommits;
 using FluentAssertions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -48,16 +50,19 @@ public class StartupExtensionsTests
     configuration.Received().GetSection(sectionName);
   }
 
-  [Fact]
-  public void AddCommonSharedServices_ShouldRegisterServices()
+  [Theory]
+  [InlineData(typeof(IGetRawCommitsDomainService))]
+  public void AddCommonSharedServices_ShouldRegisterAllCommonServices(Type serviceInterface)
   {
     // Arrange
     var services = new ServiceCollection();
+    services.MockConfigurationSettings();
+    services.AddCommonSharedServices();
 
     // Act
-    var result = services.AddCommonSharedServices();
+    var serviceProvider = services.BuildServiceProvider();
 
     // Assert
-    result.Should().BeEmpty();
+    serviceProvider.GetService(serviceInterface).Should().NotBeNull();
   }
 }
