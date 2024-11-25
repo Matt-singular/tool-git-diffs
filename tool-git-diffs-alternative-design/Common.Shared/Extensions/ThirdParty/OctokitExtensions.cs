@@ -82,4 +82,16 @@ public static class OctokitExtensions
 
     return deletions;
   }
+
+  /// <summary>
+  /// Determines whether the current commit is a merge commit
+  /// </summary>
+  /// <param name="gitHubCommit">The GitHub commit details</param>
+  /// <returns>True if the commit is a merge commit, Otherwise False</returns>
+  public static bool CheckIsMergeCommit(this Octokit.GitHubCommit gitHubCommit)
+  {
+    var isMergeCommit = gitHubCommit.Parents.Count > 1;
+
+    return isMergeCommit;
+  }
 }
