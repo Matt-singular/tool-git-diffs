@@ -27,6 +27,7 @@
     <ProjectReference Include="..\Business.Domain\Business.Domain.csproj" />
     <ProjectReference Include="..\Business.Models\Business.Models.csproj" />
     <ProjectReference Include="..\Common.Shared.Tests\Common.Shared.Tests.csproj" />
+    <ProjectReference Include="..\Common.Shared\Common.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>
