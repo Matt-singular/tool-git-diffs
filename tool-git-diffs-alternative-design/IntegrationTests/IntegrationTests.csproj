@@ -10,10 +10,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="coverlet.collector" Version="6.0.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
-    <PackageReference Include="xunit" Version="2.5.3" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.5.3" />
+    <PackageReference Include="coverlet.collector" />
+    <PackageReference Include="FluentAssertions" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="NSubstitute" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" />
   </ItemGroup>
 
   <ItemGroup>
@@ -24,12 +26,13 @@
     <ProjectReference Include="..\Application.API\Application.API.csproj" />
     <ProjectReference Include="..\Business.Domain\Business.Domain.csproj" />
     <ProjectReference Include="..\Business.Models\Business.Models.csproj" />
+    <ProjectReference Include="..\Common.Shared.Tests\Common.Shared.Tests.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Api\" />
     <Folder Include="Benchmarks\" />
-    <Folder Include="Infrastructure\" />
+    <Folder Include="Domain\" />
   </ItemGroup>
 
 </Project>
