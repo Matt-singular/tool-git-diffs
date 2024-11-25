@@ -1,6 +1,7 @@
 ﻿namespace Common.Shared.Extensions;
 
 using Common.Shared.Config;
+using Common.Shared.Services.Commits.GetRawCommits;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -40,14 +41,14 @@ public static class StartupExtensions
   }
 
   /// <summary>
-  /// Adds Common.Shared services to the service collection.
+  /// Adds Common.Shared services to the service collection
   /// </summary>
-  /// <param name="services">The application's service collection.</param>
-  /// <returns>The service collection with Common.Shared services registered.</returns>llection</param>
-  /// <returns>The configured services</returns>
+  /// <param name="services">The application's service collection</param>
+  /// <returns>The service collection with Common.Shared services registered</returns>
   public static IServiceCollection AddCommonSharedServices(this IServiceCollection services)
   {
     // Register Common.Shared services
+    services.AddScoped<IGetRawCommitsDomainService, GetRawCommitsDomainService>();
 
     return services;
   }
