@@ -10,6 +10,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using NSubstitute;
 
+/// <summary>
+/// Unit tests for <see cref="StartupExtensions"/>
+/// </summary>
 public class StartupExtensionsTests
 {
   [Fact]
