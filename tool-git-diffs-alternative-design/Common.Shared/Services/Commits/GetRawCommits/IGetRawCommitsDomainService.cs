@@ -15,4 +15,14 @@ public interface IGetRawCommitsDomainService
   /// <param name="toReference">The git branch or tag to generate the diffs until</param>
   /// <returns>A list of raw (unprocessed) commits for a specified repository</returns>
   public Task<List<RawCommitDetails>> ProcessAsync(long repositoryId, string fromReference, string toReference);
+
+  /// <summary>
+  /// Processes the provided details to fetch raw (unprocessed) commits for a single repository
+  /// </summary>
+  /// <param name="repositoryName">The name of the repository</param>
+  /// <param name="repositoryOwner">The owner of the repository</param>
+  /// <param name="fromReference">The git branch or tag to generate the diffs from</param>
+  /// <param name="toReference">The git branch or tag to generate the diffs until</param>
+  /// <returns>A list of raw (unprocessed) commits for a specified repository</returns>
+  public Task<List<RawCommitDetails>> ProcessAsync(string repositoryName, string repositoryOwner, string fromReference, string toReference);
 }
