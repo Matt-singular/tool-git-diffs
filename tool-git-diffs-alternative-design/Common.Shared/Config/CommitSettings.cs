@@ -15,21 +15,21 @@ public class CommitSettings
   /// </summary>
   public string[]? SortOrder { get; set; }
 
-  public class Pattern
+  public class Pattern(string regex, int? priority, string? header)
   {
     /// <summary>
     /// The regex to identify the commit reference
     /// </summary>
-    public string? Regex { get; set; }
+    public string? Regex { get; set; } = regex;
 
     /// <summary>
     /// The sorting priority for the specific commit reference
     /// </summary>
-    public int? Priority { get; set; }
+    public int? Priority { get; set; } = priority;
 
     /// <summary>
     /// The header for the commit reference to group under
     /// </summary>
-    public string? Header { get; set; }
+    public string? Header { get; set; } = header;
   }
 }
