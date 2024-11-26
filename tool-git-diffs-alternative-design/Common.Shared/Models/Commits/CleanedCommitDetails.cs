@@ -5,5 +5,13 @@
 /// </summary>
 public class CleanedCommitDetails
 {
-  public CleanedCommitDetails() => throw new NotImplementedException();
+  /// <summary>
+  /// The Jira references extracted from the commit's message
+  /// </summary>
+  public List<CommitReference> JiraReferences { get; internal set; } = null!;
+
+  /// <summary>
+  /// The raw commit details as pulled from GitHub
+  /// </summary>
+  public RawCommitDetails RawDetails { get; internal set; } = null!;
 }
