@@ -1,6 +1,7 @@
 ﻿namespace Common.Shared.Extensions;
 
 using Common.Shared.Config;
+using Common.Shared.Services.Commits.GetCleanedCommits;
 using Common.Shared.Services.Commits.GetRawCommits;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -49,6 +50,7 @@ public static class StartupExtensions
   {
     // Register Common.Shared services
     services.AddScoped<IGetRawCommitsDomainService, GetRawCommitsDomainService>();
+    services.AddScoped<IGetCleanedCommitsDomainService, GetCleanedCommitsDomainService>();
 
     return services;
   }

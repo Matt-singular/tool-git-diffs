@@ -3,6 +3,7 @@
 using System;
 using Common.Shared.Config;
 using Common.Shared.Extensions;
+using Common.Shared.Services.Commits.GetCleanedCommits;
 using Common.Shared.Services.Commits.GetRawCommits;
 using FluentAssertions;
 using Microsoft.Extensions.Configuration;
@@ -55,6 +56,7 @@ public class StartupExtensionsTests
 
   [Theory]
   [InlineData(typeof(IGetRawCommitsDomainService))]
+  [InlineData(typeof(IGetCleanedCommitsDomainService))]
   public void AddCommonSharedServices_ShouldRegisterAllCommonServices(Type serviceInterface)
   {
     // Arrange
