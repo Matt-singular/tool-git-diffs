@@ -3,6 +3,7 @@
 using FluentAssertions;
 using global::Common.Shared.Services.Commits.GetRawCommits;
 using Microsoft.Extensions.DependencyInjection;
+using TestHelpers;
 
 /// <summary>
 /// Integration tests for <see cref="GetRawCommitsDomainService"/>
