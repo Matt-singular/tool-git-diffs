@@ -1,4 +1,4 @@
-﻿namespace Common.Shared.Tests.Config;
+﻿namespace TestHelpers.Mocks.Config;
 
 using Common.Shared.Config;
 using Microsoft.Extensions.Options;

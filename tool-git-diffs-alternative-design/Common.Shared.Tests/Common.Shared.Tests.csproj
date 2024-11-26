@@ -20,6 +20,7 @@
   
   <ItemGroup>
     <ProjectReference Include="..\Common.Shared\Common.Shared.csproj" />
+    <ProjectReference Include="..\TestHelpers\TestHelpers.csproj" />
   </ItemGroup>
 
   <ItemGroup>

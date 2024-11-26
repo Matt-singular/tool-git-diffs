@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using NSubstitute;
+using TestHelpers;
 
 /// <summary>
 /// Unit tests for <see cref="StartupExtensions"/>

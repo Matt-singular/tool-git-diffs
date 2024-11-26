@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -11,7 +11,6 @@
 
   <ItemGroup>
     <PackageReference Include="coverlet.collector" />
-    <PackageReference Include="FluentAssertions" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
     <PackageReference Include="NSubstitute" />
     <PackageReference Include="xunit" />
@@ -19,12 +18,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Using Include="Xunit" />
+    <ProjectReference Include="..\Business.Domain\Business.Domain.csproj" />
+    <ProjectReference Include="..\Business.Models\Business.Models.csproj" />
+    <ProjectReference Include="..\Common.Shared\Common.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Application.API\Application.API.csproj" />
-    <ProjectReference Include="..\TestHelpers\TestHelpers.csproj" />
+    <Using Include="Xunit" />
   </ItemGroup>
 
 </Project>

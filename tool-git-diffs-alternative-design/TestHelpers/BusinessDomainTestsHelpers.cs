@@ -1,4 +1,4 @@
-﻿namespace Business.Domain.Tests;
+﻿namespace TestHelpers;
 
 /// <summary>
 /// Some helper methods for business domain tests

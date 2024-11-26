@@ -1,7 +1,7 @@
-﻿namespace IntegrationTests;
+﻿namespace TestHelpers;
 
-using global::Business.Domain;
-using global::Common.Shared.Extensions;
+using Business.Domain;
+using Common.Shared.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 

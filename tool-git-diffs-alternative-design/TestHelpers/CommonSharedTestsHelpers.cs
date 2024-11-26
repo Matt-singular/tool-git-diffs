@@ -1,7 +1,7 @@
-﻿namespace Common.Shared.Tests;
+﻿namespace TestHelpers;
 
-using Common.Shared.Tests.Config;
 using Microsoft.Extensions.DependencyInjection;
+using TestHelpers.Mocks.Config;
 
 /// <summary>
 /// Some helper methods for common shared tests
@@ -15,7 +15,7 @@ public static class CommonSharedTestsHelpers
   /// <returns>The service collection with the added configuration settings</returns>
   public static ServiceCollection MockConfigurationSettings(this ServiceCollection serviceCollection)
   {
-    serviceCollection.AddSingleton(MockedCommitSettings.CreateOptions());
+    serviceCollection.AddSingleton(MockedCommitSettings.CreateEmptyOptions());
     serviceCollection.AddSingleton(MockedSecretSettings.CreateOptions());
 
     return serviceCollection;
