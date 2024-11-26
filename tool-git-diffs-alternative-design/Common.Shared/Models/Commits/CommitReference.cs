@@ -17,7 +17,7 @@ public class CommitReference
   public string JiraReference { get; internal set; } = null!;
 
   /// <summary>
-  /// The grouping priority for the Jira reference where high priority numbers are prioritised over lower priority numbers
+  /// The sorting priority for the Jira reference (lower numbers are prioritised over higher ones)
   /// </summary>
-  public int Priority { get; internal set; } = default;
+  public int? Priority { get; internal set; }
 }
