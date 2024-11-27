@@ -67,4 +67,8 @@
     <Folder Include="Views\" />
 </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Common.Shared\Common.Shared.csproj" />
+  </ItemGroup>
+
 </Project>

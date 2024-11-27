@@ -30,7 +30,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		exclusions.dic = exclusions.dic
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestHelpers", "TestHelpers\TestHelpers.csproj", "{33769E12-1CF4-41DA-A10D-A0B39DA4A89D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestHelpers", "TestHelpers\TestHelpers.csproj", "{33769E12-1CF4-41DA-A10D-A0B39DA4A89D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -40,6 +40,7 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{E8B44C6F-2EEB-4BFC-9082-4E930E72FF17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E8B44C6F-2EEB-4BFC-9082-4E930E72FF17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8B44C6F-2EEB-4BFC-9082-4E930E72FF17}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{E8B44C6F-2EEB-4BFC-9082-4E930E72FF17}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E8B44C6F-2EEB-4BFC-9082-4E930E72FF17}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FEA653D6-5B58-4E03-AA87-F98DD6F65B48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
