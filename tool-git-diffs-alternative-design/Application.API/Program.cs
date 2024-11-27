@@ -35,4 +35,6 @@ app.UseHttpsRedirection();
 
 app.MapControllers();
 
+app.SuccessMessage();
+
 app.Run();
