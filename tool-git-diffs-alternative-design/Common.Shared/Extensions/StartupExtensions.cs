@@ -5,6 +5,7 @@ using Common.Shared.Services.Commits.GetCleanedCommits;
 using Common.Shared.Services.Commits.GetRawCommits;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 /// <summary>
 /// Common & shared startup extension methods
@@ -53,6 +54,17 @@ public static class StartupExtensions
     services.AddScoped<IGetCleanedCommitsDomainService, GetCleanedCommitsDomainService>();
 
     return services;
+  }
+
+  /// <summary>
+  /// Writes out the success message to the Console
+  /// </summary>
+  /// <param name="_">The application host to execute the success message against</param>
+  public static void SuccessMessage(this IHost _)
+  {
+    Console.ForegroundColor = ConsoleColor.Green;
+    Console.WriteLine("Service Started Up Successfully");
+    Console.ResetColor();
   }
 }
 
