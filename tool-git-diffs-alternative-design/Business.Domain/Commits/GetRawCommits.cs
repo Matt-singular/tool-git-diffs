@@ -3,6 +3,7 @@
 using System.Threading.Tasks;
 using Business.Models.Commits.GetRawCommits;
 using Common.Shared.Models.Commits;
+using Common.Shared.Models.Exceptions;
 using Common.Shared.Services.Commits.GetRawCommits;
 using static Business.Models.Commits.GetRawCommits.GetRawCommitsRequest;
 
@@ -14,9 +15,9 @@ public class GetRawCommits(IGetRawCommitsDomainService getRawCommitsDomainServic
   /// <inheritdoc/>
   public async Task<GetRawCommitsResponse> ProcessAsync(GetRawCommitsRequest request)
   {
-    ArgumentNullException.ThrowIfNull(request.Repositories);
+    BadRequestException.ThrowIfNullOrEmpty(request.Repositories, nameof(request.Repositories));
 
-    var getRawCommitsFromDomainTasks = request.Repositories.Select(GetRawCommitsFromDomainAsync).ToList();
+    var getRawCommitsFromDomainTasks = request.Repositories!.Select(GetRawCommitsFromDomainAsync).ToList();
 
     var getRawCommitsFromDomainResponses = await Task.WhenAll(getRawCommitsFromDomainTasks).ConfigureAwait(false);
 
@@ -62,11 +63,7 @@ public class GetRawCommits(IGetRawCommitsDomainService getRawCommitsDomainServic
       })
       .ToList();
 
-    return new()
-    {
-      RawCommits = rawCommits,
-      RepositoryRawCommits = repositoryRawCommits
-    };
+    return new(repositoryRawCommits);
   }
 
   private static List<RawCommitDetails> FlattenRawCommitsTwoDimensionalList(

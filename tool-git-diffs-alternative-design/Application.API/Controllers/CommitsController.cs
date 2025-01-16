@@ -1,5 +1,7 @@
 ﻿namespace Application.API.Controllers;
 
+using Business.Domain.Repositories;
+using Business.Models.Commits.GetRawCommits;
 using Microsoft.AspNetCore.Mvc;
 
 /// <summary>
@@ -14,12 +16,14 @@ public class CommitsController : Controller
   /// </summary>
   /// <returns>The raw unprocessed commits for the repository</returns>
   [HttpGet("get-raw-commits")]
-  public object GetRawCommits()
+  public async Task<GetRawCommitsResponse> GetRawCommitsAsync(
+    [FromServices] IGetRawCommits getRawCommits,
+    [FromQuery] GetRawCommitsRequest request)
   {
-    return new
-    {
-      Message = "get-raw-commits"
-    };
+    var getRawCommitsTask = getRawCommits.ProcessAsync(request);
+    var getRawCommitsResponse = await getRawCommitsTask.ConfigureAwait(false);
+
+    return getRawCommitsResponse;
   }
 
   /// <summary>

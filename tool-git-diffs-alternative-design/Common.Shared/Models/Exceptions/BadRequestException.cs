@@ -18,4 +18,20 @@ public class BadRequestException : Exception
   public BadRequestException(string message, Exception innerException) : base(message, innerException)
   {
   }
+
+  public static void ThrowIfNullOrEmpty(string? input, string parameterName)
+  {
+    if (string.IsNullOrEmpty(input))
+    {
+      throw new BadRequestException($"The parameter '{parameterName}' cannot be null or empty.");
+    }
+  }
+
+  public static void ThrowIfNullOrEmpty<T>(IEnumerable<T>? collection, string parameterName)
+  {
+    if (collection is null || !collection.Any())
+    {
+      throw new BadRequestException($"The parameter '{parameterName}' cannot be null or empty.");
+    }
+  }
 }

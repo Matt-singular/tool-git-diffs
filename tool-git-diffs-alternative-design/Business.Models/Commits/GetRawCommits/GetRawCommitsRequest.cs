@@ -3,7 +3,7 @@
 /// <summary>
 /// Contains the data needed to get the raw commits from one or more repositories
 /// </summary>
-public class GetRawCommitsRequest(string fromReference, string toReference)
+public class GetRawCommitsRequest
 {
   /// <summary>
   /// The lookup repositories
@@ -13,12 +13,12 @@ public class GetRawCommitsRequest(string fromReference, string toReference)
   /// <summary>
   /// The Git reference (branch or tag) to pull from for all repositories unless overridden
   /// </summary>
-  public string FromReference { get; set; } = fromReference;
+  public string? FromReference { get; set; }
 
   /// <summary>
   /// The Git reference (branch or tag) to pull until for all repositories unless overridden
   /// </summary>
-  public string ToReference { get; set; } = toReference;
+  public string? ToReference { get; set; }
 
   /// <inheritdoc cref="AddRepositoryToLookup(long?, string?, string?, string?, string?)"/>
   public void AddRepositoryToLookup(long repositoryId, string? fromReference = null, string? toReference = null)
@@ -40,18 +40,20 @@ public class GetRawCommitsRequest(string fromReference, string toReference)
     string? fromReference = null, string? toReference = null)
   {
     // Use the class level FromReference and ToReference unless overrides are specified
-    var repositoryLookup = new RepositoryLookupCriteria(fromReference ?? this.FromReference, toReference ?? this.ToReference)
+    var repositoryLookup = new RepositoryLookupCriteria
     {
       RepositoryId = repositoryId,
       RepositoryName = repositoryName,
-      RepositoryOwner = repositoryOwner
+      RepositoryOwner = repositoryOwner,
+      FromReference = fromReference ?? this.FromReference ?? throw new ArgumentNullException(this.FromReference, nameof(this.FromReference)),
+      ToReference = toReference ?? this.ToReference ?? throw new ArgumentNullException(this.ToReference, nameof(this.ToReference)),
     };
 
     this.Repositories ??= [];
     this.Repositories.Add(repositoryLookup);
   }
 
-  public class RepositoryLookupCriteria(string fromReference, string toReference)
+  public class RepositoryLookupCriteria
   {
     /// <summary>
     /// The unique identifier for the repository (either it's id or name) in string format
@@ -82,11 +84,11 @@ public class GetRawCommitsRequest(string fromReference, string toReference)
     /// <summary>
     /// The Git reference (branch or tag) to pull from for the specified repository
     /// </summary>
-    public string FromReference { get; set; } = fromReference;
+    public string FromReference { get; set; } = null!;
 
     /// <summary>
     /// The Git reference (branch or tag) to pull until for the specified repository
     /// </summary>
-    public string ToReference { get; set; } = toReference;
+    public string ToReference { get; set; } = null!;
   }
 }

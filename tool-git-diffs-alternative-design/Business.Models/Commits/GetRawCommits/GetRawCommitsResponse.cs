@@ -2,11 +2,12 @@
 
 using System.Collections.Generic;
 using Common.Shared.Models.Commits;
+using static Business.Models.Commits.GetRawCommits.GetRawCommitsResponse;
 
 /// <summary>
 /// Contains the raw commits response broken down by repository
 /// </summary>
-public class GetRawCommitsResponse
+public class GetRawCommitsResponse(List<RepositoryRawCommitsDetail> repositoryRawCommits)
 {
   /// <summary>
   /// All of the raw commits across all repositories
@@ -21,7 +22,7 @@ public class GetRawCommitsResponse
   /// <summary>
   /// The raw commits broken down by repository
   /// </summary>
-  public List<RepositoryRawCommitsDetail> RepositoryRawCommits { get; set; } = null!;
+  public List<RepositoryRawCommitsDetail> RepositoryRawCommits { get; set; } = repositoryRawCommits;
 
   public class RepositoryRawCommitsDetail
   {
