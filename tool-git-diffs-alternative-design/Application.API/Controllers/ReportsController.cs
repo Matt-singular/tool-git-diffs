@@ -1,5 +1,8 @@
 ﻿namespace Application.API.Controllers;
 
+using Business.Models.Commits.GetCleanedCommits;
+using Business.Models.Commits.GetRawCommits;
+using Business.Models.Reports.GetCleanedExcelReport;
 using Microsoft.AspNetCore.Mvc;
 
 /// <summary>
@@ -26,12 +29,25 @@ public class ReportsController : Controller
   /// Gets the excel report containing cleaned commits
   /// </summary>
   /// <returns>The raw excel report</returns>
-  [HttpGet("get-cleaned-excel-report")]
-  public object GetCleanedExcelReport()
+  [HttpPost("get-cleaned-excel-report")]
+
+  public async Task<object> GetCleanedExcelReport(
+    // TODO: for now we are doing things like this*
+    [FromServices] IGetRawCommits getRawCommits,
+    [FromServices] IGetCleanedCommits getCleanedCommits,
+    [FromServices] IGetCleanedExcelReport getCleanedExcelReport,
+    [FromBody] GetRawCommitsRequest request)
   {
-    return new
-    {
-      Message = "get-cleaned-excel-report"
-    };
+    var getRawCommitsTask = getRawCommits.ProcessAsync(request);
+    var getRawCommitsResponse = await getRawCommitsTask.ConfigureAwait(false);
+
+    var getCleanedCommitsRequest = new GetCleanedCommitsRequest(getRawCommitsResponse.RepositoryRawCommits);
+    var getCleanedCommitsTask = getCleanedCommits.ProcessAsync(getCleanedCommitsRequest);
+    var getCleanedCommitsResponse = await getCleanedCommitsTask.ConfigureAwait(false);
+
+    var getCleanedExcelReportRequest = new GetCleanedExcelReportRequest(getCleanedCommitsResponse.RepositoryCleanedCommits);
+    var getCleanedExcelReportResponse = getCleanedExcelReport.Process(getCleanedExcelReportRequest);
+
+    return getCleanedExcelReportResponse;
   }
 }

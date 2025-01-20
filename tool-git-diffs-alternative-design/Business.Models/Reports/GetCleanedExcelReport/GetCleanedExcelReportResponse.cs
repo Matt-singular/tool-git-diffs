@@ -5,5 +5,8 @@
 /// </summary>
 public class GetCleanedExcelReportResponse
 {
-  public GetCleanedExcelReportResponse() => throw new NotImplementedException();
+  /// <summary>
+  /// The excel sheet with commit data
+  /// </summary>
+  public byte[] ExcelFile { get; set; } = null!;
 }

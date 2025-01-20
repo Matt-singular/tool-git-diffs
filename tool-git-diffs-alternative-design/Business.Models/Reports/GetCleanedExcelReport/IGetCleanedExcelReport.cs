@@ -10,5 +10,5 @@ public interface IGetCleanedExcelReport
   /// </summary>
   /// <param name="request">Contains the cleaned commit details broken down by repository</param>
   /// <returns>An excel report containing the cleaned commits data</returns>
-  public Task<GetCleanedExcelReportResponse> ProcessAsync(GetCleanedExcelReportRequest request);
+  public GetCleanedExcelReportResponse Process(GetCleanedExcelReportRequest request);
 }
