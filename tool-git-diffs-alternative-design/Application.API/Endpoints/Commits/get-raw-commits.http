@@ -1,5 +1,17 @@
 ﻿@Application.API_HostAddress = https://localhost:7268
 
-GET {{Application.API_HostAddress}}/api/commits/get-raw-commits
+POST {{Application.API_HostAddress}}/api/commits/get-raw-commits
+Content-Type: application/json
+
+{
+  "Repositories": [
+    {
+      "RepositoryName": "",
+      "RepositoryOwner": "",
+      "FromReference": "",
+      "ToReference": ""
+    }
+  ]
+}
 
 ###

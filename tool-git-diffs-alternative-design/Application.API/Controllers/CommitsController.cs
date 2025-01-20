@@ -1,6 +1,6 @@
 ﻿namespace Application.API.Controllers;
 
-using Business.Domain.Repositories;
+using Business.Models.Commits.GetCleanedCommits;
 using Business.Models.Commits.GetRawCommits;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,10 +15,10 @@ public class CommitsController : Controller
   /// Gets the raw commits for the repository
   /// </summary>
   /// <returns>The raw unprocessed commits for the repository</returns>
-  [HttpGet("get-raw-commits")]
+  [HttpPost("get-raw-commits")]
   public async Task<GetRawCommitsResponse> GetRawCommitsAsync(
     [FromServices] IGetRawCommits getRawCommits,
-    [FromQuery] GetRawCommitsRequest request)
+    [FromBody] GetRawCommitsRequest request)
   {
     var getRawCommitsTask = getRawCommits.ProcessAsync(request);
     var getRawCommitsResponse = await getRawCommitsTask.ConfigureAwait(false);
@@ -30,12 +30,20 @@ public class CommitsController : Controller
   /// Gets the cleaned commits for the repository
   /// </summary>
   /// <returns>The cleaned processed commits for the repository</returns>
-  [HttpGet("get-cleaned-commits")]
-  public object GetCleanedCommits()
+  [HttpPost("get-cleaned-commits")]
+  public async Task<GetCleanedCommitsResponse> GetCleanedCommitsAsync(
+    // TODO: for now we are doing things like this*
+    [FromServices] IGetRawCommits getRawCommits,
+    [FromServices] IGetCleanedCommits getCleanedCommits,
+    [FromBody] GetRawCommitsRequest request)
   {
-    return new
-    {
-      Message = "get-cleaned-commits"
-    };
+    var getRawCommitsTask = getRawCommits.ProcessAsync(request);
+    var getRawCommitsResponse = await getRawCommitsTask.ConfigureAwait(false);
+
+    var getCleanedCommitsRequest = new GetCleanedCommitsRequest(getRawCommitsResponse.RepositoryRawCommits);
+    var getCleanedCommitsTask = getCleanedCommits.ProcessAsync(getCleanedCommitsRequest);
+    var getCleanedCommitsResponse = await getCleanedCommitsTask.ConfigureAwait(false);
+
+    return getCleanedCommitsResponse;
   }
 }
