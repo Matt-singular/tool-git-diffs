@@ -7,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddControllers();
 
+builder.Configuration.AddJsonFile("appsettings.json");
 builder.Configuration.AddCommonSharedConfiguration();
 builder.Services.ConfigureCommonSettings(builder.Configuration);
 
