@@ -19,9 +19,12 @@ public static class StartupExtensions
   /// <returns>The configuration builder with the appsettings and user secrets configured</returns>
   public static IConfigurationBuilder AddCommonSharedConfiguration(this IConfigurationBuilder config)
   {
+    var assemblyLocation = Path.GetDirectoryName(typeof(Startup).Assembly.Location)!; // TODO: shouldn't be necessary with the name change
+    var appSettingsPath = Path.Combine(assemblyLocation, "appsettings.Common.json");
+
     config
-      .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-      .AddUserSecrets<Startup>(optional: true, reloadOnChange: true);
+    .AddJsonFile(appSettingsPath, optional: true, reloadOnChange: true)
+    .AddUserSecrets<Startup>(optional: true, reloadOnChange: true);
 
     return config;
   }
