@@ -1,6 +1,7 @@
 ﻿namespace Common.Shared.Extensions;
 
 using System.Diagnostics.CodeAnalysis;
+using Common.Shared;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 

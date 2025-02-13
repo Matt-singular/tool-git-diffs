@@ -1,4 +1,4 @@
-﻿namespace Common.Shared.Extensions;
+﻿namespace Common.Shared;
 
 /// <summary>
 /// Used to intstantiate Dotnet secrets
