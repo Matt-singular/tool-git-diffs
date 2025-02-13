@@ -37,6 +37,7 @@ public static class StartupExtensions
   public static IServiceCollection ConfigureCommonSettings(this IServiceCollection services, IConfiguration configuration)
   {
     // Configure strongly-typed settings objects
+    //services.Configure<object>(configuration.GetSection("name"));
 
     return services;
   }
@@ -49,6 +50,7 @@ public static class StartupExtensions
   public static IServiceCollection AddCommonSharedServices(this IServiceCollection services)
   {
     // Register Common.Shared services
+    //services.AddScoped<IService, Service>
 
     return services;
   }
