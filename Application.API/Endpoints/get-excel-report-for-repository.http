@@ -1,0 +1,14 @@
+﻿@Application.API_HostAddress = https://localhost:7224
+
+POST {{Application.API_HostAddress}}/api/report/get-excel-report-for-repository
+Content-Type: application/json
+
+{
+  "FileName": "example-excel-report",
+  "RepositoryName": "example-repo",
+  "RepositoryOwner": "example-owner",
+  "FromReference": "main",
+  "ToReference": "feature-branch"
+}
+
+###
