@@ -44,5 +44,6 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+		StartupProject = Application.API
 	EndGlobalSection
 EndGlobal
