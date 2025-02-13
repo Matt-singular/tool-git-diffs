@@ -33,17 +33,6 @@ jobs:
       run: |
         pwsh ./GenerateCodeCoverage.ps1
 
-    - name: Create branch for code coverage report
-      run: |
-        git config --global user.name "github-actions[bot]"
-        git config --global user.email "github-actions[bot]@users.noreply.github.com"
-        git checkout -b update-code-coverage
-        git add Common.Shared/CodeCoverage
-        git commit -m "Update code coverage report"
-        git push --set-upstream origin update-code-coverage
-      env:
-        GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-
     - name: Create pull request
       uses: peter-evans/create-pull-request@v4
       with:
