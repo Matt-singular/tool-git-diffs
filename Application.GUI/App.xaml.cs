@@ -1,11 +1,11 @@
-namespace Application.GUI;
+﻿namespace Application.GUI;
 
 public partial class App : Microsoft.Maui.Controls.Application
 {
-	public App()
-	{
-		InitializeComponent();
+  public App()
+  {
+    InitializeComponent();
 
-		MainPage = new AppShell();
-	}
+    MainPage = new AppShell();
+  }
 }

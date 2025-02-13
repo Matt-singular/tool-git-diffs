@@ -1,0 +1,15 @@
+﻿# Configurations
+@Application.API_HostAddress = https://localhost:7268
+@Endpoint = api/repositories/get-repository-list
+
+@OrganisationName = placeholderOrganisationName
+@UserName = placeholderUserName
+
+### get-repository-list for organisation
+GET {{Application.API_HostAddress}}/{{Endpoint}}?OrganisationName={{OrganisationName}}
+
+### get-repository-list for user
+GET {{Application.API_HostAddress}}/{{Endpoint}}?UserName={{UserName}}
+
+### get-repository-list for all criteria (invalid scenario, should fail)
+GET {{Application.API_HostAddress}}/{{Endpoint}}?OrganisationName={{OrganisationName}}&UserName={{UserName}}

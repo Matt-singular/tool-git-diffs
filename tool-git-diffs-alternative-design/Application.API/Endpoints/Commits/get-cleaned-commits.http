@@ -1,0 +1,17 @@
+﻿@Application.API_HostAddress = https://localhost:7268
+
+POST {{Application.API_HostAddress}}/api/commits/get-cleaned-commits
+Content-Type: application/json
+
+{
+  "Repositories": [
+    {
+      "RepositoryName": "",
+      "RepositoryOwner": "",
+      "FromReference": "",
+      "ToReference": ""
+    }
+  ]
+}
+
+###

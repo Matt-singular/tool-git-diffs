@@ -1,9 +1,14 @@
 ﻿namespace Application.GUI;
 
-using Business.Infrastructure.Extensions;
+using System.Diagnostics.CodeAnalysis;
+using Application.GUI.Extensions;
 using Common.Shared.Extensions;
 using Microsoft.Extensions.Logging;
 
+/// <summary>
+/// Application.GUI Startup logic
+/// </summary>
+[ExcludeFromCodeCoverage]
 public static class MauiProgram
 {
   public static MauiApp CreateMauiApp()
@@ -11,13 +16,12 @@ public static class MauiProgram
     var builder = MauiApp.CreateBuilder();
 
     // Configurations
-    builder.Configuration.SetupCommonSharedConfiguration();
-    builder.Services.SetupCommonSharedConfigSettings(builder.Configuration);
+    builder.Configuration.AddCommonSharedConfiguration();
+    builder.Services.ConfigureCommonSettings(builder.Configuration);
 
     // Dependency Injection
-    builder.Services.AddMauiServices();
+    builder.Services.AddMauiPages();
     builder.Services.AddCommonSharedServices();
-    builder.Services.AddBusinessInfrastructureServices();
 
     // Maui App
     builder
@@ -33,13 +37,9 @@ public static class MauiProgram
     builder.Logging.AddDebug();
 #endif
 
-    return builder.Build();
-  }
+    // Application Startup
+    var app = builder.Build();
 
-  private static IServiceCollection AddMauiServices(this IServiceCollection services)
-  {
-    services.AddSingleton<MainPage>();
-
-    return services;
+    return app;
   }
 }

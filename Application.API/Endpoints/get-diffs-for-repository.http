@@ -1,0 +1,13 @@
+﻿@Application.API_HostAddress = https://localhost:7224
+
+POST {{Application.API_HostAddress}}/api/diffs/get-diffs-for-repository
+Content-Type: application/json
+
+{
+  "RepositoryName": "example-repo",
+  "RepositoryOwner": "example-owner",
+  "FromReference": "main",
+  "ToReference": "feature-branch"
+}
+
+###

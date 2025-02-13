@@ -1,24 +1,31 @@
 ﻿namespace Common.Shared.Extensions;
 
-using Common.Shared.Config;
+using System.Diagnostics.CodeAnalysis;
+using Common.Shared;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 
+/// <summary>
+/// Common startup extension methods
+/// </summary>
+[ExcludeFromCodeCoverage]
 public static class StartupExtensions
 {
   /// <summary>
-  /// Sets up the application configuration.
+  /// Sets up the application configuration
   /// </summary>
-  /// <param name="config"></param>
-  /// <returns>The configuration builder with the appsettings and user secrets configured.</returns>
-  public static IConfigurationBuilder SetupCommonSharedConfiguration(this IConfigurationBuilder config)
+  /// <param name="configuration">The configuration builder</param>
+  /// <returns>The configuration builder with the appsettings and user secrets configured</returns>
+  public static IConfigurationBuilder AddCommonSharedConfiguration(this IConfigurationBuilder configuration)
   {
-    config
-      .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-      .AddUserSecrets<Startup>();
+    var assemblyLocation = Path.GetDirectoryName(typeof(Startup).Assembly.Location);
+    var appSettingsPath = Path.Combine(assemblyLocation!, "appsettings.Common.json");
 
-    return config;
+    configuration
+    .AddJsonFile(appSettingsPath, optional: true, reloadOnChange: true)
+    .AddUserSecrets<Startup>(optional: true, reloadOnChange: true);
+
+    return configuration;
   }
 
   /// <summary>
@@ -27,26 +34,24 @@ public static class StartupExtensions
   /// <param name="services">The application's service collection</param>
   /// <param name="configuration">The application's configuration</param>
   /// <returns>The application's service collection with the setting objects configured</returns>
-  public static IServiceCollection SetupCommonSharedConfigSettings(this IServiceCollection services, IConfiguration configuration)
+  public static IServiceCollection ConfigureCommonSettings(this IServiceCollection services, IConfiguration configuration)
   {
     // Configure strongly-typed settings objects
-    services.Configure<SecretSettings>(configuration.GetSection("Secrets"));
+    //services.Configure<object>(configuration.GetSection("name"));
 
-    // Add services here
     return services;
   }
 
   /// <summary>
-  /// Configures the Common.Shared services
+  /// Adds Common.Shared services to the service collection
   /// </summary>
   /// <param name="services">The application's service collection</param>
-  /// <returns>The configured services</returns>
+  /// <returns>The service collection with Common.Shared services registered</returns>
   public static IServiceCollection AddCommonSharedServices(this IServiceCollection services)
   {
     // Register Common.Shared services
+    //services.AddScoped<IService, Service>
 
     return services;
   }
 }
-
-public class Startup {/* Instantiate Dotnet secrets against this shared project */}

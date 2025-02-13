@@ -1,38 +1,27 @@
 ﻿namespace Application.GUI;
 
-using Business.Domain.Services.Excel;
-using Business.Domain.ThirdPartyServices.GitHubOctokit.RepositoryStatistics;
-
 public partial class MainPage : ContentPage
 {
-  private string FromReference { get => FromReferenceEntryElement.Text; }
-  private string ToReference { get => ToReferenceEntryElement.Text; }
+  int count = 0;
 
-  private readonly IGetOrgRepoCommitsOctokitService getOrgRepoCommitsOctokitService;
-  private readonly ICreateExcelSheetDomainService createExcelSheetDomainService;
-
-  public MainPage(IGetOrgRepoCommitsOctokitService getOrgRepoCommitsOctokitService, ICreateExcelSheetDomainService createExcelSheetDomainService)
+  public MainPage()
   {
-    this.getOrgRepoCommitsOctokitService = getOrgRepoCommitsOctokitService;
-    this.createExcelSheetDomainService = createExcelSheetDomainService;
-
     InitializeComponent();
   }
 
-  private void OnGenerateClicked(object sender, EventArgs e)
+  private void OnCounterClicked(object sender, EventArgs e)
   {
-    // POC TEST 1
-    var domainRequest = new GetOrgRepoCommitsOctokitDomainRequest
+    count++;
+
+    if (count == 1)
     {
-      RepositoryName = "placeholder",
-      FromBranchOrTag = FromReference,
-      ToBranchOrTag = ToReference,
-      ExcludeMergeCommits = false
-    };
+      CounterBtn.Text = $"Clicked {count} time";
+    }
+    else
+    {
+      CounterBtn.Text = $"Clicked {count} times";
+    }
 
-    //var domainResponse = getOrgRepoCommitsOctokitService.ProcessAsync(domainRequest).GetAwaiter().GetResult();
-
-    // POC TEST 2
-    createExcelSheetDomainService.Process();
+    SemanticScreenReader.Announce(CounterBtn.Text);
   }
 }
