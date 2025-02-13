@@ -6,12 +6,11 @@ function Clear-TestResultsFolder
 {
     param ([string]$path)
     if (Test-Path -Path $path) {
-        Get-ChildItem -Path $path | Remove-Item -Recurse -Force
+        Get-ChildItem -Path "$path/TestResults" | Remove-Item -Recurse -Force
     }
 }
 
-Clear-TestResultsFolder -path "TestProject1/TestResults"
-Clear-TestResultsFolder -path "TestProject2/TestResults"
+Clear-TestResultsFolder -path "Business.Domain.Tests"
 
 
 # 2. Generate the code coverage using Coverlet
@@ -19,10 +18,9 @@ dotnet test --collect:"XPlat Code Coverage"
 
 # 3. Generate a CoverageReport
 $reportPaths = @(
-    "TestProject1/TestResults/*/coverage.cobertura.xml",
-    "TestProject2/TestResults/*/coverage.cobertura.xml"
+    "Business.Domain.Tests/TestResults/*/coverage.cobertura.xml"
 )
 
 $reportPathsString = [string]::Join(";", $reportPaths)
 
-reportgenerator -reports:$reportPathsString -targetdir:Application/CoverageReport
+reportgenerator -reports:$reportPathsString -targetdir:Common.Shared/CodeCoverage
