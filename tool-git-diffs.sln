@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.Shared", "Common.Sha
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.GUI", "Application.GUI\Application.GUI.csproj", "{5C82A63E-EFF3-4254-A40B-F64F2E836B46}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Business.Domain", "Business.Domain\Business.Domain.csproj", "{350D031B-E1CC-4EA4-A96C-1BA063841614}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,9 +43,12 @@ Global
 		{5C82A63E-EFF3-4254-A40B-F64F2E836B46}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5C82A63E-EFF3-4254-A40B-F64F2E836B46}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5C82A63E-EFF3-4254-A40B-F64F2E836B46}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{350D031B-E1CC-4EA4-A96C-1BA063841614}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{350D031B-E1CC-4EA4-A96C-1BA063841614}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{350D031B-E1CC-4EA4-A96C-1BA063841614}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{350D031B-E1CC-4EA4-A96C-1BA063841614}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-		StartupProject = Application.API
 	EndGlobalSection
 EndGlobal
