@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.API", "Applicat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.Shared", "Common.Shared\Common.Shared.csproj", "{B4D9ABE0-ECD4-4AFE-9C52-2E19760B0CB4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.GUI", "Application.GUI\Application.GUI.csproj", "{5C82A63E-EFF3-4254-A40B-F64F2E836B46}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,12 @@ Global
 		{B4D9ABE0-ECD4-4AFE-9C52-2E19760B0CB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B4D9ABE0-ECD4-4AFE-9C52-2E19760B0CB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B4D9ABE0-ECD4-4AFE-9C52-2E19760B0CB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C82A63E-EFF3-4254-A40B-F64F2E836B46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C82A63E-EFF3-4254-A40B-F64F2E836B46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C82A63E-EFF3-4254-A40B-F64F2E836B46}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{5C82A63E-EFF3-4254-A40B-F64F2E836B46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C82A63E-EFF3-4254-A40B-F64F2E836B46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C82A63E-EFF3-4254-A40B-F64F2E836B46}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
