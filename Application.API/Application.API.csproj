@@ -11,10 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\Business.Models\Business.Models.csproj" />
     <ProjectReference Include="..\Common.Shared\Common.Shared.csproj" />
   </ItemGroup>
 
