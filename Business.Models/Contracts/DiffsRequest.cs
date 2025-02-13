@@ -1,30 +1,23 @@
 ﻿namespace Business.Models.Contracts;
 
+using Common.Shared.Models;
+
 /// <summary>
 /// The request object to get the list of differences between two specific commits, branches or tags
 /// for specified repositories
 /// </summary>
-public record DiffsRequest
+public record DiffsRequest : IRepositoryDiffRequest
 {
-  /// <summary>
-  /// The name of the repository
-  /// </summary>
+  /// <inheritdoc/>
   public required string RepositoryName { get; set; }
 
-  /// <summary>
-  /// The owner of the repository
-  /// </summary>
+  /// <inheritdoc/>
   public required string RepositoryOwner { get; set; }
 
-  /// <summary>
-  /// The reference to start the comparison from
-  /// (e.g. commit hash, branch name, tag name)
-  /// </summary>
+  /// <inheritdoc/>
+
   public required string FromReference { get; set; }
 
-  /// <summary>
-  /// The reference to end the comparison at
-  /// (e.g. commit hash, branch name, tag name)
-  /// </summary>
+  /// <inheritdoc/>
   public required string ToReference { get; set; }
 }
