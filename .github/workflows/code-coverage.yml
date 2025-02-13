@@ -14,10 +14,10 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4.2.2
 
     - name: Set up .NET
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v4.3.0
       with:
         dotnet-version: '8.0.x'
 
@@ -32,7 +32,7 @@ jobs:
         pwsh ./GenerateCodeCoverage.ps1
 
     - name: Upload code coverage report
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4.6.0
       with:
         name: code-coverage-report
         path: Common.Shared/CodeCoverage
