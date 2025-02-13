@@ -1,7 +1,11 @@
 namespace Application.API;
 
 using System.Diagnostics.CodeAnalysis;
+using Common.Shared.Extensions;
 
+/// <summary>
+/// Application.API Startup logic
+/// </summary>
 [ExcludeFromCodeCoverage]
 public class Program
 {
@@ -9,7 +13,12 @@ public class Program
   {
     var builder = WebApplication.CreateBuilder(args);
 
-    // Add services to the container.
+    // Configurations
+    builder.Configuration.AddCommonSharedConfiguration();
+    builder.Services.ConfigureCommonSettings(builder.Configuration);
+
+    // Dependency Injection
+    builder.Services.AddCommonSharedServices();
 
     builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();
