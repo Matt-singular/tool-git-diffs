@@ -6,11 +6,11 @@ function Clear-TestResultsFolder
 {
     param ([string]$path)
     if (Test-Path -Path $path) {
-        Get-ChildItem -Path "$path/TestResults" | Remove-Item -Recurse -Force
+        Get-ChildItem -Path $path | Remove-Item -Recurse -Force
     }
 }
 
-Clear-TestResultsFolder -path "Business.Domain.Tests"
+Clear-TestResultsFolder -path "Business.Domain.Tests/TestResults"
 
 
 # 2. Generate the code coverage using Coverlet
